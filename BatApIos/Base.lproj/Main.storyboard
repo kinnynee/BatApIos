@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AIq-R9-aS0">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nav-login">
-                                <rect key="frame" x="0.0" y="177" width="393" height="50"/>
+                                <rect key="frame" x="0.0" y="231" width="393" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Batminton Booking" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbl-nav-login">
                                         <rect key="frame" x="114.66666666666669" y="14.333333333333345" width="164" height="21.666666666666671"/>
@@ -33,7 +33,7 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="stack-login">
-                                <rect key="frame" x="24" y="259" width="345" height="490.33333333333326"/>
+                                <rect key="frame" x="24" y="313" width="345" height="490.33333333333326"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="title-login">
                                         <rect key="frame" x="0.0" y="0.0" width="345" height="38.333333333333336"/>
@@ -108,7 +108,6 @@
                                                         <color key="tintColor" red="0.050980392149999998" green="0.94901960780000005" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <state key="normal" title="Forgot password?"/>
                                                         <connections>
-                                                            <action selector="togglePasswordVisibility:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VJV-FT-AKH"/>
                                                             <segue destination="forgot-vc" kind="presentation" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="ekQ-TC-XCs"/>
                                                         </connections>
                                                     </button>
@@ -118,7 +117,7 @@
                                                 <rect key="frame" x="0.0" y="35" width="345" height="52"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="lock" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="img-p-login">
-                                                        <rect key="frame" x="16" y="17" width="20" height="18"/>
+                                                        <rect key="frame" x="16" y="17.000000000000057" width="20" height="18"/>
                                                         <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="20" id="ph1"/>
@@ -131,7 +130,7 @@
                                                         <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                     </textField>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-eye-login">
-                                                        <rect key="frame" x="301" y="9" width="36" height="34.333333333333336"/>
+                                                        <rect key="frame" x="301" y="9.0000000000000568" width="36" height="34.333333333333336"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="36" id="pew1"/>
                                                         </constraints>
@@ -198,7 +197,6 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="goToRegisterScreen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZHU-77-R0r"/>
-                                            <segue destination="register-vc" kind="presentation" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="xHo-En-FaL"/>
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="social-login">
@@ -221,6 +219,7 @@
                             <constraint firstItem="stack-login" firstAttribute="top" secondItem="nav-login" secondAttribute="bottom" constant="32" id="c-sl3"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="JA5-zp-wEY"/>
                     <connections>
                         <outlet property="emailTextField" destination="tf-e-login" id="D7t-B8-EId"/>
                         <outlet property="eyeButton" destination="btn-eye-login" id="lL5-lq-c4Q"/>
@@ -229,7 +228,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="130" y="-27"/>
+            <point key="canvasLocation" x="1055.7251908396945" y="-27.464788732394368"/>
         </scene>
         <!--Forgot Password View Controller-->
         <scene sceneID="forgot-scene">
@@ -351,7 +350,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="resp-forgot" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="900" y="-27"/>
+            <point key="canvasLocation" x="1826.7175572519084" y="-27.464788732394368"/>
         </scene>
         <!--Change Password View Controller-->
         <scene sceneID="change-scene">
@@ -532,7 +531,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="resp-change" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1590" y="-27"/>
+            <point key="canvasLocation" x="2515.2671755725191" y="-27.464788732394368"/>
         </scene>
         <!--Register View Controller-->
         <scene sceneID="register-scene">
@@ -778,7 +777,7 @@
         <!--Order history scene-->
         <scene sceneID="Otk-AI-cHf">
             <objects>
-                <viewController title="Order history scene" id="gvW-iY-v1z" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PaymentVC" title="Order history scene" id="gvW-iY-v1z" customClass="PaymentViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Dfm-gv-gq8">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -787,58 +786,47 @@
                                 <rect key="frame" x="0.0" y="0.0" width="431" height="98"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Lịch sử thanh toán" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bll-Ds-fHJ">
-                                        <rect key="frame" x="110" y="69" width="175" height="27"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Thông tin thanh toán" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bll-Ds-fHJ">
+                                        <rect key="frame" x="99" y="69" width="197" height="27"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OM3-Hx-4iK">
-                                <rect key="frame" x="40" y="140" width="122" height="39"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" momentary="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pay-segmented-control">
+                                <rect key="frame" x="24" y="140" width="345" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Thành Công"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vIn-jd-9G6">
-                                <rect key="frame" x="159" y="140" width="108" height="39"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Đang đặt"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GPh-R4-Uul">
-                                <rect key="frame" x="264" y="140" width="99" height="39"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" systemColor="darkTextColor"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Hủy"/>
-                            </button>
+                                <segments>
+                                    <segment title="Thành Công"/>
+                                    <segment title="Đang đặt"/>
+                                    <segment title="Hủy"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentChanged:" destination="gvW-iY-v1z" eventType="valueChanged" id="payment-segment-action"/>
+                                </connections>
+                            </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="sny-OR-27y">
                                 <rect key="frame" x="1" y="187" width="393" height="675"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="sectionIndexBackgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="oeH-Yb-Bqi">
-                                        <rect key="frame" x="0.0" y="50" width="393" height="53"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PaymentCell" rowHeight="80" id="oeH-Yb-Bqi" customClass="PaymentTableViewCell" customModule="BatApIos" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oeH-Yb-Bqi" id="B9J-NR-NDO">
-                                            <rect key="frame" x="0.0" y="0.0" width="393" height="53"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1oE-6q-iWX">
-                                                    <rect key="frame" x="20" y="-38" width="91" height="128"/>
+                                                    <rect key="frame" x="16" y="8" width="64" height="64"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" distribution="fillEqually" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="pIA-zY-BVN">
-                                                    <rect key="frame" x="147" y="-38" width="59.333333333333343" height="20.333333333333332"/>
+                                                    <rect key="frame" x="119" y="16" width="59.333333333333343" height="20.333333333333332"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tên sân" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0x5-3s-kBA">
                                                             <rect key="frame" x="0.0" y="0.0" width="59.333333333333336" height="20.333333333333332"/>
@@ -849,14 +837,14 @@
                                                     </subviews>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tên" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J0f-91-UcC">
-                                                    <rect key="frame" x="119" y="0.0" width="28" height="21"/>
+                                                    <rect key="frame" x="119" y="16" width="240" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="500 vnđ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q5z-3a-gox">
-                                                    <rect key="frame" x="119" y="29" width="64" height="21"/>
+                                                    <rect key="frame" x="119" y="43" width="240" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -864,6 +852,12 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="nameLabel" destination="J0f-91-UcC" id="payment-cell-name"/>
+                                            <outlet property="priceLabel" destination="Q5z-3a-gox" id="payment-cell-price"/>
+                                            <outlet property="productImageView" destination="1oE-6q-iWX" id="payment-cell-image"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -871,6 +865,10 @@
                         <viewLayoutGuide key="safeArea" id="uW0-ig-nzb"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <connections>
+                        <outlet property="segmentedControl" destination="pay-segmented-control" id="payment-segment-outlet"/>
+                        <outlet property="tableView" destination="sny-OR-27y" id="payment-table-outlet"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9JG-1r-kqY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1056,7 +1054,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="resp-book" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3200" y="-27"/>
+            <point key="canvasLocation" x="4125.9541984732823" y="-27.464788732394368"/>
         </scene>
         <!--Calendar View Controller-->
         <scene sceneID="calendar-scene">
@@ -1206,12 +1204,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="resp-cal" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3900" y="-27"/>
+            <point key="canvasLocation" x="4826.7175572519081" y="-27.464788732394368"/>
         </scene>
         <!--Payment View Controller-->
         <scene sceneID="payment-scene">
             <objects>
-                <viewController storyboardIdentifier="PaymentVC" id="payment-vc" customClass="PaymentViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PaymentMethodVC" id="payment-vc" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pay-view-main">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1612,7 +1610,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s7j-w6-6Bq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4600" y="-27"/>
+            <point key="canvasLocation" x="5525.9541984732823" y="-27.464788732394368"/>
         </scene>
         <!--Staff Check In View Controller-->
         <scene sceneID="staff-checkin-scene">
@@ -2007,7 +2005,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sci-resp" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5300" y="-27"/>
+            <point key="canvasLocation" x="6226.7175572519081" y="-27.464788732394368"/>
         </scene>
         <!--Home-->
         <scene sceneID="home-scene-1">
@@ -2142,7 +2140,7 @@
                                                 <rect key="frame" x="196.66666666666666" y="0.0" width="97.999999999999972" height="53"/>
                                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" image="clock.arrow.circlepath" catalog="system" imagePlacement="top" title="Lịch sử" imagePadding="4">
+                                                <buttonConfiguration key="configuration" style="plain" image="clock.arrow.trianglehead.counterclockwise.rotate.90" catalog="system" imagePlacement="top" title="Lịch sử" imagePadding="4">
                                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="10"/>
                                                 </buttonConfiguration>
                                             </button>
@@ -2188,7 +2186,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="home-responder" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7000" y="-27"/>
+            <point key="canvasLocation" x="7925.9541984732823" y="-27.464788732394368"/>
         </scene>
         <!--Home Dashboard-->
         <scene sceneID="home2-scene-1">
@@ -2464,7 +2462,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="home2-responder" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8000" y="-27"/>
+            <point key="canvasLocation" x="8925.9541984732823" y="-27.464788732394368"/>
         </scene>
         <!--Checkout-->
         <scene sceneID="checkout-scene">
@@ -2784,7 +2782,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="chk-responder" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="9000" y="-27"/>
+            <point key="canvasLocation" x="9925.9541984732823" y="-27.464788732394368"/>
         </scene>
         <!--Book a Court-->
         <scene sceneID="court-booking-scene-new">
@@ -3105,7 +3103,7 @@
                                                                             <constraint firstAttribute="width" constant="24" id="nim-w1"/>
                                                                         </constraints>
                                                                     </imageView>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="circle.inset.filled" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="nim2">
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="inset.filled.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="nim2">
                                                                         <rect key="frame" x="305" y="24.666666666666664" width="24" height="22.666666666666664"/>
                                                                         <color key="tintColor" red="0.0" green="0.90196078430000004" blue="0.46666666670000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <constraints>
@@ -3543,7 +3541,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ncb-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="11000" y="-27"/>
+            <point key="canvasLocation" x="11925.954198473282" y="-27.464788732394368"/>
         </scene>
         <!--System Logs-->
         <scene sceneID="syslog-scene">
@@ -4054,7 +4052,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="syslog-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="12000" y="-27"/>
+            <point key="canvasLocation" x="12925.954198473282" y="-27.464788732394368"/>
         </scene>
         <!--Profile-->
         <scene sceneID="profile-scene">
@@ -4720,7 +4718,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="prof-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="13000" y="-27"/>
+            <point key="canvasLocation" x="13925.954198473282" y="-27.464788732394368"/>
         </scene>
         <!--Notifications-->
         <scene sceneID="notifications-scene">
@@ -5437,7 +5435,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ntf-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="14000" y="-27"/>
+            <point key="canvasLocation" x="14925.954198473282" y="-27.464788732394368"/>
         </scene>
         <!--About-->
         <scene sceneID="about-scene">
@@ -5553,8 +5551,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="abt-scroll">
                                 <rect key="frame" x="0.0" y="178" width="393" height="590"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="abt-v-content">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="750"/>
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="abt-v-content">
+                                        <rect key="frame" x="8" y="-70" width="393" height="750"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="abt-v-identity">
                                                 <rect key="frame" x="24" y="40" width="345" height="180"/>
@@ -5642,7 +5640,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="abt-r1">
                                                                 <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
                                                                 <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="doc.text.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="abt-r1-icn">
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="text.document.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="abt-r1-icn">
                                                                         <rect key="frame" x="16" y="17.333333333333329" width="22" height="21.666666666666671"/>
                                                                         <color key="tintColor" red="0.0" green="0.90190000000000003" blue="0.46660000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <constraints>
@@ -5916,7 +5914,7 @@ All rights reserved.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="abt-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="15000" y="-27"/>
+            <point key="canvasLocation" x="15925.954198473282" y="-27.464788732394368"/>
         </scene>
         <!--Courts-->
         <scene sceneID="courts-scene">
@@ -6672,7 +6670,7 @@ All rights reserved.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="crt-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="16000" y="-27"/>
+            <point key="canvasLocation" x="16925.954198473282" y="-27.464788732394368"/>
         </scene>
         <!--Admin Dashboard-->
         <scene sceneID="admin-scene">
@@ -7401,7 +7399,7 @@ All rights reserved.</string>
                                                                     <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-icbg">
                                                                         <rect key="frame" x="16" y="11.333300000000001" width="40" height="40"/>
                                                                         <subviews>
-                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="doc.text.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-img">
+                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="text.document.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-img">
                                                                                 <rect key="frame" x="10" y="10.33333333333333" width="20" height="19.666666666666671"/>
                                                                                 <color key="tintColor" white="0.33329999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 <constraints>
@@ -7688,7 +7686,7 @@ All rights reserved.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="adm-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="17000" y="-27"/>
+            <point key="canvasLocation" x="17925.954198473282" y="-27.464788732394368"/>
         </scene>
         <!--Revenue-->
         <scene sceneID="revenue-scene">
@@ -8439,7 +8437,40 @@ All rights reserved.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rev-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="18000" y="-27"/>
+            <point key="canvasLocation" x="18925.954198473282" y="-27.464788732394368"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="c6J-oM-Lv1">
+            <objects>
+                <viewController storyboardIdentifier="PlaceholderVC" id="n94-Jx-dBy" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="iD1-qc-UR1">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="v3d-xe-FQF"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LtG-gn-9vL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="19808.396946564884" y="-21.126760563380284"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="HY0-dp-8IJ">
+            <objects>
+                <navigationController wantsFullScreenLayout="YES" automaticallyAdjustsScrollViewInsets="NO" id="AIq-R9-aS0" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kf3-WB-6Nq">
+                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="yic-1o-7N7"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PX6-fl-VaC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="129.00763358778624" y="-27.464788732394368"/>
         </scene>
     </scenes>
     <resources>
@@ -8464,11 +8495,11 @@ All rights reserved.</string>
         <image name="chevron.left" catalog="system" width="97" height="128"/>
         <image name="chevron.right" catalog="system" width="97" height="128"/>
         <image name="circle" catalog="system" width="128" height="123"/>
-        <image name="circle.inset.filled" catalog="system" width="128" height="123"/>
+        <image name="inset.filled.circle" catalog="system" width="123" height="128"/>
         <image name="clock" catalog="system" width="128" height="123"/>
-        <image name="clock.arrow.circlepath" catalog="system" width="128" height="119"/>
+        <image name="clock.arrow.trianglehead.counterclockwise.rotate.90" catalog="system" width="128" height="120"/>
         <image name="creditcard" catalog="system" width="128" height="88"/>
-        <image name="doc.text.fill" catalog="system" width="115" height="128"/>
+        <image name="text.document.fill" catalog="system" width="115" height="128"/>
         <image name="dollarsign.circle.fill" catalog="system" width="128" height="123"/>
         <image name="envelope" catalog="system" width="128" height="85"/>
         <image name="envelope.fill" catalog="system" width="128" height="85"/>
@@ -8515,6 +8546,9 @@ All rights reserved.</string>
         <image name="wrench.and.screwdriver.fill" catalog="system" width="128" height="119"/>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="groupTableViewBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

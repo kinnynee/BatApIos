@@ -15,6 +15,7 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
         passwordTextField.isSecureTextEntry = true
         confirmPasswordTextField.isSecureTextEntry = true
+        passwordEyeButton.setImage(UIImage(systemName: "eye.slash"), for: .normal)
     }
 
     @IBAction func backButtonTapped(_ sender: UIButton) {
@@ -24,6 +25,7 @@ class RegisterViewController: UIViewController {
     @IBAction func togglePasswordVisibility(_ sender: UIButton) {
         isPassVisible.toggle()
         passwordTextField.isSecureTextEntry = !isPassVisible
+        confirmPasswordTextField.isSecureTextEntry = !isPassVisible
         let icon = isPassVisible ? "eye" : "eye.slash"
         passwordEyeButton.setImage(UIImage(systemName: icon), for: .normal)
     }

@@ -11,7 +11,9 @@ extension UIViewController {
         }
         alert.addAction(okAction)
         DispatchQueue.main.async {
-            self.present(alert, animated: true)
+            let presenter = self.topMostPresentedViewController()
+            guard !(presenter is UIAlertController) else { return }
+            presenter.present(alert, animated: true)
         }
     }
     
@@ -20,5 +22,13 @@ extension UIViewController {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
+    }
+
+    private func topMostPresentedViewController() -> UIViewController {
+        var presenter = self
+        while let presentedViewController = presenter.presentedViewController {
+            presenter = presentedViewController
+        }
+        return presenter
     }
 }
