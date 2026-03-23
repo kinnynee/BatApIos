@@ -1,9 +1,3 @@
-//
-//  ViewController.swift
-//  BatApIos
-//
-//  Created by Trần Kiên on 9/3/26.
-//
 
 import UIKit
 
