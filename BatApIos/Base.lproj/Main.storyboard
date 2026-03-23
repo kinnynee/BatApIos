@@ -108,7 +108,6 @@
                                                         <color key="tintColor" red="0.050980392149999998" green="0.94901960780000005" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <state key="normal" title="Quên mật khẩu?"/>
                                                         <connections>
-                                                            <action selector="togglePasswordVisibility:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VJV-FT-AKH"/>
                                                             <segue destination="forgot-vc" kind="presentation" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="ekQ-TC-XCs"/>
                                                         </connections>
                                                     </button>
@@ -118,7 +117,7 @@
                                                 <rect key="frame" x="0.0" y="35" width="345" height="52"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="lock" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="img-p-login">
-                                                        <rect key="frame" x="16" y="17" width="20" height="18"/>
+                                                        <rect key="frame" x="16" y="17.000000000000057" width="20" height="18"/>
                                                         <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="20" id="ph1"/>
@@ -131,7 +130,7 @@
                                                         <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                     </textField>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-eye-login">
-                                                        <rect key="frame" x="301" y="9" width="36" height="34.333333333333336"/>
+                                                        <rect key="frame" x="301" y="9.0000000000000568" width="36" height="34.333333333333336"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="36" id="pew1"/>
                                                         </constraints>
@@ -198,7 +197,6 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="goToRegisterScreen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZHU-77-R0r"/>
-                                            <segue destination="register-vc" kind="presentation" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="xHo-En-FaL"/>
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="social-login">
@@ -221,6 +219,7 @@
                             <constraint firstItem="stack-login" firstAttribute="top" secondItem="nav-login" secondAttribute="bottom" constant="32" id="c-sl3"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="JA5-zp-wEY"/>
                     <connections>
                         <outlet property="emailTextField" destination="tf-e-login" id="D7t-B8-EId"/>
                         <outlet property="eyeButton" destination="btn-eye-login" id="lL5-lq-c4Q"/>
@@ -229,7 +228,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="130" y="-27"/>
+            <point key="canvasLocation" x="1055.7251908396945" y="-27.464788732394368"/>
         </scene>
         <!--Forgot Password View Controller-->
         <scene sceneID="forgot-scene">
@@ -351,7 +350,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="resp-forgot" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="900" y="-27"/>
+            <point key="canvasLocation" x="1826.7175572519084" y="-27.464788732394368"/>
         </scene>
         <!--Change Password View Controller-->
         <scene sceneID="change-scene">
@@ -532,7 +531,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="resp-change" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1590" y="-27"/>
+            <point key="canvasLocation" x="2515.2671755725191" y="-27.464788732394368"/>
         </scene>
         <!--Register View Controller-->
         <scene sceneID="register-scene">
@@ -778,7 +777,7 @@
         <!--Order history scene-->
         <scene sceneID="Otk-AI-cHf">
             <objects>
-                <viewController title="Order history scene" id="gvW-iY-v1z" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PaymentVC" title="Order history scene" id="gvW-iY-v1z" customClass="PaymentViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Dfm-gv-gq8">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -797,8 +796,8 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="secondarySystemGroupedBackgroundColor"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OM3-Hx-4iK">
-                                <rect key="frame" x="40" y="140" width="122" height="39"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" momentary="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pay-segmented-control">
+                                <rect key="frame" x="24" y="140" width="345" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -837,20 +836,21 @@
                                 <rect key="frame" x="1" y="187" width="393" height="675"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="sectionIndexBackgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="oeH-Yb-Bqi">
-                                        <rect key="frame" x="0.0" y="50" width="393" height="53"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PaymentCell" rowHeight="80" id="oeH-Yb-Bqi" customClass="PaymentTableViewCell" customModule="BatApIos" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oeH-Yb-Bqi" id="B9J-NR-NDO">
-                                            <rect key="frame" x="0.0" y="0.0" width="393" height="53"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1oE-6q-iWX">
-                                                    <rect key="frame" x="20" y="-38" width="91" height="128"/>
+                                                    <rect key="frame" x="16" y="8" width="64" height="64"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" distribution="fillEqually" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="pIA-zY-BVN">
-                                                    <rect key="frame" x="147" y="-38" width="59.333333333333343" height="20.333333333333332"/>
+                                                    <rect key="frame" x="119" y="16" width="59.333333333333343" height="20.333333333333332"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tên sân" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0x5-3s-kBA">
                                                             <rect key="frame" x="0.0" y="0.0" width="59.333333333333336" height="20.333333333333332"/>
@@ -861,14 +861,14 @@
                                                     </subviews>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tên" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J0f-91-UcC">
-                                                    <rect key="frame" x="119" y="0.0" width="28" height="21"/>
+                                                    <rect key="frame" x="119" y="16" width="240" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="500 vnđ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q5z-3a-gox">
-                                                    <rect key="frame" x="119" y="29" width="64" height="21"/>
+                                                    <rect key="frame" x="119" y="43" width="240" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -876,6 +876,12 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="nameLabel" destination="J0f-91-UcC" id="payment-cell-name"/>
+                                            <outlet property="priceLabel" destination="Q5z-3a-gox" id="payment-cell-price"/>
+                                            <outlet property="productImageView" destination="1oE-6q-iWX" id="payment-cell-image"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -1042,7 +1048,7 @@
         <!--Payment View Controller-->
         <scene sceneID="payment-scene">
             <objects>
-                <viewController storyboardIdentifier="PaymentVC" id="payment-vc" customClass="PaymentViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PaymentMethodVC" id="payment-vc" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pay-view-main">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="793"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1974,7 +1980,7 @@
                                                 <rect key="frame" x="196.66666666666666" y="0.0" width="97.999999999999972" height="53"/>
                                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" image="clock.arrow.circlepath" catalog="system" imagePlacement="top" title="Lịch sử" imagePadding="4">
+                                                <buttonConfiguration key="configuration" style="plain" image="clock.arrow.trianglehead.counterclockwise.rotate.90" catalog="system" imagePlacement="top" title="Lịch sử" imagePadding="4">
                                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="10"/>
                                                 </buttonConfiguration>
                                             </button>
@@ -2941,7 +2947,7 @@
                                                                             <constraint firstAttribute="width" constant="24" id="nim-w1"/>
                                                                         </constraints>
                                                                     </imageView>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="circle.inset.filled" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="nim2">
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="inset.filled.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="nim2">
                                                                         <rect key="frame" x="305" y="24.666666666666664" width="24" height="22.666666666666664"/>
                                                                         <color key="tintColor" red="0.0" green="0.90196078430000004" blue="0.46666666670000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <constraints>
@@ -5241,8 +5247,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="abt-scroll">
                                 <rect key="frame" x="0.0" y="119" width="393" height="590"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="abt-v-content">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="750"/>
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="abt-v-content">
+                                        <rect key="frame" x="8" y="-70" width="393" height="750"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="abt-v-identity">
                                                 <rect key="frame" x="24" y="40" width="345" height="180"/>
@@ -5330,7 +5336,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="abt-r1">
                                                                 <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
                                                                 <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="doc.text.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="abt-r1-icn">
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="text.document.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="abt-r1-icn">
                                                                         <rect key="frame" x="16" y="17.333333333333329" width="22" height="21.666666666666671"/>
                                                                         <color key="tintColor" red="0.0" green="0.90190000000000003" blue="0.46660000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <constraints>
@@ -7069,7 +7075,7 @@ All rights reserved.</string>
                                                                     <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-icbg">
                                                                         <rect key="frame" x="16" y="11.333300000000001" width="40" height="40"/>
                                                                         <subviews>
-                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="doc.text.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-img">
+                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="text.document.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-img">
                                                                                 <rect key="frame" x="10" y="10.33333333333333" width="20" height="19.666666666666671"/>
                                                                                 <color key="tintColor" white="0.33329999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 <constraints>
@@ -7965,12 +7971,12 @@ All rights reserved.</string>
         <image name="chevron.left" catalog="system" width="97" height="128"/>
         <image name="chevron.right" catalog="system" width="97" height="128"/>
         <image name="circle" catalog="system" width="128" height="123"/>
-        <image name="circle.inset.filled" catalog="system" width="128" height="123"/>
+        <image name="inset.filled.circle" catalog="system" width="123" height="128"/>
         <image name="clock" catalog="system" width="128" height="123"/>
         <image name="clock.arrow.circlepath" catalog="system" width="128" height="119"/>
         <image name="clock.fill" catalog="system" width="128" height="123"/>
         <image name="creditcard" catalog="system" width="128" height="88"/>
-        <image name="doc.text.fill" catalog="system" width="115" height="128"/>
+        <image name="text.document.fill" catalog="system" width="115" height="128"/>
         <image name="dollarsign.circle.fill" catalog="system" width="128" height="123"/>
         <image name="envelope" catalog="system" width="128" height="85"/>
         <image name="envelope.fill" catalog="system" width="128" height="85"/>

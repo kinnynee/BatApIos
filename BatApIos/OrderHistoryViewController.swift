@@ -6,47 +6,77 @@
 //
 import UIKit
 
-class OrderHistoryViewController: UIViewController {
+class PaymentViewController: UIViewController {
 
-    // 1. Kéo thả tạo Outlet cho 3 nút
-    @IBOutlet weak var completedButton: UIButton!
-    @IBOutlet weak var pendingButton: UIButton!
-    @IBOutlet weak var cancelButton: UIButton!
+    // Nối các Outlet từ Storyboard
+    @IBOutlet weak var segmentedControl: UISegmentedControl! // Nối với thanh Thành Công/Đang đặt/Hủy
+    @IBOutlet weak var tableView: UITableView!
+    
+    // Dữ liệu giả lập (Mock data)
+    var allPayments: [PaymentInfo] = []
+    
+    // Dữ liệu đang được hiển thị trên TableView (sau khi lọc)
+    var displayedPayments: [PaymentInfo] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        
+        // Thiết lập Delegate và DataSource cho TableView
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        // Tạo dữ liệu mẫu
+        setupMockData()
+        
+        // Hiển thị mặc định tab đầu tiên (Thành công)
+        filterData(by: .success)
     }
     
-    func setupUI() {
-        updateTabSelection(selectedButton: completedButton)
+    func setupMockData() {
+        allPayments = [
+            PaymentInfo(productImage: UIImage(named: "item1"), productName: "Áo thun", price: "500.000 vnđ", status: .success),
+            PaymentInfo(productImage: UIImage(named: "item2"), productName: "Quần Jeans", price: "300.000 vnđ", status: .success),
+            PaymentInfo(productImage: UIImage(named: "item3"), productName: "Giày Sneaker", price: "1.200.000 vnđ", status: .pending),
+            PaymentInfo(productImage: UIImage(named: "item4"), productName: "Balo", price: "400.000 vnđ", status: .cancelled)
+        ]
     }
 
-    // 2. Kéo thả Action từ 3 nút vào CHUNG MỘT HÀM này
-    @IBAction func tabTapped(_ sender: UIButton) {
-        // Đổi màu giao diện
-        updateTabSelection(selectedButton: sender)
-        if sender == completedButton {
-            print("Đang load danh sách Sân Đã hoàn thành...")
-        } else if sender == pendingButton {
-            print("Đang load danh sách Sân Đang chờ...")
-        } else if sender == cancelButton {
-            print("Đang load danh sách Sân Đã hủy...")
+    // Hàm được gọi khi người dùng bấm chuyển tab trên Segmented Control
+    @IBAction func segmentChanged(_ sender: UISegmentedControl) {
+        let selectedStatus = OrderStatus(rawValue: sender.selectedSegmentIndex) ?? .success
+        filterData(by: selectedStatus)
+    }
+    
+    // Hàm lọc dữ liệu và làm mới TableView
+    func filterData(by status: OrderStatus) {
+        displayedPayments = allPayments.filter { $0.status == status }
+        tableView.reloadData()
+    }
+}
+
+// MARK: - UITableViewDataSource & UITableViewDelegate
+extension PaymentViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    // Khai báo số lượng dòng dựa trên mảng đã lọc
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return displayedPayments.count
+    }
+    
+    // Hiển thị dữ liệu lên Cell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // Lưu ý: Đặt Identifier của Prototype Cell trong Storyboard là "PaymentCell"
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentCell", for: indexPath) as? PaymentTableViewCell else {
+            return UITableViewCell()
         }
-    }
-
-    // 3. Hàm xử lý logic đổi màu nền và màu chữ
-    func updateTabSelection(selectedButton: UIButton) {
-        let allTabs = [completedButton, pendingButton, cancelButton]
         
-        for button in allTabs {
-            if button == selectedButton {
-                button?.backgroundColor = UIColor.systemGreen
-                button?.setTitleColor(.white, for: .normal)
-            } else {
-                button?.backgroundColor = .clear
-                button?.setTitleColor(.darkGray, for: .normal)
-            }
-        }
+        let paymentInfo = displayedPayments[indexPath.row]
+        cell.configure(with: paymentInfo)
+        
+        return cell
+    }
+    
+    // Khai báo chiều cao của Cell (có thể tùy chỉnh lại theo thiết kế của bạn)
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
     }
 }
