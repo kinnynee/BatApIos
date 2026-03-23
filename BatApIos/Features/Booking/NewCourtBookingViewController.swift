@@ -1,20 +1,487 @@
 import UIKit
 
-final class NewCourtBookingViewController: StoryboardScreenViewController {
+final class NewCourtBookingViewController: UIViewController {
+    private let store = AppMockStore.shared
 
-    override var screenTitleText: String {
-        "Đặt sân mới"
+    private let scrollView = UIScrollView()
+    private let contentStack = UIStackView()
+    private let selectedDateLabel = UILabel()
+    private let voucherTextField = UITextField()
+    private let totalAmountLabel = UILabel()
+    private let confirmButton = UIButton(type: .system)
+
+    private var dateButtons: [UIButton] = []
+    private var timeButtons: [UIButton] = []
+    private var courtButtons: [UIButton] = []
+
+    private let availableDates = [
+        "Hôm nay",
+        "Ngày mai",
+        "T7 24/03",
+        "CN 25/03",
+        "T2 26/03"
+    ]
+    private let availableTimes = [
+        "09:00",
+        "10:00",
+        "11:00",
+        "18:00",
+        "19:00",
+        "20:00"
+    ]
+    private let courts: [(name: String, price: Double)] = [
+        ("Sân Standard", 150_000),
+        ("Sân VIP", 220_000),
+        ("Sân Single", 320_000)
+    ]
+
+    private var selectedDateIndex = 1 {
+        didSet { updateDateSelectionUI() }
+    }
+    private var selectedTimeIndex = 3 {
+        didSet { updateTimeSelectionUI() }
+    }
+    private var selectedCourtIndex = 1 {
+        didSet { updateCourtSelectionUI() }
+    }
+    private var isVoucherApplied = false {
+        didSet { updateSummary() }
     }
 
-    override var screenSubtitleText: String {
-        "Màn hình dành cho thao tác tạo booking nhanh tại quầy hoặc bởi nhân viên."
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureScreen()
+        buildLayout()
+        updateDateSelectionUI()
+        updateTimeSelectionUI()
+        updateCourtSelectionUI()
+        updateSummary()
     }
 
-    override var screenHighlights: [String] {
-        [
-            "Tạo booking cho khách vãng lai",
-            "Chọn sân, giờ chơi và thông tin khách",
-            "Chuyển tiếp sang thanh toán hoặc xác nhận"
-        ]
+    private func configureScreen() {
+        view.subviews.forEach { $0.removeFromSuperview() }
+        view.backgroundColor = UIColor(red: 0.96, green: 0.97, blue: 0.97, alpha: 1)
+        navigationItem.hidesBackButton = true
+    }
+
+    private func buildLayout() {
+        let header = makeHeader()
+        let dateSection = makeDateSection()
+        let timeSection = makeTimeSection()
+        let courtSection = makeCourtSection()
+        let voucherSection = makeVoucherSection()
+        let summarySection = makeSummarySection()
+
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentStack.translatesAutoresizingMaskIntoConstraints = false
+        contentStack.axis = .vertical
+        contentStack.spacing = 24
+
+        [header, scrollView, confirmButton].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview($0)
+        }
+
+        view.addSubview(header)
+        view.addSubview(scrollView)
+        view.addSubview(confirmButton)
+        scrollView.addSubview(contentStack)
+
+        [dateSection, timeSection, courtSection, voucherSection, summarySection].forEach {
+            contentStack.addArrangedSubview($0)
+        }
+
+        confirmButton.configuration = makePrimaryButtonConfiguration(title: "Xác nhận đặt")
+        confirmButton.addTarget(self, action: #selector(confirmBookingTapped), for: .touchUpInside)
+
+        NSLayoutConstraint.activate([
+            header.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            header.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            header.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+
+            confirmButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24),
+            confirmButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24),
+            confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -12),
+            confirmButton.heightAnchor.constraint(equalToConstant: 56),
+
+            scrollView.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 12),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -12),
+
+            contentStack.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 16),
+            contentStack.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 24),
+            contentStack.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -24),
+            contentStack.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -24)
+        ])
+    }
+
+    private func makeHeader() -> UIView {
+        let container = UIView()
+
+        let backButton = UIButton(type: .system)
+        var configuration = UIButton.Configuration.plain()
+        configuration.image = UIImage(systemName: "chevron.backward")
+        backButton.configuration = configuration
+        backButton.tintColor = .label
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
+
+        let titleLabel = UILabel()
+        titleLabel.text = "Đặt sân"
+        titleLabel.font = .boldSystemFont(ofSize: 22)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        container.addSubview(backButton)
+        container.addSubview(titleLabel)
+
+        NSLayoutConstraint.activate([
+            container.heightAnchor.constraint(equalToConstant: 60),
+            backButton.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
+            backButton.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: container.centerYAnchor)
+        ])
+
+        return container
+    }
+
+    private func makeDateSection() -> UIView {
+        selectedDateLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+        selectedDateLabel.textColor = .systemMint
+
+        let section = makeSectionContainer(title: "Chọn ngày", trailingView: selectedDateLabel)
+        let stack = makeHorizontalButtonStack()
+
+        dateButtons = availableDates.enumerated().map { index, title in
+            let button = makeSelectableButton(title: title) { [weak self] in
+                self?.selectedDateIndex = index
+            }
+            stack.addArrangedSubview(button)
+            return button
+        }
+
+        section.addArrangedSubview(stack)
+        return section
+    }
+
+    private func makeTimeSection() -> UIView {
+        let section = makeSectionContainer(title: "Chọn thời gian")
+
+        let firstRow = UIStackView()
+        firstRow.axis = .horizontal
+        firstRow.spacing = 12
+        firstRow.distribution = .fillEqually
+
+        let secondRow = UIStackView()
+        secondRow.axis = .horizontal
+        secondRow.spacing = 12
+        secondRow.distribution = .fillEqually
+
+        timeButtons = availableTimes.enumerated().map { index, title in
+            let button = makeSelectableButton(title: title) { [weak self] in
+                self?.selectedTimeIndex = index
+            }
+            if index < 3 {
+                firstRow.addArrangedSubview(button)
+            } else {
+                secondRow.addArrangedSubview(button)
+            }
+            return button
+        }
+
+        section.addArrangedSubview(firstRow)
+        section.addArrangedSubview(secondRow)
+        return section
+    }
+
+    private func makeCourtSection() -> UIView {
+        let section = makeSectionContainer(title: "Chọn loại sân")
+
+        courtButtons = courts.enumerated().map { index, court in
+            let button = UIButton(type: .system)
+            button.configuration = makeCourtButtonConfiguration(
+                title: court.name,
+                subtitle: currencyText(court.price),
+                selected: index == selectedCourtIndex
+            )
+            button.addAction(UIAction { [weak self] _ in
+                self?.selectedCourtIndex = index
+            }, for: .touchUpInside)
+            section.addArrangedSubview(button)
+            return button
+        }
+
+        return section
+    }
+
+    private func makeVoucherSection() -> UIView {
+        let section = makeSectionContainer(title: "Mã giảm giá")
+
+        voucherTextField.borderStyle = .none
+        voucherTextField.placeholder = "Nhập GIAM50K để giảm 50.000đ"
+        voucherTextField.font = .systemFont(ofSize: 15)
+        voucherTextField.autocapitalizationType = .allCharacters
+
+        let textContainer = UIView()
+        textContainer.backgroundColor = .white
+        textContainer.layer.cornerRadius = 16
+        textContainer.layer.borderWidth = 1
+        textContainer.layer.borderColor = UIColor.systemGray5.cgColor
+        textContainer.translatesAutoresizingMaskIntoConstraints = false
+        voucherTextField.translatesAutoresizingMaskIntoConstraints = false
+        textContainer.addSubview(voucherTextField)
+
+        let applyButton = UIButton(type: .system)
+        applyButton.configuration = makeSecondaryButtonConfiguration(title: "Áp dụng")
+        applyButton.addTarget(self, action: #selector(applyVoucherTapped), for: .touchUpInside)
+
+        let row = UIStackView(arrangedSubviews: [textContainer, applyButton])
+        row.axis = .horizontal
+        row.spacing = 12
+        row.alignment = .fill
+
+        NSLayoutConstraint.activate([
+            textContainer.heightAnchor.constraint(equalToConstant: 52),
+            voucherTextField.leadingAnchor.constraint(equalTo: textContainer.leadingAnchor, constant: 16),
+            voucherTextField.trailingAnchor.constraint(equalTo: textContainer.trailingAnchor, constant: -16),
+            voucherTextField.topAnchor.constraint(equalTo: textContainer.topAnchor),
+            voucherTextField.bottomAnchor.constraint(equalTo: textContainer.bottomAnchor),
+            applyButton.widthAnchor.constraint(equalToConstant: 100)
+        ])
+
+        section.addArrangedSubview(row)
+        return section
+    }
+
+    private func makeSummarySection() -> UIView {
+        let card = UIStackView()
+        card.axis = .vertical
+        card.spacing = 12
+        card.backgroundColor = .white
+        card.isLayoutMarginsRelativeArrangement = true
+        card.layoutMargins = UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18)
+        card.layer.cornerRadius = 20
+        card.layer.borderWidth = 1
+        card.layer.borderColor = UIColor.systemGray5.cgColor
+
+        let title = UILabel()
+        title.text = "Tóm tắt thanh toán"
+        title.font = .boldSystemFont(ofSize: 16)
+
+        let priceRow = makeSummaryRow(title: "Giá sân", value: currencyText(selectedCourtPrice))
+        let voucherRow = makeSummaryRow(title: "Giảm giá", value: isVoucherApplied ? "-50.000đ" : "0đ", highlight: true)
+        let totalRow = makeSummaryRow(title: "Tổng cộng", value: currencyText(totalAmount), titleFont: .boldSystemFont(ofSize: 16), valueFont: .boldSystemFont(ofSize: 22), highlight: true)
+
+        totalAmountLabel.font = .boldSystemFont(ofSize: 22)
+
+        card.addArrangedSubview(title)
+        card.addArrangedSubview(priceRow)
+        card.addArrangedSubview(voucherRow)
+        card.addArrangedSubview(makeDivider())
+        card.addArrangedSubview(totalRow)
+        return card
+    }
+
+    private func makeSectionContainer(title: String, trailingView: UIView? = nil) -> UIStackView {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 12
+
+        let titleLabel = UILabel()
+        titleLabel.font = .boldSystemFont(ofSize: 17)
+        titleLabel.text = title
+
+        let header = UIStackView(arrangedSubviews: [titleLabel])
+        header.axis = .horizontal
+        header.distribution = .equalSpacing
+        if let trailingView {
+            header.addArrangedSubview(trailingView)
+        }
+
+        stack.addArrangedSubview(header)
+        return stack
+    }
+
+    private func makeHorizontalButtonStack() -> UIStackView {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.spacing = 8
+        stack.distribution = .fillEqually
+        return stack
+    }
+
+    private func makeSelectableButton(title: String, action: @escaping () -> Void) -> UIButton {
+        let button = UIButton(type: .system)
+        var configuration = UIButton.Configuration.plain()
+        configuration.title = title
+        button.configuration = configuration
+        button.layer.cornerRadius = 14
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.systemGray5.cgColor
+        button.backgroundColor = .white
+        button.setTitleColor(.label, for: .normal)
+        button.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        button.addAction(UIAction { _ in action() }, for: .touchUpInside)
+        return button
+    }
+
+    private func makeCourtButtonConfiguration(title: String, subtitle: String, selected: Bool) -> UIButton.Configuration {
+        var configuration = UIButton.Configuration.plain()
+        var attributedTitle = AttributedString(title)
+        attributedTitle.font = .boldSystemFont(ofSize: 16)
+        configuration.attributedTitle = attributedTitle
+
+        var attributedSubtitle = AttributedString(subtitle)
+        attributedSubtitle.font = .systemFont(ofSize: 14)
+        configuration.attributedSubtitle = attributedSubtitle
+        configuration.titleAlignment = .leading
+        configuration.image = UIImage(systemName: selected ? "checkmark.circle.fill" : "circle")
+        configuration.imagePlacement = .trailing
+        configuration.imagePadding = 8
+        configuration.baseForegroundColor = selected ? .systemMint : .label
+        configuration.background.backgroundColor = selected ? UIColor.systemMint.withAlphaComponent(0.08) : .white
+        configuration.cornerStyle = .large
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
+        return configuration
+    }
+
+    private func makeSummaryRow(title: String, value: String, titleFont: UIFont = .systemFont(ofSize: 14), valueFont: UIFont = .systemFont(ofSize: 14, weight: .semibold), highlight: Bool = false) -> UIView {
+        let titleLabel = UILabel()
+        titleLabel.font = titleFont
+        titleLabel.textColor = .secondaryLabel
+        titleLabel.text = title
+
+        let valueLabel = UILabel()
+        valueLabel.font = valueFont
+        valueLabel.textColor = highlight ? .systemMint : .label
+        valueLabel.text = value
+
+        if title == "Tổng cộng" {
+            totalAmountLabel.text = value
+            return makeRow(left: titleLabel, right: totalAmountLabel)
+        }
+
+        return makeRow(left: titleLabel, right: valueLabel)
+    }
+
+    private func makeRow(left: UIView, right: UIView) -> UIView {
+        let row = UIStackView(arrangedSubviews: [left, right])
+        row.axis = .horizontal
+        row.distribution = .equalSpacing
+        return row
+    }
+
+    private func makeDivider() -> UIView {
+        let divider = UIView()
+        divider.backgroundColor = .systemGray5
+        divider.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        return divider
+    }
+
+    private func makePrimaryButtonConfiguration(title: String) -> UIButton.Configuration {
+        var configuration = UIButton.Configuration.filled()
+        configuration.title = title
+        configuration.cornerStyle = .large
+        configuration.baseBackgroundColor = .systemMint
+        configuration.baseForegroundColor = .label
+        return configuration
+    }
+
+    private func makeSecondaryButtonConfiguration(title: String) -> UIButton.Configuration {
+        var configuration = UIButton.Configuration.filled()
+        configuration.title = title
+        configuration.cornerStyle = .large
+        configuration.baseBackgroundColor = UIColor(red: 0.06, green: 0.14, blue: 0.10, alpha: 1)
+        configuration.baseForegroundColor = .white
+        return configuration
+    }
+
+    private var selectedCourtPrice: Double {
+        courts[selectedCourtIndex].price
+    }
+
+    private var totalAmount: Double {
+        max(selectedCourtPrice - (isVoucherApplied ? 50_000 : 0), 0)
+    }
+
+    private func updateDateSelectionUI() {
+        selectedDateLabel.text = availableDates[selectedDateIndex]
+        for (index, button) in dateButtons.enumerated() {
+            let isSelected = index == selectedDateIndex
+            button.backgroundColor = isSelected ? .systemMint : .white
+            button.layer.borderColor = (isSelected ? UIColor.systemMint : UIColor.systemGray5).cgColor
+            button.setTitleColor(isSelected ? .label : .label, for: .normal)
+        }
+    }
+
+    private func updateTimeSelectionUI() {
+        for (index, button) in timeButtons.enumerated() {
+            let isSelected = index == selectedTimeIndex
+            button.backgroundColor = isSelected ? .systemMint : .white
+            button.layer.borderColor = (isSelected ? UIColor.systemMint : UIColor.systemGray5).cgColor
+        }
+    }
+
+    private func updateCourtSelectionUI() {
+        for (index, button) in courtButtons.enumerated() {
+            button.configuration = makeCourtButtonConfiguration(
+                title: courts[index].name,
+                subtitle: currencyText(courts[index].price),
+                selected: index == selectedCourtIndex
+            )
+        }
+        updateSummary()
+    }
+
+    private func updateSummary() {
+        totalAmountLabel.text = currencyText(totalAmount)
+    }
+
+    private func currencyText(_ amount: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = Locale(identifier: "vi_VN")
+        formatter.maximumFractionDigits = 0
+        return formatter.string(from: NSNumber(value: amount)) ?? "0 đ"
+    }
+
+    @objc private func backTapped() {
+        if let navigationController {
+            navigationController.popViewController(animated: true)
+        } else {
+            dismiss(animated: true)
+        }
+    }
+
+    @objc private func applyVoucherTapped() {
+        let voucher = voucherTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines).uppercased() ?? ""
+        if voucher == "GIAM50K" {
+            isVoucherApplied = true
+            showAlert(title: "Thành công", message: "Đã áp dụng mã giảm giá GIAM50K.")
+        } else {
+            isVoucherApplied = false
+            showAlert(title: "Không hợp lệ", message: "Mã giảm giá không đúng.")
+        }
+    }
+
+    @objc private func confirmBookingTapped() {
+        do {
+            let booking = try store.createBooking(courtTypeName: courts[selectedCourtIndex].name, totalPrice: totalAmount)
+            guard let paymentViewController = PaymentMethodViewController.instantiate(amount: totalAmount, bookingId: booking.id) else {
+                showAlert(title: "Lỗi", message: "Không thể mở màn hình thanh toán.")
+                return
+            }
+
+            if let navigationController {
+                navigationController.pushViewController(paymentViewController, animated: true)
+            } else {
+                let navigationController = UINavigationController(rootViewController: paymentViewController)
+                navigationController.modalPresentationStyle = .fullScreen
+                present(navigationController, animated: true)
+            }
+        } catch {
+            showAlert(title: "Không thể tạo booking", message: error.localizedDescription)
+        }
     }
 }

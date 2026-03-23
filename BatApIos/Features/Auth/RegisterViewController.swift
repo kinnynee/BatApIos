@@ -10,6 +10,7 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var passwordEyeButton: UIButton!
     
     var isPassVisible = false
+    private let store = AppMockStore.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,8 +55,13 @@ class RegisterViewController: UIViewController {
             return
         }
         
-        showAlert(title: "Chào mừng!", message: "Tạo tài khoản SmashBooking thành công.") {
-            self.dismiss(animated: true)
+        do {
+            _ = try store.register(name: name, email: email, password: pass)
+            showAlert(title: "Chào mừng!", message: "Tạo tài khoản SmashBooking thành công.") {
+                self.dismiss(animated: true)
+            }
+        } catch {
+            showAlert(title: "Không thể đăng ký", message: error.localizedDescription)
         }
     }
 }

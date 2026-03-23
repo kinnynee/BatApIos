@@ -3,6 +3,7 @@ import UIKit
 final class BookingSuccessViewController: UIViewController {
 
     var bookingCode: String = "BK-882941"
+    private let store = AppMockStore.shared
 
     private let bookingIdLabel = UILabel()
 
@@ -12,6 +13,9 @@ final class BookingSuccessViewController: UIViewController {
     }
 
     private func configureUI() {
+        if let latestBooking = store.findBooking(code: bookingCode) {
+            bookingCode = latestBooking.id
+        }
         view.backgroundColor = .systemBackground
 
         let headerLabel = UILabel()
@@ -122,7 +126,7 @@ final class BookingSuccessViewController: UIViewController {
 
     @objc private func goHomeTapped() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let homeViewController = storyboard.instantiateViewController(withIdentifier: "HomeVC")
+        let homeViewController = storyboard.instantiateViewController(withIdentifier: "MainTabBarVC")
         navigationController?.pushViewController(homeViewController, animated: true)
     }
 }

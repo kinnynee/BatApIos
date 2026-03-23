@@ -7,6 +7,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var eyeButton: UIButton!
     
     var isPasswordVisible = false
+    private let store = AppMockStore.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,8 +38,15 @@ class LoginViewController: UIViewController {
             showAlert(title: "Lỗi", message: "Định dạng Email không hợp lệ.")
             return
         }
-        
-        showAlert(title: "Thành công", message: "Đăng nhập thành công!")
+
+        do {
+            let user = try store.login(email: email, password: password)
+            showAlert(title: "Thành công", message: "Đăng nhập thành công!") {
+                self.routeToNextScreen(for: user)
+            }
+        } catch {
+            showAlert(title: "Đăng nhập thất bại", message: error.localizedDescription)
+        }
     }
     
     @IBAction func goToRegisterScreen(_ sender: UIButton) {
@@ -52,5 +60,26 @@ class LoginViewController: UIViewController {
         } else {
             print("Lỗi: Không tìm thấy màn hình có ID là RegisterVC")
         }
+    }
+
+    private func routeToNextScreen(for user: User) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let targetIdentifier: String
+
+        switch user.role {
+        case .admin:
+            targetIdentifier = "AdminDashboardVC"
+        case .staff:
+            targetIdentifier = "StaffCheckInVC"
+        case .user:
+            targetIdentifier = "MainTabBarVC"
+        }
+
+        guard let nextViewController = storyboard.instantiateViewController(withIdentifier: targetIdentifier) as UIViewController? else {
+            return
+        }
+
+        nextViewController.modalPresentationStyle = .fullScreen
+        present(nextViewController, animated: true)
     }
 }

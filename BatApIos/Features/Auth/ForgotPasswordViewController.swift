@@ -3,6 +3,7 @@ import UIKit
 class ForgotPasswordViewController: UIViewController {
 
     @IBOutlet weak var emailTextField: UITextField!
+    private let store = AppMockStore.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,8 +24,13 @@ class ForgotPasswordViewController: UIViewController {
             return
         }
         
-        showAlert(title: "Đã gửi", message: "Hướng dẫn khôi phục mật khẩu đã được gửi đến \(email).") {
-            self.dismiss(animated: true)
+        do {
+            let message = try store.sendResetPassword(email: email)
+            showAlert(title: "Đã gửi", message: message) {
+                self.dismiss(animated: true)
+            }
+        } catch {
+            showAlert(title: "Không thể xử lý", message: error.localizedDescription)
         }
     }
 }
