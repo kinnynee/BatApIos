@@ -64,6 +64,7 @@ final class PaymentMethodViewController: UIViewController {
     }
 
     private var selectedMethod: PaymentMethod = .momo
+    private let store = AppMockStore.shared
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -119,19 +120,15 @@ final class PaymentMethodViewController: UIViewController {
     
     // BỔ SUNG: Sự kiện khi bấm nút Xác nhận thanh toán ở cuối màn hình
     @IBAction private func confirmPaymentTapped(_ sender: UIButton) {
-        // 1. Bạn có thể in ra để test xem user đang chọn phương thức nào
-        print("Đang tiến hành thanh toán qua: \(selectedMethod) với số tiền: \(amountToPay)")
-        
-        // 2. Chuyển sang màn hình Thực hiện thanh toán (Ví dụ: PaymentExecutionVC)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        // Lưu ý: Đặt Storyboard ID cho màn hình tiếp theo là "PaymentExecutionVC"
-        if let executionVC = storyboard.instantiateViewController(withIdentifier: "PaymentExecutionVC") as? UIViewController {
-            
-            // Nếu màn hình tiếp theo cần dữ liệu, bạn truyền vào đây
-            // (Ví dụ: executionVC.finalAmount = self.amountToPay)
-            
-            self.navigationController?.pushViewController(executionVC, animated: true)
+        do {
+            let booking = try store.confirmPayment(for: bookingId, methodName: displayName(for: selectedMethod))
+            let successViewController = BookingSuccessViewController()
+            successViewController.bookingCode = booking.id
+            navigationController?.pushViewController(successViewController, animated: true)
+        } catch {
+            let alert = UIAlertController(title: "Không thể thanh toán", message: error.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Đóng", style: .default))
+            present(alert, animated: true)
         }
     }
 
@@ -162,4 +159,19 @@ final class PaymentMethodViewController: UIViewController {
         formatter.maximumFractionDigits = 0
         return formatter
     }()
+
+    private func displayName(for method: PaymentMethod) -> String {
+        switch method {
+        case .atm:
+            return "ATM"
+        case .momo:
+            return "MoMo"
+        case .transfer:
+            return "Chuyển khoản"
+        case .visa:
+            return "Visa"
+        case .zalo:
+            return "ZaloPay"
+        }
+    }
 }

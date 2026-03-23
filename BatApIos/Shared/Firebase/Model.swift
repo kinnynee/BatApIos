@@ -5,9 +5,6 @@
 //  Created by Trần Kiên on 20/3/26.
 //
 import Foundation
-import FirebaseFirestore
-import FirebaseFirestoreSwift
-
 
 enum UserRole: String, Codable {
     case user = "User"
@@ -36,17 +33,15 @@ enum BookingStatus: String, Codable {
 
 // MARK: - 1. Bảng Users
 struct User: Codable {
-    @DocumentID var id: String? // Tương ứng increments('id')
-    
+    var id: String?
     var email: String
     var username: String
-    var password: String // Lời khuyên: Nên để Firebase Auth quản lý cái này
+    var password: String
     var role: UserRole = .user
-    var walletBalance: Double = 0.0 // Tương ứng decimal(12, 2)
-    
-    @ServerTimestamp var createdAt: Date?
-    @ServerTimestamp var updatedAt: Date?
-    
+    var walletBalance: Double = 0.0
+    var createdAt: Date?
+    var updatedAt: Date?
+
     enum CodingKeys: String, CodingKey {
         case id, email, username, password, role
         case walletBalance = "wallet_balance"
@@ -57,22 +52,20 @@ struct User: Codable {
 
 // MARK: - 2. Bảng Locations
 struct Location: Codable {
-    @DocumentID var id: String?
-    
+    var id: String?
     var name: String
     var address: String
 }
 
 // MARK: - 3. Bảng Courts
 struct Court: Codable {
-    @DocumentID var id: String?
-    
+    var id: String?
     var name: String
     var type: CourtType = .double
-    var locationId: String // Tương ứng integer('location_id').references('id')
+    var locationId: String
     var pricePerHour: Double
     var status: CourtStatus = .active
-    
+
     enum CodingKeys: String, CodingKey {
         case id, name, type, status
         case locationId = "location_id"
@@ -82,8 +75,7 @@ struct Court: Codable {
 
 // MARK: - 4. Bảng Bookings
 struct Booking: Codable {
-    @DocumentID var id: String?
-    
+    var id: String?
     var userId: String
     var courtId: String
     var bookingDate: Date
@@ -91,10 +83,9 @@ struct Booking: Codable {
     var endTime: Date
     var status: BookingStatus = .pending
     var totalPrice: Double
-    
-    @ServerTimestamp var createdAt: Date?
-    @ServerTimestamp var updatedAt: Date?
-    
+    var createdAt: Date?
+    var updatedAt: Date?
+
     enum CodingKeys: String, CodingKey {
         case id, status
         case userId = "user_id"
@@ -107,4 +98,3 @@ struct Booking: Codable {
         case updatedAt = "updated_at"
     }
 }
-

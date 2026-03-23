@@ -8,6 +8,7 @@ class PaymentViewController: UIViewController {
     var allPayments: [PaymentInfo] = []
     
     var displayedPayments: [PaymentInfo] = []
+    private let store = AppMockStore.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,18 +16,19 @@ class PaymentViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        setupMockData()
-        
+        loadPayments()
         filterData(by: .success)
     }
-    
-    func setupMockData() {
-        allPayments = [
-            PaymentInfo(productImage: UIImage(named: "item1"), productName: "Áo thun", price: "500.000 vnđ", status: .success),
-            PaymentInfo(productImage: UIImage(named: "item2"), productName: "Quần Jeans", price: "300.000 vnđ", status: .success),
-            PaymentInfo(productImage: UIImage(named: "item3"), productName: "Giày Sneaker", price: "1.200.000 vnđ", status: .pending),
-            PaymentInfo(productImage: UIImage(named: "item4"), productName: "Balo", price: "400.000 vnđ", status: .cancelled)
-        ]
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadPayments()
+        let selectedStatus = OrderStatus(rawValue: segmentedControl.selectedSegmentIndex) ?? .success
+        filterData(by: selectedStatus)
+    }
+
+    func loadPayments() {
+        allPayments = store.paymentHistory()
     }
 
     @IBAction func segmentChanged(_ sender: UISegmentedControl) {

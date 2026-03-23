@@ -27,6 +27,7 @@ final class BookingViewController: UIViewController {
 
     private let validDiscountCode = "GIAM50K"
     private let discountValue: Double = 50_000
+    private let store = AppMockStore.shared
     
     private var isVoucherApplied = false {
         didSet {
@@ -58,31 +59,32 @@ final class BookingViewController: UIViewController {
     
     // Sự kiện khi người dùng bấm nút Thanh Toán Ngay
     @IBAction private func paymentButtonTapped(_ sender: UIButton) {
-        
-        // 1. Kiểm tra an toàn: Số tiền phải lớn hơn 0
         guard currentTotalPrice > 0 else {
             showAlert(title: "Lỗi", message: "Số tiền không hợp lệ để thanh toán.")
             return
         }
-        
-        // 2. Gọi màn hình Phương thức thanh toán (Dựa vào Storyboard ID)
-        // Nhớ vào Main.storyboard, đặt Storyboard ID cho màn hình kia là "PaymentMethodVC"
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let paymentMethodVC = storyboard.instantiateViewController(withIdentifier: "PaymentMethodVC") as? PaymentMethodViewController {
-            // Truyền số tiền cần thanh toán sang màn PaymentMethod
-            paymentMethodVC.amountToPay = self.currentTotalPrice
-            // Nếu bạn đã có mã booking sẵn, có thể truyền vào:
-            // paymentMethodVC.bookingId = yourBookingId
 
-            // 3. Chuyển sang màn hình thanh toán: ưu tiên push, fallback sang present nếu không có navigation controller
-            if let nav = self.navigationController {
-                nav.pushViewController(paymentMethodVC, animated: true)
+        do {
+            let booking = try store.createBooking(
+                courtTypeName: selectedCourtTypeTitle(),
+                totalPrice: currentTotalPrice
+            )
+
+            if let paymentMethodVC = PaymentMethodViewController.instantiate(
+                amount: currentTotalPrice,
+                bookingId: booking.id
+            ) {
+                if let nav = self.navigationController {
+                    nav.pushViewController(paymentMethodVC, animated: true)
+                } else {
+                    paymentMethodVC.modalPresentationStyle = .fullScreen
+                    self.present(paymentMethodVC, animated: true)
+                }
             } else {
-                paymentMethodVC.modalPresentationStyle = .fullScreen
-                self.present(paymentMethodVC, animated: true)
+                showAlert(title: "Lỗi", message: "Không thể mở màn hình thanh toán.")
             }
-        } else {
-            assertionFailure("Không tìm thấy màn hình có Storyboard ID 'PaymentMethodVC' hoặc class không khớp.")
+        } catch {
+            showAlert(title: "Không thể tạo booking", message: error.localizedDescription)
         }
     }
 
@@ -116,6 +118,18 @@ final class BookingViewController: UIViewController {
         } else {
             isVoucherApplied = false
             showAlert(title: "Không hợp lệ", message: "Mã ưu đãi chưa đúng hoặc đã hết hạn.")
+        }
+    }
+
+    private func selectedCourtTypeTitle() -> String {
+        let selectedType = CourtType(rawValue: courtTypeSegment.selectedSegmentIndex) ?? .double
+        switch selectedType {
+        case .double:
+            return "Sân Double"
+        case .vip:
+            return "Sân VIP"
+        case .single:
+            return "Sân Single"
         }
     }
 

@@ -10,6 +10,8 @@ class ResetPasswordViewController: UIViewController {
     
     var isNewPassVisible = false
     var isConfirmPassVisible = false
+    var emailAddress: String?
+    private let store = AppMockStore.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,8 +54,13 @@ class ResetPasswordViewController: UIViewController {
             return
         }
         
-        showAlert(title: "Thành công", message: "Đổi mật khẩu thành công! Bạn có thể đăng nhập ngay bây giờ.") {
-            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+        do {
+            try store.resetPassword(email: emailAddress ?? "", newPassword: newPass)
+            showAlert(title: "Thành công", message: "Đổi mật khẩu thành công! Bạn có thể đăng nhập ngay bây giờ.") {
+                self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+            }
+        } catch {
+            showAlert(title: "Không thể đổi mật khẩu", message: error.localizedDescription)
         }
     }
 }

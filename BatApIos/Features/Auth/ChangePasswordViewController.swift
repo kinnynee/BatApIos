@@ -5,6 +5,7 @@ final class ChangePasswordViewController: UIViewController {
     @IBOutlet private weak var currentPasswordTextField: UITextField!
     @IBOutlet private weak var newPasswordTextField: UITextField!
     @IBOutlet private weak var confirmPasswordTextField: UITextField!
+    private let store = AppMockStore.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,8 +51,13 @@ final class ChangePasswordViewController: UIViewController {
             return
         }
 
-        showAlert(title: "Thành công", message: "Mật khẩu đã được cập nhật.") {
-            self.dismiss(animated: true)
+        do {
+            try store.changePassword(currentPassword: currentPassword, newPassword: newPassword)
+            showAlert(title: "Thành công", message: "Mật khẩu đã được cập nhật.") {
+                self.dismiss(animated: true)
+            }
+        } catch {
+            showAlert(title: "Không thể đổi mật khẩu", message: error.localizedDescription)
         }
     }
 }
