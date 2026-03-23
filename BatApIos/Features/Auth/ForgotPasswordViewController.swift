@@ -24,7 +24,7 @@ class ForgotPasswordViewController: UIViewController {
         }
         
         showAlert(title: "Đã gửi", message: "Hướng dẫn khôi phục mật khẩu đã được gửi đến \(email).") {
-            self.dismiss(animated: true) // Gửi xong thì quay về màn hình trước
+            self.dismiss(animated: true)
         }
     }
 }

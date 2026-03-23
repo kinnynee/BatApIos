@@ -31,7 +31,6 @@ class RegisterViewController: UIViewController {
     }
     
     @IBAction func registerButtonTapped(_ sender: UIButton) {
-        // Dùng guard let để tránh crash app (Code an toàn)
         guard let name = nameTextField.text, !name.isEmpty,
               let email = emailTextField.text, !email.isEmpty,
               let pass = passwordTextField.text, !pass.isEmpty,

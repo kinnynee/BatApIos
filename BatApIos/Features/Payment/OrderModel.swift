@@ -1,9 +1,3 @@
-//
-//  OrderModel.swift
-//  BatApIos
-//
-//  Created by Trần Kiên on 16/3/26.
-//
 import Foundation
 import UIKit
 

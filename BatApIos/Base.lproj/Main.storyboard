@@ -177,6 +177,7 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="loginButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vYf-AD-IdD"/>
+                                            <segue destination="home-vc-main" kind="show" id="KPk-Wx-T1q"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EYb-NE-48c">
@@ -197,6 +198,7 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="goToRegisterScreen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZHU-77-R0r"/>
+                                            <segue destination="register-vc" kind="show" id="Ga1-qf-DKX"/>
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="social-login">
@@ -228,7 +230,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1055.7251908396945" y="-27.464788732394368"/>
+            <point key="canvasLocation" x="-2152" y="-27"/>
         </scene>
         <!--Forgot Password View Controller-->
         <scene sceneID="forgot-scene">
@@ -350,12 +352,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="resp-forgot" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1826.7175572519084" y="-27.464788732394368"/>
+            <point key="canvasLocation" x="-1311" y="-27"/>
         </scene>
         <!--Change Password View Controller-->
         <scene sceneID="change-scene">
             <objects>
-                <viewController storyboardIdentifier="ChangeVC" id="change-vc" customClass="ChangePasswordViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChangeVC" id="change-vc" customClass="ChangePasswordViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="change-view">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -368,6 +370,9 @@
                                         <color key="tintColor" red="0.062745098040000002" green="0.1333333333" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="arrow.left" catalog="system"/>
+                                        <connections>
+                                            <action selector="backButtonTapped:" destination="change-vc" eventType="touchUpInside" id="change-back-action"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbl-nav-change">
                                         <rect key="frame" x="196.66666666666666" y="25" width="0.0" height="0.0"/>
@@ -513,6 +518,9 @@
                                                 <integer key="value" value="12"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="updatePasswordTapped:" destination="change-vc" eventType="touchUpInside" id="change-submit-action"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -528,6 +536,11 @@
                             <constraint firstItem="stack-change" firstAttribute="top" secondItem="nav-change" secondAttribute="bottom" constant="32" id="c-sc3"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="confirmPasswordTextField" destination="tf-c-p3" id="change-outlet-confirm"/>
+                        <outlet property="currentPasswordTextField" destination="tf-c-p1" id="change-outlet-current"/>
+                        <outlet property="newPasswordTextField" destination="tf-c-p2" id="change-outlet-new"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="resp-change" sceneMemberID="firstResponder"/>
             </objects>
@@ -542,7 +555,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nav-reg">
-                                <rect key="frame" x="0.0" y="59" width="393" height="50"/>
+                                <rect key="frame" x="0.0" y="172" width="393" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-back-reg">
                                         <rect key="frame" x="16.000000000000004" y="8" width="49.333333333333343" height="34.333333333333336"/>
@@ -554,7 +567,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Batminton Booking" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbl-nav-reg">
-                                        <rect key="frame" x="114.66666666666669" y="14.33333333333333" width="164" height="21.666666666666671"/>
+                                        <rect key="frame" x="114.66666666666669" y="14.333333333333345" width="164" height="21.666666666666671"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                         <color key="textColor" red="0.062745098040000002" green="0.1333333333" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -569,7 +582,7 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="stack-reg">
-                                <rect key="frame" x="24" y="128.99999999999997" width="345" height="402.33333333333326"/>
+                                <rect key="frame" x="24" y="241.99999999999997" width="345" height="402.33333333333326"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="title-reg">
                                         <rect key="frame" x="0.0" y="0.0" width="345" height="38.333333333333336"/>
@@ -583,7 +596,7 @@
                                         </subviews>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="view-name">
-                                        <rect key="frame" x="0.0" y="58.333333333333343" width="345" height="52"/>
+                                        <rect key="frame" x="0.0" y="58.333333333333314" width="345" height="52"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="person" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="img-name">
                                                 <rect key="frame" x="16" y="17.333333333333332" width="20" height="17.333333333333339"/>
@@ -696,7 +709,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="view-cpw-reg">
-                                        <rect key="frame" x="0.0" y="274.33333333333331" width="345" height="52"/>
+                                        <rect key="frame" x="0.0" y="274.33333333333337" width="345" height="52"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="lock.rotation" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="img-cpw-reg">
                                                 <rect key="frame" x="15.999999999999998" y="16.666666666666664" width="20.333333333333329" height="18.666666666666664"/>
@@ -729,7 +742,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-register-main">
-                                        <rect key="frame" x="0.0" y="346.33333333333331" width="345" height="56"/>
+                                        <rect key="frame" x="0.0" y="346.33333333333337" width="345" height="56"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="56" id="h-btn-rm"/>
                                         </constraints>
@@ -762,6 +775,7 @@
                             <constraint firstItem="stack-reg" firstAttribute="top" secondItem="nav-reg" secondAttribute="bottom" constant="20" id="c-r6"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="NB8-5h-1pA"/>
                     <connections>
                         <outlet property="confirmPasswordTextField" destination="tf-cpw-reg" id="qXR-1H-pTm"/>
                         <outlet property="emailTextField" destination="tf-em-reg" id="WFR-ga-rkr"/>
@@ -772,7 +786,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="resp-reg" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="130" y="700"/>
+            <point key="canvasLocation" x="-2153" y="823"/>
         </scene>
         <!--Order history scene-->
         <scene sceneID="Otk-AI-cHf">
@@ -796,7 +810,7 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                             </view>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" momentary="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pay-segmented-control">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="pay-segmented-control">
                                 <rect key="frame" x="24" y="140" width="345" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
@@ -826,7 +840,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" distribution="fillEqually" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="pIA-zY-BVN">
-                                                    <rect key="frame" x="119" y="16" width="59.333333333333343" height="20.333333333333332"/>
+                                                    <rect key="frame" x="119.00000000000003" y="16" width="59.333333333333343" height="20.333333333333329"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tên sân" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0x5-3s-kBA">
                                                             <rect key="frame" x="0.0" y="0.0" width="59.333333333333336" height="20.333333333333332"/>
@@ -883,7 +897,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nav-book">
-                                <rect key="frame" x="0.0" y="118" width="393" height="50"/>
+                                <rect key="frame" x="0.0" y="172" width="393" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-back-book">
                                         <rect key="frame" x="16.000000000000004" y="8" width="49.333333333333343" height="34.333333333333336"/>
@@ -950,7 +964,7 @@
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="scroll-book">
-                                <rect key="frame" x="0.0" y="168" width="393" height="524"/>
+                                <rect key="frame" x="0.0" y="222" width="393" height="470"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="stk-main-book">
                                         <rect key="frame" x="24" y="16" width="345" height="198.33333333333334"/>
@@ -965,7 +979,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="seg-court">
-                                                        <rect key="frame" x="0.0" y="31.333333333333343" width="345" height="32"/>
+                                                        <rect key="frame" x="0.0" y="31.333333333333314" width="345" height="32"/>
                                                         <segments>
                                                             <segment title="Standard"/>
                                                             <segment title="VIP"/>
@@ -1046,15 +1060,17 @@
                             <constraint firstItem="bottom-bar-book" firstAttribute="top" secondItem="scroll-book" secondAttribute="bottom" constant="8" id="cbook9"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="qkY-8d-udJ"/>
                     <connections>
                         <outlet property="courtTypeSegment" destination="seg-court" id="out-seg"/>
+                        <outlet property="paymentButton" destination="btn-checkout" id="ajH-DP-gz7"/>
                         <outlet property="priceLabel" destination="lbl-price-val" id="out-price"/>
                         <outlet property="voucherTextField" destination="tf-voucher" id="out-tf-vou"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="resp-book" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4125.9541984732823" y="-27.464788732394368"/>
+            <point key="canvasLocation" x="224" y="1596"/>
         </scene>
         <!--Calendar View Controller-->
         <scene sceneID="calendar-scene">
@@ -1204,12 +1220,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="resp-cal" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4826.7175572519081" y="-27.464788732394368"/>
+            <point key="canvasLocation" x="4795" y="700"/>
         </scene>
-        <!--Payment View Controller-->
+        <!--Payment Method View Controller-->
         <scene sceneID="payment-scene">
             <objects>
-                <viewController storyboardIdentifier="PaymentMethodVC" id="payment-vc" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PaymentMethodVC" id="payment-vc" customClass="PaymentMethodViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pay-view-main">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2010,13 +2026,13 @@
         <!--Home-->
         <scene sceneID="home-scene-1">
             <objects>
-                <viewController storyboardIdentifier="HomeVC" title="Home" id="home-vc-main" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeVC" title="Home" id="home-vc-main" customClass="HomeViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="home-view-main">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="home-view-header">
-                                <rect key="frame" x="0.0" y="118" width="393" height="60"/>
+                                <rect key="frame" x="0.0" y="172" width="393" height="60"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Chào mừng trở lại," textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="home-lbl-greeting">
                                         <rect key="frame" x="23.999999999999993" y="8" width="106.33333333333331" height="14.333333333333336"/>
@@ -2058,7 +2074,7 @@
                                 </constraints>
                             </view>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Tìm sân cầu lông, khu vực..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="home-tf-search">
-                                <rect key="frame" x="24" y="194" width="345" height="48"/>
+                                <rect key="frame" x="24" y="248" width="345" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="home-cst-tf-h"/>
                                 </constraints>
@@ -2066,7 +2082,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="home-scroll-main">
-                                <rect key="frame" x="0.0" y="258" width="393" height="511"/>
+                                <rect key="frame" x="0.0" y="312" width="393" height="457"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="home-view-content">
                                         <rect key="frame" x="0.0" y="0.0" width="393" height="800"/>
@@ -2135,6 +2151,9 @@
                                                 <buttonConfiguration key="configuration" style="plain" image="calendar" catalog="system" imagePlacement="top" title="Đặt sân" imagePadding="4">
                                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="10"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <segue destination="booking-vc" kind="show" id="M7Y-dC-FAZ"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hb-3">
                                                 <rect key="frame" x="196.66666666666666" y="0.0" width="97.999999999999972" height="53"/>
@@ -2151,6 +2170,9 @@
                                                 <buttonConfiguration key="configuration" style="plain" image="person.fill" catalog="system" imagePlacement="top" title="Cá nhân" imagePadding="4">
                                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="10"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <segue destination="prof-vc-main" kind="show" id="7Da-fJ-ksb"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -2183,15 +2205,16 @@
                             <constraint firstItem="home-scroll-main" firstAttribute="top" secondItem="home-tf-search" secondAttribute="bottom" constant="16" id="home-main-cst-9"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="aew-LC-Whk"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="home-responder" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7925.9541984732823" y="-27.464788732394368"/>
+            <point key="canvasLocation" x="-605" y="823"/>
         </scene>
         <!--Home Dashboard-->
         <scene sceneID="home2-scene-1">
             <objects>
-                <viewController storyboardIdentifier="DiscoverVC" title="Home Dashboard" id="home2-vc-main" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DiscoverVC" title="Home Dashboard" id="home2-vc-main" customClass="DiscoverViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="home2-view-main">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2467,7 +2490,7 @@
         <!--Checkout-->
         <scene sceneID="checkout-scene">
             <objects>
-                <viewController storyboardIdentifier="CheckoutVC" title="Checkout" id="chk-vc-main" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CheckoutVC" title="Checkout" id="chk-vc-main" customClass="CheckoutViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="chk-view-main">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2787,7 +2810,7 @@
         <!--Book a Court-->
         <scene sceneID="court-booking-scene-new">
             <objects>
-                <viewController storyboardIdentifier="NewCourtBookingVC" title="Book a Court" id="ncb-vc-main" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewCourtBookingVC" title="Book a Court" id="ncb-vc-main" customClass="NewCourtBookingViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ncb-view-main">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3546,7 +3569,7 @@
         <!--System Logs-->
         <scene sceneID="syslog-scene">
             <objects>
-                <viewController storyboardIdentifier="SystemLogsVC" title="System Logs" id="syslog-vc-main" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SystemLogsVC" title="System Logs" id="syslog-vc-main" customClass="SystemLogsViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="syslog-view-root">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -4057,13 +4080,13 @@
         <!--Profile-->
         <scene sceneID="profile-scene">
             <objects>
-                <viewController storyboardIdentifier="ProfileVC" title="Profile" id="prof-vc-main" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileVC" title="Profile" id="prof-vc-main" customClass="ProfileViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="prof-view-root">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="prof-v-header">
-                                <rect key="frame" x="0.0" y="118" width="393" height="60"/>
+                                <rect key="frame" x="0.0" y="172" width="393" height="60"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Profile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="prof-lbl-title">
                                         <rect key="frame" x="24" y="12" width="91" height="36"/>
@@ -4150,7 +4173,7 @@
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="prof-scroll">
-                                <rect key="frame" x="0.0" y="178" width="393" height="590"/>
+                                <rect key="frame" x="0.0" y="232" width="393" height="536"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="prof-v-content">
                                         <rect key="frame" x="0.0" y="0.0" width="393" height="780"/>
@@ -4271,7 +4294,7 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="+3 this month" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pst1-l3">
-                                                                <rect key="frame" x="16" y="78.666666666666686" width="74.666666666666671" height="13.333333333333329"/>
+                                                                <rect key="frame" x="16" y="78.666666666666629" width="74.666666666666671" height="13.333333333333329"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="11"/>
                                                                 <color key="textColor" red="0.0" green="0.70196078429999997" blue="0.36666666669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -4324,7 +4347,7 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Silver Tier" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pst2-l3">
-                                                                <rect key="frame" x="16.000000000000004" y="78.666666666666686" width="54.333333333333343" height="13.333333333333329"/>
+                                                                <rect key="frame" x="16.000000000000004" y="78.666666666666629" width="54.333333333333343" height="13.333333333333329"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="11"/>
                                                                 <color key="textColor" red="0.0" green="0.70196078429999997" blue="0.36666666669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -4715,15 +4738,16 @@
                             <constraint firstItem="prof-scroll" firstAttribute="leading" secondItem="prof-safe" secondAttribute="leading" id="psa-9"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Ala-Q5-QOD"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="prof-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="13925.954198473282" y="-27.464788732394368"/>
+            <point key="canvasLocation" x="-605" y="1596"/>
         </scene>
         <!--Notifications-->
         <scene sceneID="notifications-scene">
             <objects>
-                <viewController storyboardIdentifier="NotificationsVC" title="Notifications" id="ntf-vc-main" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NotificationsVC" title="Notifications" id="ntf-vc-main" customClass="NotificationsViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ntf-view-root">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -5440,7 +5464,7 @@
         <!--About-->
         <scene sceneID="about-scene">
             <objects>
-                <viewController storyboardIdentifier="AboutVC" title="About" id="abt-vc-main" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AboutVC" title="About" id="abt-vc-main" customClass="AboutViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="abt-view-root">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -5919,7 +5943,7 @@ All rights reserved.</string>
         <!--Courts-->
         <scene sceneID="courts-scene">
             <objects>
-                <viewController storyboardIdentifier="CourtsVC" title="Courts" id="crt-vc-main" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CourtsVC" title="Courts" id="crt-vc-main" customClass="CourtsViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="crt-view-root">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -6675,7 +6699,7 @@ All rights reserved.</string>
         <!--Admin Dashboard-->
         <scene sceneID="admin-scene">
             <objects>
-                <viewController storyboardIdentifier="AdminDashboardVC" title="Admin Dashboard" id="adm-vc-main" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AdminDashboardVC" title="Admin Dashboard" id="adm-vc-main" customClass="AdminDashboardViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="adm-view-root">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -7691,7 +7715,7 @@ All rights reserved.</string>
         <!--Revenue-->
         <scene sceneID="revenue-scene">
             <objects>
-                <viewController storyboardIdentifier="RevenueReportVC" title="Revenue" id="rev-vc-main" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RevenueReportVC" title="Revenue" id="rev-vc-main" customClass="RevenueReportViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rev-view-root">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -8439,21 +8463,6 @@ All rights reserved.</string>
             </objects>
             <point key="canvasLocation" x="18925.954198473282" y="-27.464788732394368"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="c6J-oM-Lv1">
-            <objects>
-                <viewController storyboardIdentifier="PlaceholderVC" id="n94-Jx-dBy" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="iD1-qc-UR1">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="v3d-xe-FQF"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="LtG-gn-9vL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="19808.396946564884" y="-21.126760563380284"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="HY0-dp-8IJ">
             <objects>
@@ -8470,7 +8479,7 @@ All rights reserved.</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PX6-fl-VaC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="129.00763358778624" y="-27.464788732394368"/>
+            <point key="canvasLocation" x="-3534" y="-27"/>
         </scene>
     </scenes>
     <resources>
@@ -8495,11 +8504,9 @@ All rights reserved.</string>
         <image name="chevron.left" catalog="system" width="97" height="128"/>
         <image name="chevron.right" catalog="system" width="97" height="128"/>
         <image name="circle" catalog="system" width="128" height="123"/>
-        <image name="inset.filled.circle" catalog="system" width="123" height="128"/>
         <image name="clock" catalog="system" width="128" height="123"/>
-        <image name="clock.arrow.trianglehead.counterclockwise.rotate.90" catalog="system" width="128" height="120"/>
+        <image name="clock.arrow.trianglehead.counterclockwise.rotate.90" catalog="system" width="128" height="119"/>
         <image name="creditcard" catalog="system" width="128" height="88"/>
-        <image name="text.document.fill" catalog="system" width="115" height="128"/>
         <image name="dollarsign.circle.fill" catalog="system" width="128" height="123"/>
         <image name="envelope" catalog="system" width="128" height="85"/>
         <image name="envelope.fill" catalog="system" width="128" height="85"/>
@@ -8514,6 +8521,7 @@ All rights reserved.</string>
         <image name="hand.raised.fill" catalog="system" width="128" height="128"/>
         <image name="house" catalog="system" width="128" height="104"/>
         <image name="house.fill" catalog="system" width="128" height="104"/>
+        <image name="inset.filled.circle" catalog="system" width="128" height="123"/>
         <image name="list.bullet.clipboard.fill" catalog="system" width="98" height="128"/>
         <image name="lock" catalog="system" width="111" height="128"/>
         <image name="lock.rotation" catalog="system" width="128" height="119"/>
@@ -8540,13 +8548,11 @@ All rights reserved.</string>
         <image name="square.grid.2x2.fill" catalog="system" width="128" height="114"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
         <image name="tag" catalog="system" width="128" height="118"/>
+        <image name="text.document.fill" catalog="system" width="115" height="128"/>
         <image name="ticket.fill" catalog="system" width="128" height="86"/>
         <image name="trash.fill" catalog="system" width="117" height="128"/>
         <image name="workspace.premium" width="128" height="128"/>
         <image name="wrench.and.screwdriver.fill" catalog="system" width="128" height="119"/>
-        <systemColor name="darkTextColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="groupTableViewBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
@@ -8554,10 +8560,10 @@ All rights reserved.</string>
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiarySystemGroupedBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
