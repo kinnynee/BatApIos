@@ -34,6 +34,8 @@ final class PaymentMethodViewController: UIViewController {
     // MARK: - Outlets
     @IBOutlet private weak var amountLabel: UILabel!
     @IBOutlet private weak var bookingIdLabel: UILabel!
+    @IBOutlet private weak var backButton: UIButton!
+    @IBOutlet private weak var scrollView: UIScrollView!
 
     @IBOutlet private weak var checkATM: UIImageView!
     @IBOutlet private weak var checkMomo: UIImageView!
@@ -47,7 +49,6 @@ final class PaymentMethodViewController: UIViewController {
     @IBOutlet private weak var viewVisa: UIView!
     @IBOutlet private weak var viewZalo: UIView!
     
-    // BỔ SUNG: Nút xác nhận thanh toán ở dưới cùng
     @IBOutlet private weak var confirmButton: UIButton!
 
     // MARK: - Public Variables (Biến để màn hình trước truyền dữ liệu vào)
@@ -69,6 +70,8 @@ final class PaymentMethodViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        attachBackActionIfNeeded()
+        ensureConfirmButton()
         configureUI()
         updateSelectionUI()
     }
@@ -77,6 +80,7 @@ final class PaymentMethodViewController: UIViewController {
     private func configureUI() {
         amountLabel.text = Self.currencyFormatter.string(from: NSNumber(value: amountToPay)) ?? "0 đ"
         bookingIdLabel.text = bookingId
+        configureConfirmButtonAppearance()
 
         let mappings: [(UIView, PaymentMethod)] = [
             (viewATM, .atm),
@@ -98,6 +102,50 @@ final class PaymentMethodViewController: UIViewController {
         }
     }
 
+    private func attachBackActionIfNeeded() {
+        backButton?.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+    }
+
+    private func ensureConfirmButton() {
+        if confirmButton == nil {
+            let button = UIButton(type: .system)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(button)
+            confirmButton = button
+
+            NSLayoutConstraint.activate([
+                button.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24),
+                view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: 24),
+                view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: button.bottomAnchor, constant: 16),
+                button.heightAnchor.constraint(equalToConstant: 54)
+            ])
+
+            scrollView?.contentInset.bottom = 96
+            scrollView?.verticalScrollIndicatorInsets.bottom = 96
+        }
+
+        confirmButton?.addTarget(self, action: #selector(confirmButtonPressed(_:)), for: .touchUpInside)
+    }
+
+    private func configureConfirmButtonAppearance() {
+        var configuration = UIButton.Configuration.filled()
+        configuration.title = "Xác nhận thanh toán"
+        configuration.cornerStyle = .large
+        configuration.baseBackgroundColor = UIColor(
+            red: 0.345,
+            green: 0.933,
+            blue: 0.553,
+            alpha: 1
+        )
+        configuration.baseForegroundColor = UIColor(
+            red: 0.063,
+            green: 0.133,
+            blue: 0.129,
+            alpha: 1
+        )
+        confirmButton?.configuration = configuration
+    }
+
     // MARK: - Actions
     @objc private func paymentViewTapped(_ gesture: UITapGestureRecognizer) {
         guard let view = gesture.view else { return }
@@ -117,8 +165,37 @@ final class PaymentMethodViewController: UIViewController {
 
         updateSelectionUI()
     }
-    
-    // BỔ SUNG: Sự kiện khi bấm nút Xác nhận thanh toán ở cuối màn hình
+
+    @objc private func backButtonTapped() {
+        if let navigationController {
+            if let bookingViewController = navigationController.viewControllers.first(where: { $0 is NewCourtBookingViewController }) {
+                navigationController.popToViewController(bookingViewController, animated: true)
+                return
+            }
+
+            if let bookingViewController = UIStoryboard(name: Self.storyboardName, bundle: nil)
+                .instantiateViewController(withIdentifier: "NewCourtBookingVC") as? NewCourtBookingViewController {
+                var updatedStack = navigationController.viewControllers
+                if !updatedStack.isEmpty {
+                    updatedStack.removeLast()
+                }
+                updatedStack.append(bookingViewController)
+                navigationController.setViewControllers(updatedStack, animated: true)
+                return
+            }
+        }
+
+        if presentingViewController != nil {
+            dismiss(animated: true)
+        } else {
+            navigationController?.popViewController(animated: true)
+        }
+    }
+
+    @objc private func confirmButtonPressed(_ sender: UIButton) {
+        confirmPaymentTapped(sender)
+    }
+
     @IBAction private func confirmPaymentTapped(_ sender: UIButton) {
         do {
             let booking = try store.confirmPayment(for: bookingId, methodName: displayName(for: selectedMethod))

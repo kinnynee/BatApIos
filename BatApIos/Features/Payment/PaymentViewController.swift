@@ -9,12 +9,14 @@ class PaymentViewController: UIViewController {
     
     var displayedPayments: [PaymentInfo] = []
     private let store = AppMockStore.shared
+    private let emptyStateLabel = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
+        configureEmptyState()
         
         loadPayments()
         filterData(by: .success)
@@ -38,7 +40,18 @@ class PaymentViewController: UIViewController {
     
     func filterData(by status: OrderStatus) {
         displayedPayments = allPayments.filter { $0.status == status }
+        emptyStateLabel.isHidden = !displayedPayments.isEmpty
         tableView.reloadData()
+    }
+
+    private func configureEmptyState() {
+        emptyStateLabel.text = "Chưa có lịch sử đặt sân cho trạng thái này."
+        emptyStateLabel.textColor = .secondaryLabel
+        emptyStateLabel.font = .systemFont(ofSize: 15, weight: .medium)
+        emptyStateLabel.textAlignment = .center
+        emptyStateLabel.numberOfLines = 0
+        tableView.backgroundView = emptyStateLabel
+        emptyStateLabel.isHidden = true
     }
 }
 

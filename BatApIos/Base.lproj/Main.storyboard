@@ -137,6 +137,9 @@
                                                         <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="plain" image="eye" catalog="system"/>
+                                                        <connections>
+                                                            <action selector="togglePasswordVisibility:" destination="BYZ-38-t0r" eventType="touchUpInside" id="login-eye-toggle"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" red="0.93333333330000001" green="0.94901960780000005" blue="0.95294117640000009" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -804,6 +807,9 @@
                                     <segment title="Đang đặt"/>
                                     <segment title="Hoàn tiền"/>
                                 </segments>
+                                <connections>
+                                    <action selector="segmentChanged:" destination="gvW-iY-v1z" eventType="valueChanged" id="payment-segment-action"/>
+                                </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vIn-jd-9G6">
                                 <rect key="frame" x="159" y="140" width="108" height="39"/>
@@ -887,6 +893,10 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Lịch sử" image="clock.fill" catalog="system" id="tab-p-1"/>
+                    <connections>
+                        <outlet property="segmentedControl" destination="pay-segmented-control" id="payment-segment-outlet"/>
+                        <outlet property="tableView" destination="sny-OR-27y" id="payment-table-outlet"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9JG-1r-kqY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1431,12 +1441,14 @@
                     </view>
                     <connections>
                         <outlet property="amountLabel" destination="pay-lbl-amt" id="out-amt"/>
+                        <outlet property="backButton" destination="pay-btn-back" id="out-pback"/>
                         <outlet property="bookingIdLabel" destination="pay-lbl-id" id="out-bid"/>
                         <outlet property="checkATM" destination="img-chk-atm" id="out-catm"/>
                         <outlet property="checkMomo" destination="img-chk-momo" id="out-cmomo"/>
                         <outlet property="checkTransfer" destination="img-chk-transfer" id="out-ctrans"/>
                         <outlet property="checkVisa" destination="img-chk-visa" id="out-cvisa"/>
                         <outlet property="checkZalo" destination="img-chk-zalo" id="out-czalo"/>
+                        <outlet property="scrollView" destination="pay-scroll" id="out-pscroll"/>
                         <outlet property="viewATM" destination="pay-v-atm" id="out-vatm"/>
                         <outlet property="viewMomo" destination="pay-v-momo" id="out-vmomo"/>
                         <outlet property="viewTransfer" destination="pay-v-transfer" id="out-vtrans"/>
@@ -1881,6 +1893,9 @@
                                                 <integer key="value" value="20"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="notificationButtonTapped:" destination="home-vc-main" eventType="touchUpInside" id="home-act-bell"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2062,6 +2077,9 @@
                                                 <integer key="value" value="20"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="notificationButtonTapped:" destination="home-vc-main" eventType="touchUpInside" id="home2-act-bell"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2662,36 +2680,7 @@
                                     <constraint firstItem="ncb-btn-back" firstAttribute="centerY" secondItem="ncb-header" secondAttribute="centerY" id="nh-c5"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ncb-v-footer">
-                                <rect key="frame" x="0.0" y="734" width="393" height="84"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ncb-btn-confirm">
-                                        <rect key="frame" x="24" y="14" width="345" height="56"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="56" id="nf-h1"/>
-                                        </constraints>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" image="arrow.forward" catalog="system" imagePlacement="trailing" title="Xác nhận đặt" imagePadding="8">
-                                            <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="18"/>
-                                            <color key="baseForegroundColor" red="0.058823529409999999" green="0.13725490200000001" blue="0.098039215690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <color key="baseBackgroundColor" red="0.0" green="0.90196078430000004" blue="0.46666666670000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </buttonConfiguration>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="28"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="ncb-btn-confirm" secondAttribute="trailing" constant="24" id="nf-c1"/>
-                                    <constraint firstItem="ncb-btn-confirm" firstAttribute="leading" secondItem="ncb-v-footer" secondAttribute="leading" constant="24" id="nf-c2"/>
-                                    <constraint firstAttribute="height" constant="84" id="nf-c3"/>
-                                    <constraint firstItem="ncb-btn-confirm" firstAttribute="top" secondItem="ncb-v-footer" secondAttribute="top" constant="14" id="nf-c4"/>
-                                </constraints>
-                            </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ncb-scroll">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ncb-scroll">
                                 <rect key="frame" x="0.0" y="178" width="393" height="556"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ncb-v-content">
@@ -3345,9 +3334,40 @@
                                                     </view>
                                                 </subviews>
                                             </stackView>
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ncb-v-footer">
+                                                <rect key="frame" x="0.0" y="490" width="393" height="70"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ncb-btn-confirm">
+                                                        <rect key="frame" x="24" y="8" width="345" height="56"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="56" id="nf-h1"/>
+                                                        </constraints>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="filled" image="arrow.forward" catalog="system" imagePlacement="trailing" title="Xác nhận đặt" imagePadding="8">
+                                                            <fontDescription key="titleFontDescription" type="system" weight="black" pointSize="18"/>
+                                                            <color key="baseForegroundColor" red="0.058823529409999999" green="0.13725490200000001" blue="0.098039215690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="baseBackgroundColor" red="0.0" green="0.90196078430000004" blue="0.46666666670000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        </buttonConfiguration>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                <integer key="value" value="28"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="ncb-btn-confirm" secondAttribute="trailing" constant="24" id="nf-c1"/>
+                                                    <constraint firstItem="ncb-btn-confirm" firstAttribute="leading" secondItem="ncb-v-footer" secondAttribute="leading" constant="24" id="nf-c2"/>
+                                                    <constraint firstAttribute="height" constant="84" id="nf-c3"/>
+                                                    <constraint firstItem="ncb-btn-confirm" firstAttribute="top" secondItem="ncb-v-footer" secondAttribute="top" constant="14" id="nf-c4"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="ncb-v-footer" secondAttribute="bottom" constant="345" id="EWQ-in-tsf"/>
+                                            <constraint firstItem="ncb-v-footer" firstAttribute="leading" secondItem="ncb-v-content" secondAttribute="leading" id="R7h-0g-Ljh"/>
                                             <constraint firstItem="ncb-stack-main" firstAttribute="leading" secondItem="ncb-v-content" secondAttribute="leading" constant="24" id="ncon-1"/>
                                             <constraint firstAttribute="height" constant="950" id="ncon-2"/>
                                             <constraint firstAttribute="trailing" secondItem="ncb-stack-main" secondAttribute="trailing" constant="24" id="ncon-3"/>
@@ -3369,12 +3389,8 @@
                         <constraints>
                             <constraint firstItem="ncb-scroll" firstAttribute="top" secondItem="ncb-header" secondAttribute="bottom" id="nsf-1"/>
                             <constraint firstItem="ncb-header" firstAttribute="leading" secondItem="ncb-safe" secondAttribute="leading" id="nsf-10"/>
-                            <constraint firstAttribute="bottom" secondItem="ncb-v-footer" secondAttribute="bottom" constant="34" id="nsf-2"/>
                             <constraint firstItem="ncb-safe" firstAttribute="trailing" secondItem="ncb-scroll" secondAttribute="trailing" id="nsf-3"/>
-                            <constraint firstItem="ncb-v-footer" firstAttribute="top" secondItem="ncb-scroll" secondAttribute="bottom" id="nsf-4"/>
                             <constraint firstItem="ncb-header" firstAttribute="top" secondItem="ncb-safe" secondAttribute="top" id="nsf-5"/>
-                            <constraint firstItem="ncb-v-footer" firstAttribute="leading" secondItem="ncb-view-main" secondAttribute="leading" id="nsf-6"/>
-                            <constraint firstItem="ncb-safe" firstAttribute="trailing" secondItem="ncb-v-footer" secondAttribute="trailing" id="nsf-7"/>
                             <constraint firstItem="ncb-safe" firstAttribute="trailing" secondItem="ncb-header" secondAttribute="trailing" id="nsf-8"/>
                             <constraint firstItem="ncb-scroll" firstAttribute="leading" secondItem="ncb-safe" secondAttribute="leading" id="nsf-9"/>
                         </constraints>
@@ -3387,7 +3403,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ncb-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7300" y="-27"/>
+            <point key="canvasLocation" x="7300" y="-27.464788732394368"/>
         </scene>
         <!--System Logs-->
         <scene sceneID="syslog-scene">
@@ -4188,7 +4204,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="prof-v-acc">
                                                 <rect key="frame" x="24" y="393.33333333333337" width="345" height="168"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pam-1">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pam-1">
                                                         <rect key="frame" x="0.0" y="0.0" width="345" height="56"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pam-icon1">
@@ -4222,7 +4238,7 @@
                                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="pam-arr1">
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="pam-arr1">
                                                                 <rect key="frame" x="313" y="20" width="16" height="16.333333333333329"/>
                                                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
@@ -4230,7 +4246,7 @@
                                                                     <constraint firstAttribute="width" constant="16" id="pa-1w"/>
                                                                 </constraints>
                                                             </imageView>
-                                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pam-line1">
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pam-line1">
                                                                 <rect key="frame" x="64" y="55" width="281" height="1"/>
                                                                 <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <constraints>
@@ -4252,7 +4268,7 @@
                                                             <constraint firstAttribute="bottom" secondItem="pam-line1" secondAttribute="bottom" id="pm1-9"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pam-2">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pam-2">
                                                         <rect key="frame" x="0.0" y="56" width="345" height="56"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pam-icon2">
@@ -4286,7 +4302,7 @@
                                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="pam-arr2">
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="pam-arr2">
                                                                 <rect key="frame" x="313" y="20" width="16" height="16.333333333333329"/>
                                                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
@@ -4294,7 +4310,7 @@
                                                                     <constraint firstAttribute="width" constant="16" id="pa-2w"/>
                                                                 </constraints>
                                                             </imageView>
-                                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pam-line2">
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pam-line2">
                                                                 <rect key="frame" x="64" y="55" width="281" height="1"/>
                                                                 <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <constraints>
@@ -4316,7 +4332,7 @@
                                                             <constraint firstAttribute="bottom" secondItem="pam-line2" secondAttribute="bottom" id="pm2-9"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pam-3">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pam-3">
                                                         <rect key="frame" x="0.0" y="112" width="345" height="56"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pam-icon3">
@@ -4350,7 +4366,7 @@
                                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="pam-arr3">
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="pam-arr3">
                                                                 <rect key="frame" x="313" y="20" width="16" height="16.333333333333329"/>
                                                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
@@ -4373,7 +4389,17 @@
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="168" id="pva-1"/>
+                                                    <constraint firstItem="pam-1" firstAttribute="top" secondItem="prof-v-acc" secondAttribute="top" id="pva-1"/>
+                                                    <constraint firstAttribute="bottom" secondItem="pam-3" secondAttribute="bottom" id="pva-10"/>
+                                                    <constraint firstAttribute="height" constant="168" id="pva-11"/>
+                                                    <constraint firstItem="pam-1" firstAttribute="leading" secondItem="prof-v-acc" secondAttribute="leading" id="pva-2"/>
+                                                    <constraint firstAttribute="trailing" secondItem="pam-1" secondAttribute="trailing" id="pva-3"/>
+                                                    <constraint firstItem="pam-2" firstAttribute="top" secondItem="pam-1" secondAttribute="bottom" id="pva-4"/>
+                                                    <constraint firstItem="pam-2" firstAttribute="leading" secondItem="prof-v-acc" secondAttribute="leading" id="pva-5"/>
+                                                    <constraint firstAttribute="trailing" secondItem="pam-2" secondAttribute="trailing" id="pva-6"/>
+                                                    <constraint firstItem="pam-3" firstAttribute="top" secondItem="pam-2" secondAttribute="bottom" id="pva-7"/>
+                                                    <constraint firstItem="pam-3" firstAttribute="leading" secondItem="prof-v-acc" secondAttribute="leading" id="pva-8"/>
+                                                    <constraint firstAttribute="trailing" secondItem="pam-3" secondAttribute="trailing" id="pva-9"/>
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -4485,6 +4511,9 @@
                                                         <integer key="value" value="12"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="logoutButtonTapped:" destination="prof-vc-main" eventType="touchUpInside" id="prof-logout-action"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -4538,6 +4567,12 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Cá nhân" image="person.fill" catalog="system" id="tab-pr-1"/>
                     <connections>
+                        <outlet property="bookingsCountLabel" destination="pst1-l2" id="prof-out-bookings"/>
+                        <outlet property="bookingsSubtitleLabel" destination="pst1-l3" id="prof-out-bookings-sub"/>
+                        <outlet property="membershipLabel" destination="pst2-l3" id="prof-out-membership"/>
+                        <outlet property="nameLabel" destination="prof-lbl-name" id="prof-out-name"/>
+                        <outlet property="pointsLabel" destination="pst2-l2" id="prof-out-points"/>
+                        <outlet property="subtitleLabel" destination="prof-lbl-sub" id="prof-out-sub"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="logout" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="seg-pr-out"/>
                         <segue destination="abt-vc-main" kind="show" identifier="showAbout" id="seg-pr-abt"/>
                         <segue destination="change-vc" kind="show" identifier="showChangePassword" id="seg-pr-chg"/>
@@ -5125,6 +5160,20 @@
                             <constraint firstItem="ntf-scroll" firstAttribute="leading" secondItem="ntf-safe" secondAttribute="leading" id="ntfc-a9"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="firstSubtitleLabel" destination="ntf-r1-s" id="ntf-out-1s"/>
+                        <outlet property="firstSwitch" destination="ntf-sw-1" id="ntf-out-sw1"/>
+                        <outlet property="firstTitleLabel" destination="ntf-r1-t" id="ntf-out-1t"/>
+                        <outlet property="fourthSubtitleLabel" destination="ntf-r4-s" id="ntf-out-4s"/>
+                        <outlet property="fourthSwitch" destination="ntf-sw-4" id="ntf-out-sw4"/>
+                        <outlet property="fourthTitleLabel" destination="ntf-r4-t" id="ntf-out-4t"/>
+                        <outlet property="secondSubtitleLabel" destination="ntf-r2-s" id="ntf-out-2s"/>
+                        <outlet property="secondSwitch" destination="ntf-sw-2" id="ntf-out-sw2"/>
+                        <outlet property="secondTitleLabel" destination="ntf-r2-t" id="ntf-out-2t"/>
+                        <outlet property="thirdSubtitleLabel" destination="ntf-r3-s" id="ntf-out-3s"/>
+                        <outlet property="thirdSwitch" destination="ntf-sw-3" id="ntf-out-sw3"/>
+                        <outlet property="thirdTitleLabel" destination="ntf-r3-t" id="ntf-out-3t"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ntf-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -54,6 +54,7 @@ enum AppLogicError: LocalizedError {
 
 final class AppMockStore {
     static let shared = AppMockStore()
+    private static let sessionEmailKey = "batapp.currentUserEmail"
 
     private(set) var currentUser: User?
     private var users: [User] = []
@@ -70,12 +71,17 @@ final class AppMockStore {
             throw AppLogicError.invalidCredentials
         }
         currentUser = user
+        UserDefaults.standard.set(user.email, forKey: Self.sessionEmailKey)
         appendSystemLog(title: "Đăng nhập", message: "\(user.username) đã đăng nhập vào hệ thống.")
         return user
     }
 
     func logout() {
+        if let user = currentUser {
+            appendSystemLog(title: "Đăng xuất", message: "\(user.username) đã đăng xuất khỏi hệ thống.")
+        }
         currentUser = nil
+        UserDefaults.standard.removeObject(forKey: Self.sessionEmailKey)
     }
 
     func register(name: String, email: String, password: String) throws -> User {
@@ -234,15 +240,63 @@ final class AppMockStore {
             .sorted { $0.createdAt > $1.createdAt }
     }
 
+    func systemLogs() -> [AppNotificationItem] {
+        notifications
+            .filter { $0.userId == "system-log" }
+            .sorted { $0.createdAt > $1.createdAt }
+    }
+
+    func totalRevenue() -> Double {
+        bookings
+            .filter { $0.status == .fullyPaid || $0.status == .active }
+            .reduce(0) { $0 + $1.totalPrice }
+    }
+
+    func bookingCount() -> Int {
+        bookings.count
+    }
+
+    func paidBookingCount() -> Int {
+        bookings.filter { $0.status == .fullyPaid || $0.status == .active }.count
+    }
+
+    func userCount() -> Int {
+        users.count
+    }
+
+    func latestBookingSummary() -> String {
+        guard let booking = latestBooking() else {
+            return "Bạn chưa có booking nào."
+        }
+        return "\(booking.id) • \(booking.courtName) • \(Self.currencyFormatter.string(from: NSNumber(value: booking.totalPrice)) ?? "0 đ")"
+    }
+
+    func membershipSummary() -> String {
+        guard let user = currentUser else {
+            return "Chưa có dữ liệu thành viên."
+        }
+        let level: String
+        switch user.walletBalance {
+        case 500_000...:
+            level = "Gold"
+        case 200_000...:
+            level = "Silver"
+        default:
+            level = "Standard"
+        }
+        return "\(level) • Ví \(Self.currencyFormatter.string(from: NSNumber(value: user.walletBalance)) ?? "0 đ")"
+    }
+
     private func seedData() {
         let now = Date()
         let demoUsers = [
             User(id: UUID().uuidString, email: "user@batapp.vn", username: "Nguyen Van A", password: "12345678", role: .user, walletBalance: 250_000, createdAt: now, updatedAt: now),
             User(id: UUID().uuidString, email: "admin@batapp.vn", username: "Admin BatApp", password: "12345678", role: .admin, walletBalance: 0, createdAt: now, updatedAt: now),
-            User(id: UUID().uuidString, email: "staff@batapp.vn", username: "Staff BatApp", password: "12345678", role: .staff, walletBalance: 0, createdAt: now, updatedAt: now)
+            User(id: UUID().uuidString, email: "staff@batapp.vn", username: "Staff BatApp", password: "12345678", role: .staff, walletBalance: 0, createdAt: now, updatedAt: now),
+            User(id: UUID().uuidString, email: "123@gmail.com", username: "123", password: "19296ttk", role: .user, walletBalance: 120_000, createdAt: now, updatedAt: now)
         ]
         users = demoUsers
-        currentUser = demoUsers[0]
+        restoreSessionIfNeeded()
 
         let booking = BookingRecord(
             id: Self.makeBookingCode(),
@@ -262,6 +316,14 @@ final class AppMockStore {
             message: "Bạn đang có 1 booking đã thanh toán và sẵn sàng check-in."
         )
         appendSystemLog(title: "Khởi tạo dữ liệu mẫu", message: "Đã nạp dữ liệu demo cho ứng dụng.")
+    }
+
+    private func restoreSessionIfNeeded() {
+        guard let email = UserDefaults.standard.string(forKey: Self.sessionEmailKey) else {
+            currentUser = nil
+            return
+        }
+        currentUser = users.first(where: { $0.email.lowercased() == email.lowercased() })
     }
 
     private func appendNotification(userId: String, title: String, message: String) {

@@ -1,6 +1,7 @@
 import UIKit
 
 final class AboutViewController: StoryboardScreenViewController {
+    private let store = AppMockStore.shared
 
     override var screenTitleText: String {
         "Về ứng dụng"
@@ -13,8 +14,8 @@ final class AboutViewController: StoryboardScreenViewController {
     override var screenHighlights: [String] {
         [
             "Thông tin nhóm phát triển",
-            "Phiên bản ứng dụng",
-            "Mô tả tính năng chính"
+            "Phiên bản demo nội bộ: 1.0",
+            "Số người dùng mẫu đã nạp: \(store.userCount())"
         ]
     }
 }

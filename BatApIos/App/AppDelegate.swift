@@ -11,7 +11,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
 #if DEBUG
         if let options = FirebaseApp.app()?.options {
-            print("[Firebase] projectID=\(options.projectID ?? "nil"), appID=\(options.googleAppID), gcmSenderID=\(options.gcmSenderID ?? "nil")")
+            print("[Firebase] projectID=\(options.projectID ?? "nil"), appID=\(options.googleAppID), gcmSenderID=\(options.gcmSenderID)")
         } else {
             print("[Firebase] FirebaseApp chưa được cấu hình đúng cách")
         }
