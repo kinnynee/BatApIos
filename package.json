@@ -1,0 +1,17 @@
+{
+  "name": "backend-qlscl-apios",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Firebase backend starter for iOS/Xcode court booking app",
+  "main": "scripts/seed-firestore.js",
+  "scripts": {
+    "seed": "node scripts/seed-firestore.js",
+    "seed:check": "node scripts/seed-firestore.js --dry-run"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.0"
+  }
+}

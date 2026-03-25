@@ -1,0 +1,140 @@
+{
+  "users": [
+    {
+      "id": "admin_001",
+      "fullName": "Nguyen Van Admin",
+      "email": "admin@qlscl.app",
+      "phone": "0901000001",
+      "role": "admin",
+      "status": "active",
+      "avatarUrl": "",
+      "createdAt": "2026-03-26T08:00:00.000Z",
+      "updatedAt": "2026-03-26T08:00:00.000Z"
+    },
+    {
+      "id": "staff_001",
+      "fullName": "Tran Thi Staff",
+      "email": "staff@qlscl.app",
+      "phone": "0901000002",
+      "role": "staff",
+      "status": "active",
+      "avatarUrl": "",
+      "createdAt": "2026-03-26T08:05:00.000Z",
+      "updatedAt": "2026-03-26T08:05:00.000Z"
+    },
+    {
+      "id": "user_001",
+      "fullName": "Le Minh User",
+      "email": "user1@qlscl.app",
+      "phone": "0901000003",
+      "role": "user",
+      "status": "active",
+      "avatarUrl": "",
+      "createdAt": "2026-03-26T08:10:00.000Z",
+      "updatedAt": "2026-03-26T08:10:00.000Z"
+    },
+    {
+      "id": "user_002",
+      "fullName": "Pham Ngoc Player",
+      "email": "user2@qlscl.app",
+      "phone": "0901000004",
+      "role": "user",
+      "status": "active",
+      "avatarUrl": "",
+      "createdAt": "2026-03-26T08:15:00.000Z",
+      "updatedAt": "2026-03-26T08:15:00.000Z"
+    }
+  ],
+  "courts": [
+    {
+      "id": "court_vip_01",
+      "name": "San VIP 01",
+      "courtType": "vip",
+      "surfaceType": "synthetic_grass",
+      "pricePerHour": 500000,
+      "capacity": 14,
+      "status": "available",
+      "description": "San chat luong cao, den san day du.",
+      "imageUrls": [],
+      "createdAt": "2026-03-26T08:20:00.000Z",
+      "updatedAt": "2026-03-26T08:20:00.000Z"
+    },
+    {
+      "id": "court_bth_01",
+      "name": "San Thuong 01",
+      "courtType": "bth",
+      "surfaceType": "synthetic_grass",
+      "pricePerHour": 300000,
+      "capacity": 14,
+      "status": "available",
+      "description": "San tieu chuan phu hop da giao huu.",
+      "imageUrls": [],
+      "createdAt": "2026-03-26T08:25:00.000Z",
+      "updatedAt": "2026-03-26T08:25:00.000Z"
+    }
+  ],
+  "bookings": [
+    {
+      "id": "booking_001",
+      "userId": "user_001",
+      "courtId": "court_vip_01",
+      "bookingCode": "BK-20260326-001",
+      "bookingDate": "2026-03-27",
+      "startTime": "18:00",
+      "endTime": "19:30",
+      "durationHours": 1.5,
+      "pricePerHour": 500000,
+      "totalAmount": 750000,
+      "bookingStatus": "confirmed",
+      "paymentStatus": "paid",
+      "note": "Dat san cho tran giao huu buoi toi.",
+      "createdBy": "staff_001",
+      "createdAt": "2026-03-26T09:00:00.000Z",
+      "updatedAt": "2026-03-26T09:05:00.000Z"
+    },
+    {
+      "id": "booking_002",
+      "userId": "user_002",
+      "courtId": "court_bth_01",
+      "bookingCode": "BK-20260326-002",
+      "bookingDate": "2026-03-28",
+      "startTime": "07:00",
+      "endTime": "08:00",
+      "durationHours": 1,
+      "pricePerHour": 300000,
+      "totalAmount": 300000,
+      "bookingStatus": "pending",
+      "paymentStatus": "unpaid",
+      "note": "Khach dat san buoi sang.",
+      "createdBy": "user_002",
+      "createdAt": "2026-03-26T09:10:00.000Z",
+      "updatedAt": "2026-03-26T09:10:00.000Z"
+    }
+  ],
+  "payments": [
+    {
+      "id": "payment_001",
+      "bookingId": "booking_001",
+      "userId": "user_001",
+      "amount": 750000,
+      "paymentMethod": "cash",
+      "paymentStatus": "paid",
+      "transactionCode": "PAY-20260326-001",
+      "paidAt": "2026-03-26T09:06:00.000Z",
+      "createdAt": "2026-03-26T09:06:00.000Z",
+      "updatedAt": "2026-03-26T09:06:00.000Z"
+    },
+    {
+      "id": "payment_002",
+      "bookingId": "booking_002",
+      "userId": "user_002",
+      "amount": 300000,
+      "paymentMethod": "bank_transfer",
+      "paymentStatus": "pending",
+      "transactionCode": "PAY-20260326-002",
+      "paidAt": null,
+      "createdAt": "2026-03-26T09:15:00.000Z",
+      "updatedAt": "2026-03-26T09:15:00.000Z"
+    }
+  ]
+}
