@@ -2,6 +2,93 @@
 
 Day la bo khoi tao backend dung Firebase de ket noi voi app mobile iOS cho bai toan dat san.
 
+## API backend
+
+Chay server local:
+
+```bash
+npm start
+```
+
+Mac dinh server chay o:
+
+```txt
+http://localhost:3000
+```
+
+Kiem tra nhanh:
+
+```bash
+GET /health
+```
+
+### API co san
+
+- `GET /api/users`
+- `GET /api/users/:id`
+- `POST /api/users`
+- `PATCH /api/users/:id`
+- `GET /api/courts`
+- `GET /api/courts/:id`
+- `POST /api/courts`
+- `PATCH /api/courts/:id`
+- `GET /api/bookings`
+- `GET /api/bookings/:id`
+- `POST /api/bookings`
+- `PATCH /api/bookings/:id`
+- `GET /api/payments`
+- `GET /api/payments/:id`
+- `POST /api/payments`
+- `PATCH /api/payments/:id`
+
+### Query filter ho tro
+
+- `GET /api/users?role=admin&status=active`
+- `GET /api/courts?courtType=vip&status=available`
+- `GET /api/bookings?userId=user_001&bookingDate=2026-03-27`
+- `GET /api/payments?bookingId=booking_001&paymentStatus=paid`
+
+### Vi du tao court
+
+```json
+POST /api/courts
+{
+  "id": "court_vip_02",
+  "name": "San VIP 02",
+  "courtType": "vip",
+  "surfaceType": "synthetic_grass",
+  "pricePerHour": 550000,
+  "capacity": 14,
+  "status": "available",
+  "description": "San danh cho khung gio cao diem.",
+  "imageUrls": []
+}
+```
+
+### Vi du tao booking
+
+```json
+POST /api/bookings
+{
+  "id": "booking_003",
+  "userId": "user_001",
+  "courtId": "court_vip_01",
+  "bookingCode": "BK-20260326-003",
+  "bookingDate": "2026-03-29",
+  "startTime": "19:00",
+  "endTime": "20:30",
+  "durationHours": 1.5,
+  "pricePerHour": 500000,
+  "totalAmount": 750000,
+  "bookingStatus": "pending",
+  "paymentStatus": "unpaid",
+  "note": "Dat san tu app iOS.",
+  "createdBy": "user_001"
+}
+```
+
+API `bookings` co kiem tra trung lich theo `courtId`, `bookingDate`, `startTime`, `endTime`. Neu bi trung khung gio, server tra ve `409`.
+
 ## 1. Muc tieu phien ban dau
 
 - Quan ly nguoi dung theo 3 vai tro: `admin`, `staff`, `user`
