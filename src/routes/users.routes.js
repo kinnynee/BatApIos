@@ -36,13 +36,20 @@ async function handleUsersRoute(req, res, pathname, query, body) {
   }
 
   if (req.method === "POST" && !id) {
-    const validation = requireFields(body, ["id", "fullName", "email", "role", "status"]);
+    const validation = requireFields(body, ["id", "fullName", "email"]);
     if (!validation.valid) {
       sendError(res, 400, "Missing required user fields", validation.missingFields);
       return true;
     }
 
-    const user = await createUser(body.id, body);
+    const user = await createUser(body.id, {
+      fullName: body.fullName,
+      email: body.email,
+      phone: body.phone ?? "",
+      avatarUrl: body.avatarUrl ?? "",
+      role: body.role ?? "user",
+      status: body.status ?? "active"
+    });
     sendJson(res, 201, { success: true, data: user });
     return true;
   }

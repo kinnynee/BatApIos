@@ -24,6 +24,9 @@ GET /health
 
 ### API co san
 
+- `POST /api/auth/login`
+- `POST /api/auth/sync-user`
+- `GET /api/auth/profile/:uid`
 - `GET /api/users`
 - `GET /api/users/:id`
 - `POST /api/users`
@@ -40,6 +43,85 @@ GET /health
 - `GET /api/payments/:id`
 - `POST /api/payments`
 - `PATCH /api/payments/:id`
+
+### Login API cho Postman va Xcode
+
+Neu ban muon backend tu dang nhap bang `email/password`, goi:
+
+```json
+POST /api/auth/login
+{
+  "email": "admin@qlscl.app",
+  "password": "your-password"
+}
+```
+
+Response thanh cong:
+
+```json
+{
+  "success": true,
+  "data": {
+    "uid": "firebase_uid_thuc_te",
+    "email": "admin@qlscl.app",
+    "idToken": "firebase-id-token",
+    "refreshToken": "firebase-refresh-token",
+    "expiresIn": "3600",
+    "registered": true,
+    "profile": {
+      "id": "firebase_uid_thuc_te",
+      "role": "admin",
+      "status": "active"
+    }
+  }
+}
+```
+
+App iOS co the dua vao `data.profile.role` de mo giao dien admin hay user.
+
+### Luong dang nhap cho Xcode
+
+Sau khi user dang nhap bang Firebase Auth trong iOS, app lay `uid`, `email`, `displayName`, `phoneNumber`, `photoURL` roi goi:
+
+```json
+POST /api/auth/sync-user
+{
+  "uid": "firebase_uid_thuc_te",
+  "fullName": "Nguyen Van B",
+  "email": "nguyenvanb@gmail.com",
+  "phone": "0912345678",
+  "avatarUrl": ""
+}
+```
+
+Server se:
+
+- Tu dong tao user neu chua co
+- Tu dong dat `role = user`
+- Tu dong dat `status = active`
+- Neu email nam trong bien moi truong `ADMIN_EMAILS`, role se la `admin`
+- Neu tai khoan da ton tai va dang la `admin`, server giu nguyen role admin
+
+Sau do Xcode goi:
+
+```txt
+GET /api/auth/profile/:uid
+```
+
+Neu response tra ve:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "firebase_uid_thuc_te",
+    "role": "admin",
+    "status": "active"
+  }
+}
+```
+
+thi app co the mo giao dien quan ly san cho admin. Neu `role = user` thi mo giao dien khach hang.
 
 ### Query filter ho tro
 
