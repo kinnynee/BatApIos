@@ -12,6 +12,18 @@
     "node": ">=18"
   },
   "dependencies": {
-    "firebase-admin": "^13.0.0"
-  }
+    "firebase-admin": "^13.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kinnynee/BatApIos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/kinnynee/BatApIos/issues"
+  },
+  "homepage": "https://github.com/kinnynee/BatApIos#readme"
 }
