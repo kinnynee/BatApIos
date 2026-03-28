@@ -6,6 +6,7 @@ final class ChangePasswordViewController: UIViewController {
     @IBOutlet private weak var newPasswordTextField: UITextField!
     @IBOutlet private weak var confirmPasswordTextField: UITextField!
     private let store = AppMockStore.shared
+    private let authService = FirebaseAuthService.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +21,7 @@ final class ChangePasswordViewController: UIViewController {
     }
 
     @IBAction private func backButtonTapped(_ sender: UIButton) {
-        dismiss(animated: true)
+        handleBackNavigation()
     }
 
     @IBAction private func updatePasswordTapped(_ sender: UIButton) {
@@ -51,13 +52,23 @@ final class ChangePasswordViewController: UIViewController {
             return
         }
 
-        do {
-            try store.changePassword(currentPassword: currentPassword, newPassword: newPassword)
-            showAlert(title: "Thành công", message: "Mật khẩu đã được cập nhật.") {
-                self.dismiss(animated: true)
+        Task { [weak self] in
+            guard let self else { return }
+
+            do {
+                try await authService.changePassword(currentPassword: currentPassword, newPassword: newPassword)
+                store.updateCurrentUserPassword(newPassword)
+
+                await MainActor.run {
+                    self.showAlert(title: "Thành công", message: "Mật khẩu đã được cập nhật.") {
+                        self.handleBackNavigation()
+                    }
+                }
+            } catch {
+                await MainActor.run {
+                    self.showAlert(title: "Không thể đổi mật khẩu", message: error.localizedDescription)
+                }
             }
-        } catch {
-            showAlert(title: "Không thể đổi mật khẩu", message: error.localizedDescription)
         }
     }
 }

@@ -8,6 +8,7 @@ class LoginViewController: UIViewController {
     
     var isPasswordVisible = false
     private let store = AppMockStore.shared
+    private let authService = BackendAuthService.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,13 +40,28 @@ class LoginViewController: UIViewController {
             return
         }
 
-        do {
-            let user = try store.login(email: email, password: password)
-            showAlert(title: "Thành công", message: "Đăng nhập thành công!") {
-                self.routeToNextScreen(for: user)
+        Task { [weak self] in
+            guard let self else { return }
+
+            do {
+                let loginData = try await authService.login(email: email, password: password)
+                let syncedUser = store.syncAuthenticatedUser(
+                    email: loginData.email,
+                    displayName: loginData.profile.fullName ?? loginData.email,
+                    firebaseUID: loginData.uid,
+                    role: authService.userRole(from: loginData.profile.role ?? "user")
+                )
+
+                await MainActor.run {
+                    self.showAlert(title: "Thành công", message: "Đăng nhập thành công!") {
+                        self.routeToNextScreen(for: syncedUser)
+                    }
+                }
+            } catch {
+                await MainActor.run {
+                    self.showAlert(title: "Đăng nhập thất bại", message: error.localizedDescription)
+                }
             }
-        } catch {
-            showAlert(title: "Đăng nhập thất bại", message: error.localizedDescription)
         }
     }
     
@@ -83,4 +99,3 @@ class LoginViewController: UIViewController {
         present(nextViewController, animated: true)
     }
 }
-//up

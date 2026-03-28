@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="main-tab-bar-controller">
-    <device id="retina6_12" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24765" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_12" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24743"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -803,7 +803,7 @@
                                 <rect key="frame" x="24" y="140" width="345" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
-                                    <segment title="Thành Công"/>
+                                    <segment title=""/>
                                     <segment title="Đang đặt"/>
                                     <segment title="Hoàn tiền"/>
                                 </segments>
@@ -817,7 +817,7 @@
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Đang đặt">
+                                <buttonConfiguration key="configuration" style="plain" title="">
                                     <backgroundConfiguration key="background">
                                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                                     </backgroundConfiguration>
@@ -829,7 +829,7 @@
                                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" systemColor="darkTextColor"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Hủy">
+                                <buttonConfiguration key="configuration" style="plain" title="">
                                     <backgroundConfiguration key="background">
                                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                                     </backgroundConfiguration>
@@ -849,11 +849,11 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1oE-6q-iWX">
-                                                    <rect key="frame" x="16" y="8" width="64" height="64"/>
+                                                    <rect key="frame" x="16" y="8" width="95" height="64"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" distribution="fillEqually" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="pIA-zY-BVN">
-                                                    <rect key="frame" x="119.00000000000003" y="16" width="59.333333333333343" height="20.333333333333329"/>
+                                                    <rect key="frame" x="119.00000000000001" y="16" width="59.333333333333329" height="20.333333333333329"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tên sân" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0x5-3s-kBA">
                                                             <rect key="frame" x="0.0" y="0.0" width="59.333333333333336" height="20.333333333333332"/>
@@ -894,13 +894,16 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Lịch sử" image="clock.fill" catalog="system" id="tab-p-1"/>
                     <connections>
+                        <outlet property="legacyHeaderView" destination="pIm-sd-OcZ" id="payment-legacy-header-outlet"/>
+                        <outlet property="legacyOverlayButtonOne" destination="vIn-jd-9G6" id="payment-legacy-button-one"/>
+                        <outlet property="legacyOverlayButtonTwo" destination="GPh-R4-Uul" id="payment-legacy-button-two"/>
                         <outlet property="segmentedControl" destination="pay-segmented-control" id="payment-segment-outlet"/>
                         <outlet property="tableView" destination="sny-OR-27y" id="payment-table-outlet"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9JG-1r-kqY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8995" y="-27"/>
+            <point key="canvasLocation" x="8994.6564885496173" y="-27.464788732394368"/>
         </scene>
         <!--Calendar View Controller-->
         <scene sceneID="calendar-scene">
@@ -1448,6 +1451,7 @@
                         <outlet property="checkTransfer" destination="img-chk-transfer" id="out-ctrans"/>
                         <outlet property="checkVisa" destination="img-chk-visa" id="out-cvisa"/>
                         <outlet property="checkZalo" destination="img-chk-zalo" id="out-czalo"/>
+                        <outlet property="methodsStackView" destination="pay-stk-methods" id="out-pstack"/>
                         <outlet property="scrollView" destination="pay-scroll" id="out-pscroll"/>
                         <outlet property="viewATM" destination="pay-v-atm" id="out-vatm"/>
                         <outlet property="viewMomo" destination="pay-v-momo" id="out-vmomo"/>
@@ -2078,7 +2082,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="notificationButtonTapped:" destination="home-vc-main" eventType="touchUpInside" id="home2-act-bell"/>
+                                            <action selector="notificationButtonTapped:" destination="home2-vc-main" eventType="touchUpInside" id="home2-act-bell"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -2316,6 +2320,10 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Trang chủ" image="house.fill" catalog="system" id="tab-h-1"/>
                     <connections>
+                        <outlet property="firstCourtCardView" destination="home2-view-card1" id="home2-out-card1"/>
+                        <outlet property="greetingLabel" destination="home2-lbl-greeting" id="home2-out-greet"/>
+                        <outlet property="nameLabel" destination="home2-lbl-name" id="home2-out-name"/>
+                        <outlet property="secondCourtCardView" destination="home2-view-card2" id="home2-out-card2"/>
                         <segue destination="ntf-vc-main" kind="show" identifier="showNotifications" id="seg-h-ntf"/>
                     </connections>
                 </viewController>
@@ -4032,6 +4040,9 @@
                                                                         <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     </userDefinedRuntimeAttribute>
                                                                 </userDefinedRuntimeAttributes>
+                                                                <connections>
+                                                                    <action selector="changeAvatarTapped:" destination="prof-vc-main" eventType="touchUpInside" id="prof-edit-avatar-action"/>
+                                                                </connections>
                                                             </button>
                                                         </subviews>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -4567,6 +4578,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Cá nhân" image="person.fill" catalog="system" id="tab-pr-1"/>
                     <connections>
+                        <outlet property="avatarImageView" destination="prof-img-avatar" id="prof-out-avatar"/>
                         <outlet property="bookingsCountLabel" destination="pst1-l2" id="prof-out-bookings"/>
                         <outlet property="bookingsSubtitleLabel" destination="pst1-l3" id="prof-out-bookings-sub"/>
                         <outlet property="membershipLabel" destination="pst2-l3" id="prof-out-membership"/>
@@ -7405,6 +7417,11 @@ All rights reserved.</string>
                             <constraint firstItem="adm-scroll" firstAttribute="leading" secondItem="adm-safe" secondAttribute="leading" id="admc-m9"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="adminNameLabel" destination="adm-lbl-name" id="adm-out-name"/>
+                        <outlet property="contentHeightConstraint" destination="admc-cv1" id="adm-out-height"/>
+                        <outlet property="mainContentStack" destination="adm-stk-main" id="adm-out-stack"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="adm-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

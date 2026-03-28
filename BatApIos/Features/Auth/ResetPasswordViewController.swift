@@ -20,7 +20,7 @@ class ResetPasswordViewController: UIViewController {
     }
 
     @IBAction func backButtonTapped(_ sender: UIButton) {
-        self.dismiss(animated: true)
+        handleBackNavigation()
     }
     
     @IBAction func toggleNewPasswordVisibility(_ sender: UIButton) {
@@ -57,7 +57,7 @@ class ResetPasswordViewController: UIViewController {
         do {
             try store.resetPassword(email: emailAddress ?? "", newPassword: newPass)
             showAlert(title: "Thành công", message: "Đổi mật khẩu thành công! Bạn có thể đăng nhập ngay bây giờ.") {
-                self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+                self.handleBackNavigation()
             }
         } catch {
             showAlert(title: "Không thể đổi mật khẩu", message: error.localizedDescription)

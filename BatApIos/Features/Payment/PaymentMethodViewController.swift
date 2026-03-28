@@ -36,6 +36,7 @@ final class PaymentMethodViewController: UIViewController {
     @IBOutlet private weak var bookingIdLabel: UILabel!
     @IBOutlet private weak var backButton: UIButton!
     @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet private weak var methodsStackView: UIStackView!
 
     @IBOutlet private weak var checkATM: UIImageView!
     @IBOutlet private weak var checkMomo: UIImageView!
@@ -66,6 +67,8 @@ final class PaymentMethodViewController: UIViewController {
 
     private var selectedMethod: PaymentMethod = .momo
     private let store = AppMockStore.shared
+    private let bookingsService = BackendBookingsService.shared
+    private lazy var paymentInfoCard = makePaymentInfoCard()
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -78,9 +81,21 @@ final class PaymentMethodViewController: UIViewController {
 
     // MARK: - Setup
     private func configureUI() {
-        amountLabel.text = Self.currencyFormatter.string(from: NSNumber(value: amountToPay)) ?? "0 đ"
-        bookingIdLabel.text = bookingId
+        if let summary = store.paymentSummary(for: bookingId) {
+            amountLabel.text = summary.totalText
+            bookingIdLabel.text = summary.bookingID
+            configurePaymentInfoCard(with: summary)
+            confirmButton?.configuration?.title = "Thanh toán \(summary.totalText)"
+        } else {
+            amountLabel.text = Self.currencyFormatter.string(from: NSNumber(value: amountToPay)) ?? "0 đ"
+            bookingIdLabel.text = bookingId
+            configureBackendPaymentInfoCard()
+        }
         configureConfirmButtonAppearance()
+
+        if methodsStackView?.arrangedSubviews.contains(paymentInfoCard) == false {
+            methodsStackView?.insertArrangedSubview(paymentInfoCard, at: 1)
+        }
 
         let mappings: [(UIView, PaymentMethod)] = [
             (viewATM, .atm),
@@ -129,7 +144,7 @@ final class PaymentMethodViewController: UIViewController {
 
     private func configureConfirmButtonAppearance() {
         var configuration = UIButton.Configuration.filled()
-        configuration.title = "Xác nhận thanh toán"
+        configuration.title = confirmButton?.configuration?.title ?? "Xác nhận thanh toán"
         configuration.cornerStyle = .large
         configuration.baseBackgroundColor = UIColor(
             red: 0.345,
@@ -144,6 +159,100 @@ final class PaymentMethodViewController: UIViewController {
             alpha: 1
         )
         confirmButton?.configuration = configuration
+    }
+
+    private func makePaymentInfoCard() -> UIStackView {
+        let card = UIStackView()
+        card.axis = .vertical
+        card.spacing = 12
+        card.backgroundColor = .secondarySystemBackground
+        card.isLayoutMarginsRelativeArrangement = true
+        card.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        card.layer.cornerRadius = 18
+        card.layer.borderWidth = 1
+        card.layer.borderColor = UIColor.systemGray5.cgColor
+        return card
+    }
+
+    private func configurePaymentInfoCard(with summary: PaymentSummary) {
+        paymentInfoCard.arrangedSubviews.forEach { view in
+            paymentInfoCard.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+
+        let titleLabel = UILabel()
+        titleLabel.font = .boldSystemFont(ofSize: 16)
+        titleLabel.text = "Thông tin thanh toán"
+
+        let courtLabel = UILabel()
+        courtLabel.font = .systemFont(ofSize: 15, weight: .semibold)
+        courtLabel.text = summary.courtName
+
+        let scheduleLabel = UILabel()
+        scheduleLabel.font = .systemFont(ofSize: 13)
+        scheduleLabel.textColor = .secondaryLabel
+        scheduleLabel.numberOfLines = 0
+        scheduleLabel.text = "\(summary.bookingID) • \(summary.scheduleText)"
+
+        let statusBadge = UILabel()
+        statusBadge.font = .systemFont(ofSize: 12, weight: .bold)
+        statusBadge.textColor = summary.status.tintColor
+        statusBadge.text = summary.status.title.uppercased()
+
+        paymentInfoCard.addArrangedSubview(titleLabel)
+        paymentInfoCard.addArrangedSubview(courtLabel)
+        paymentInfoCard.addArrangedSubview(scheduleLabel)
+        paymentInfoCard.addArrangedSubview(statusBadge)
+        paymentInfoCard.addArrangedSubview(makeInfoRow(title: "Tạm tính", value: summary.subtotalText))
+        paymentInfoCard.addArrangedSubview(makeInfoRow(title: "Giảm giá", value: summary.discountText))
+        paymentInfoCard.addArrangedSubview(makeInfoRow(title: "Tổng thanh toán", value: summary.totalText, emphasize: true))
+        paymentInfoCard.addArrangedSubview(makeInfoRow(title: "Phương thức hiện tại", value: summary.paymentMethodText))
+    }
+
+    private func configureBackendPaymentInfoCard() {
+        paymentInfoCard.arrangedSubviews.forEach { view in
+            paymentInfoCard.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+
+        let titleLabel = UILabel()
+        titleLabel.font = .boldSystemFont(ofSize: 16)
+        titleLabel.text = "Thông tin thanh toán"
+
+        let bookingLabel = UILabel()
+        bookingLabel.font = .systemFont(ofSize: 15, weight: .semibold)
+        bookingLabel.text = "Booking #\(bookingId)"
+
+        let amountText = Self.currencyFormatter.string(from: NSNumber(value: amountToPay)) ?? "0 đ"
+        let helperLabel = UILabel()
+        helperLabel.font = .systemFont(ofSize: 13)
+        helperLabel.textColor = .secondaryLabel
+        helperLabel.numberOfLines = 0
+        helperLabel.text = "Booking được tạo từ backend. Xác nhận thanh toán sẽ cập nhật paymentStatus thật trên server."
+
+        paymentInfoCard.addArrangedSubview(titleLabel)
+        paymentInfoCard.addArrangedSubview(bookingLabel)
+        paymentInfoCard.addArrangedSubview(helperLabel)
+        paymentInfoCard.addArrangedSubview(makeInfoRow(title: "Tổng thanh toán", value: amountText, emphasize: true))
+        paymentInfoCard.addArrangedSubview(makeInfoRow(title: "Phương thức sẽ dùng", value: displayName(for: selectedMethod)))
+    }
+
+    private func makeInfoRow(title: String, value: String, emphasize: Bool = false) -> UIStackView {
+        let titleLabel = UILabel()
+        titleLabel.font = .systemFont(ofSize: 13, weight: emphasize ? .semibold : .regular)
+        titleLabel.textColor = .secondaryLabel
+        titleLabel.text = title
+
+        let valueLabel = UILabel()
+        valueLabel.font = .systemFont(ofSize: emphasize ? 16 : 13, weight: emphasize ? .bold : .semibold)
+        valueLabel.textColor = emphasize ? .label : .secondaryLabel
+        valueLabel.text = value
+        valueLabel.textAlignment = .right
+
+        let row = UIStackView(arrangedSubviews: [titleLabel, valueLabel])
+        row.axis = .horizontal
+        row.distribution = .equalSpacing
+        return row
     }
 
     // MARK: - Actions
@@ -167,29 +276,7 @@ final class PaymentMethodViewController: UIViewController {
     }
 
     @objc private func backButtonTapped() {
-        if let navigationController {
-            if let bookingViewController = navigationController.viewControllers.first(where: { $0 is NewCourtBookingViewController }) {
-                navigationController.popToViewController(bookingViewController, animated: true)
-                return
-            }
-
-            if let bookingViewController = UIStoryboard(name: Self.storyboardName, bundle: nil)
-                .instantiateViewController(withIdentifier: "NewCourtBookingVC") as? NewCourtBookingViewController {
-                var updatedStack = navigationController.viewControllers
-                if !updatedStack.isEmpty {
-                    updatedStack.removeLast()
-                }
-                updatedStack.append(bookingViewController)
-                navigationController.setViewControllers(updatedStack, animated: true)
-                return
-            }
-        }
-
-        if presentingViewController != nil {
-            dismiss(animated: true)
-        } else {
-            navigationController?.popViewController(animated: true)
-        }
+        handleBackNavigation()
     }
 
     @objc private func confirmButtonPressed(_ sender: UIButton) {
@@ -197,15 +284,51 @@ final class PaymentMethodViewController: UIViewController {
     }
 
     @IBAction private func confirmPaymentTapped(_ sender: UIButton) {
-        do {
-            let booking = try store.confirmPayment(for: bookingId, methodName: displayName(for: selectedMethod))
-            let successViewController = BookingSuccessViewController()
-            successViewController.bookingCode = booking.id
-            navigationController?.pushViewController(successViewController, animated: true)
-        } catch {
-            let alert = UIAlertController(title: "Không thể thanh toán", message: error.localizedDescription, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Đóng", style: .default))
-            present(alert, animated: true)
+        if store.paymentSummary(for: bookingId) != nil {
+            do {
+                let booking = try store.confirmPayment(for: bookingId, methodName: displayName(for: selectedMethod))
+                let successViewController = BookingSuccessViewController()
+                successViewController.bookingCode = booking.id
+                navigationController?.pushViewController(successViewController, animated: true)
+            } catch {
+                let alert = UIAlertController(title: "Không thể thanh toán", message: error.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Đóng", style: .default))
+                present(alert, animated: true)
+            }
+            return
+        }
+
+        confirmButton?.isEnabled = false
+        confirmButton?.configuration?.showsActivityIndicator = true
+
+        Task { [weak self] in
+            guard let self else { return }
+
+            do {
+                let updatedBooking = try await bookingsService.updateBookingStatus(
+                    bookingId: bookingId,
+                    bookingStatus: "Fully Paid",
+                    paymentStatus: "Paid"
+                )
+
+                await MainActor.run {
+                    self.confirmButton?.isEnabled = true
+                    self.confirmButton?.configuration?.showsActivityIndicator = false
+
+                    let successViewController = BookingSuccessViewController()
+                    successViewController.bookingCode = updatedBooking.id
+                    self.navigationController?.pushViewController(successViewController, animated: true)
+                }
+            } catch {
+                await MainActor.run {
+                    self.confirmButton?.isEnabled = true
+                    self.confirmButton?.configuration?.showsActivityIndicator = false
+
+                    let alert = UIAlertController(title: "Không thể thanh toán", message: error.localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Đóng", style: .default))
+                    self.present(alert, animated: true)
+                }
+            }
         }
     }
 
@@ -225,6 +348,10 @@ final class PaymentMethodViewController: UIViewController {
             view.backgroundColor = isSelected ? UIColor.systemMint.withAlphaComponent(0.08) : .systemBackground
             checkmark.image = UIImage(systemName: isSelected ? "checkmark.circle.fill" : "circle")
             checkmark.tintColor = isSelected ? .systemMint : .systemGray3
+        }
+
+        if store.paymentSummary(for: bookingId) == nil {
+            configureBackendPaymentInfoCard()
         }
     }
     
