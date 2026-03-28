@@ -7,6 +7,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var eyeButton: UIButton!
     
     var isPasswordVisible = false
+    var onLoginSuccess: (() -> Void)?
     private let store = AppMockStore.shared
     private let authService = BackendAuthService.shared
 
@@ -54,7 +55,11 @@ class LoginViewController: UIViewController {
 
                 await MainActor.run {
                     self.showAlert(title: "Thành công", message: "Đăng nhập thành công!") {
-                        self.routeToNextScreen(for: syncedUser)
+                        if let onLoginSuccess = self.onLoginSuccess {
+                            onLoginSuccess()
+                        } else {
+                            self.routeToNextScreen(for: syncedUser)
+                        }
                     }
                 }
             } catch {

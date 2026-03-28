@@ -12,6 +12,7 @@ final class StaffCheckInViewController: UIViewController {
 
     private var isFlashEnabled = false
     private let store = AppMockStore.shared
+    var prefilledBookingCode: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +30,13 @@ final class StaffCheckInViewController: UIViewController {
         timeLabel.text = "18:00 - 19:30"
 
         manualCodeTextField.delegate = self
+        manualCodeTextField.text = prefilledBookingCode
         flashButton.addTarget(self, action: #selector(toggleFlash), for: .touchUpInside)
         dismissKeyboardWhenTappedAround()
+
+        if let prefilledBookingCode, prefilledBookingCode.isEmpty == false {
+            lookupBooking()
+        }
     }
 
     @objc private func toggleFlash() {
