@@ -73,6 +73,40 @@
       "updatedAt": "2026-03-26T08:25:00.000Z"
     }
   ],
+  "vouchers": [
+    {
+      "id": "voucher_001",
+      "code": "CHAOHE2026",
+      "name": "Giảm 50K cho thành viên mới",
+      "discountType": "fixed_amount", 
+      "discountValue": 50000, 
+      "minOrderValue": 300000, 
+      "maxDiscountAmount": 50000,
+      "usageLimit": 100, 
+      "usedCount": 1, 
+      "startDate": "2026-03-01T00:00:00.000Z",
+      "endDate": "2026-04-30T23:59:59.000Z",
+      "status": "active",
+      "createdAt": "2026-03-26T10:00:00.000Z",
+      "updatedAt": "2026-03-26T10:00:00.000Z"
+    },
+    {
+      "id": "voucher_002",
+      "code": "VIP10",
+      "name": "Giảm 10% khi đặt sân VIP",
+      "discountType": "percentage",
+      "discountValue": 10,
+      "minOrderValue": 500000,
+      "maxDiscountAmount": 100000,
+      "usageLimit": 50,
+      "usedCount": 0,
+      "startDate": "2026-03-26T00:00:00.000Z",
+      "endDate": "2026-12-31T23:59:59.000Z",
+      "status": "active",
+      "createdAt": "2026-03-26T10:05:00.000Z",
+      "updatedAt": "2026-03-26T10:05:00.000Z"
+    }
+  ],
   "bookings": [
     {
       "id": "booking_001",
@@ -84,10 +118,13 @@
       "endTime": "19:30",
       "durationHours": 1.5,
       "pricePerHour": 500000,
-      "totalAmount": 750000,
+      "subTotal": 750000,
+      "voucherId": "voucher_001",
+      "discountAmount": 50000,
+      "totalAmount": 700000,
       "bookingStatus": "confirmed",
       "paymentStatus": "paid",
-      "note": "Dat san cho tran giao huu buoi toi.",
+      "note": "Dat san cho tran giao huu buoi toi (Da ap dung voucher).",
       "createdBy": "staff_001",
       "createdAt": "2026-03-26T09:00:00.000Z",
       "updatedAt": "2026-03-26T09:05:00.000Z"
@@ -102,6 +139,9 @@
       "endTime": "08:00",
       "durationHours": 1,
       "pricePerHour": 300000,
+      "subTotal": 300000,
+      "voucherId": null,
+      "discountAmount": 0,
       "totalAmount": 300000,
       "bookingStatus": "pending",
       "paymentStatus": "unpaid",
@@ -116,7 +156,7 @@
       "id": "payment_001",
       "bookingId": "booking_001",
       "userId": "user_001",
-      "amount": 750000,
+      "amount": 700000,
       "paymentMethod": "cash",
       "paymentStatus": "paid",
       "transactionCode": "PAY-20260326-001",
