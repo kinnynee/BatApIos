@@ -35,6 +35,11 @@ GET /health
 - `GET /api/courts/:id`
 - `POST /api/courts`
 - `PATCH /api/courts/:id`
+- `GET /api/vouchers`
+- `GET /api/vouchers/:id`
+- `POST /api/vouchers`
+- `PATCH /api/vouchers/:id`
+- `POST /api/vouchers/apply`
 - `GET /api/bookings`
 - `GET /api/bookings/:id`
 - `POST /api/bookings`
@@ -127,8 +132,74 @@ thi app co the mo giao dien quan ly san cho admin. Neu `role = user` thi mo giao
 
 - `GET /api/users?role=admin&status=active`
 - `GET /api/courts?courtType=vip&status=available`
+- `GET /api/vouchers?status=active`
 - `GET /api/bookings?userId=user_001&bookingDate=2026-03-27`
 - `GET /api/payments?bookingId=booking_001&paymentStatus=paid`
+
+### Vi du voucher
+
+Tao voucher giam tien:
+
+```json
+POST /api/vouchers
+{
+  "id": "voucher_007",
+  "code": "VIP20",
+  "name": "Giam 20% san VIP",
+  "description": "Ap dung cho san VIP",
+  "discountType": "percentage",
+  "discountValue": 20,
+  "minOrderValue": 500000,
+  "maxDiscountAmount": 150000,
+  "applicableCourtTypes": ["vip"],
+  "giftItems": [],
+  "usageLimit": 100,
+  "usedCount": 0,
+  "startDate": "2026-03-28T00:00:00.000Z",
+  "endDate": "2026-12-31T23:59:59.000Z",
+  "status": "active"
+}
+```
+
+Tao voucher tang nuoc mien phi:
+
+```json
+POST /api/vouchers
+{
+  "id": "voucher_008",
+  "code": "FREENUOC",
+  "name": "Tang 2 chai nuoc",
+  "description": "Ap dung cho moi don hop le",
+  "discountType": "free_item",
+  "discountValue": 0,
+  "minOrderValue": 300000,
+  "giftItems": [
+    {
+      "type": "water",
+      "name": "Nuoc suoi",
+      "quantity": 2
+    }
+  ],
+  "usageLimit": 999,
+  "usedCount": 0,
+  "startDate": "2026-03-28T00:00:00.000Z",
+  "endDate": "2026-12-31T23:59:59.000Z",
+  "status": "active"
+}
+```
+
+Khi nguoi dung go voucher:
+
+```json
+POST /api/vouchers/apply
+{
+  "code": "FREENUOC",
+  "bookingAmount": 750000,
+  "courtType": "vip"
+}
+```
+
+Backend se tra ve tong tien sau giam va danh sach qua tang `freeItems`.
 
 ### Vi du tao court
 
@@ -161,7 +232,7 @@ POST /api/bookings
   "endTime": "20:30",
   "durationHours": 1.5,
   "pricePerHour": 500000,
-  "totalAmount": 750000,
+  "voucherCode": "VIP20",
   "bookingStatus": "pending",
   "paymentStatus": "unpaid",
   "note": "Dat san tu app iOS.",
@@ -170,6 +241,7 @@ POST /api/bookings
 ```
 
 API `bookings` co kiem tra trung lich theo `courtId`, `bookingDate`, `startTime`, `endTime`. Neu bi trung khung gio, server tra ve `409`.
+Neu co `voucherCode`, backend tu tinh `subTotal`, `discountAmount`, `totalAmount` va `freeItems`.
 
 ## 1. Muc tieu phien ban dau
 

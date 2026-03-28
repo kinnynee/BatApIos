@@ -3,6 +3,7 @@ const { loadEnvFile } = require("./config/env");
 const { handleUsersRoute } = require("./routes/users.routes");
 const { handleAuthRoute } = require("./routes/auth.routes");
 const { handleCourtsRoute } = require("./routes/courts.routes");
+const { handleVouchersRoute } = require("./routes/vouchers.routes");
 const { handleBookingsRoute } = require("./routes/bookings.routes");
 const { handlePaymentsRoute } = require("./routes/payments.routes");
 const { notFound, readJsonBody, sendError, sendJson } = require("./utils/http");
@@ -44,6 +45,7 @@ async function routeRequest(req, res) {
     () => handleAuthRoute(req, res, pathname, query, body),
     () => handleUsersRoute(req, res, pathname, query, body),
     () => handleCourtsRoute(req, res, pathname, query, body),
+    () => handleVouchersRoute(req, res, pathname, query, body),
     () => handleBookingsRoute(req, res, pathname, query, body),
     () => handlePaymentsRoute(req, res, pathname, query, body)
   ];

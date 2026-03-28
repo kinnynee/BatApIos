@@ -51,8 +51,6 @@ async function handleBookingsRoute(req, res, pathname, query, body) {
       "startTime",
       "endTime",
       "durationHours",
-      "pricePerHour",
-      "totalAmount",
       "bookingStatus",
       "paymentStatus",
       "createdBy"
@@ -69,8 +67,7 @@ async function handleBookingsRoute(req, res, pathname, query, body) {
 
     if (
       !isPositiveNumber(body.durationHours) ||
-      !isPositiveNumber(body.pricePerHour) ||
-      !isPositiveNumber(body.totalAmount)
+      (body.pricePerHour !== undefined && !isPositiveNumber(body.pricePerHour))
     ) {
       sendError(res, 400, "Booking price and duration fields must be non-negative numbers");
       return true;
@@ -91,7 +88,7 @@ async function handleBookingsRoute(req, res, pathname, query, body) {
       return true;
     }
 
-    const numericFields = ["durationHours", "pricePerHour", "totalAmount"];
+    const numericFields = ["durationHours", "pricePerHour"];
     for (const field of numericFields) {
       if (body[field] !== undefined && !isPositiveNumber(body[field])) {
         sendError(res, 400, `${field} must be a non-negative number`);
