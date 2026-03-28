@@ -9,12 +9,17 @@ class PaymentViewController: UIViewController {
     
     var displayedPayments: [PaymentInfo] = []
     private let store = AppMockStore.shared
+    private let themeGreen = UIColor(red: 0.0, green: 0.82, blue: 0.38, alpha: 1.0)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        // Cập nhật màu sắc cho SegmentedControl
+        segmentedControl.selectedSegmentTintColor = themeGreen
+        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
         
         loadPayments()
         filterData(by: .success)

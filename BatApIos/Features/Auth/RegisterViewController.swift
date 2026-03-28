@@ -11,6 +11,10 @@ class RegisterViewController: UIViewController {
     
     var isPassVisible = false
     private let store = AppMockStore.shared
+    
+    /// Callback sau khi đăng ký thành công
+    var onRegisterSuccess: ((User) -> Void)?
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,9 +60,13 @@ class RegisterViewController: UIViewController {
         }
         
         do {
-            _ = try store.register(name: name, email: email, password: pass)
+            let user = try store.register(name: name, email: email, password: pass)
             showAlert(title: "Chào mừng!", message: "Tạo tài khoản SmashBooking thành công.") {
-                self.dismiss(animated: true)
+                if let onRegisterSuccess = self.onRegisterSuccess {
+                    onRegisterSuccess(user)
+                } else {
+                    self.dismiss(animated: true)
+                }
             }
         } catch {
             showAlert(title: "Không thể đăng ký", message: error.localizedDescription)

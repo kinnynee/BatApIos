@@ -119,14 +119,19 @@ final class BookingSuccessViewController: UIViewController {
     }
 
     @objc private func viewMyBookingsTapped() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let paymentViewController = storyboard.instantiateViewController(withIdentifier: "PaymentVC")
-        navigationController?.pushViewController(paymentViewController, animated: true)
+        let bookingsViewController = MyBookingsViewController()
+        if let navigationController {
+            navigationController.setViewControllers([bookingsViewController], animated: true)
+        } else {
+            let navigationController = UINavigationController(rootViewController: bookingsViewController)
+            navigationController.modalPresentationStyle = .fullScreen
+            present(navigationController, animated: true)
+        }
     }
 
     @objc private func goHomeTapped() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let homeViewController = storyboard.instantiateViewController(withIdentifier: "MainTabBarVC")
-        navigationController?.pushViewController(homeViewController, animated: true)
+        navigationController?.setViewControllers([homeViewController], animated: true)
     }
 }

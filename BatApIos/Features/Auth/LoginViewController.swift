@@ -8,10 +8,18 @@ class LoginViewController: UIViewController {
     
     var isPasswordVisible = false
     private let store = AppMockStore.shared
+    
+    /// Callback sau khi đăng nhập thành công. Nếu set, sẽ không tự động chuyển sang TabBar.
+    var onLoginSuccess: (() -> Void)?
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     private func setupUI() {
@@ -41,8 +49,14 @@ class LoginViewController: UIViewController {
 
         do {
             let user = try store.login(email: email, password: password)
-            showAlert(title: "Thành công", message: "Đăng nhập thành công!") {
-                self.routeToNextScreen(for: user)
+            if let onLoginSuccess = onLoginSuccess {
+                showAlert(title: "Thành công", message: "Đăng nhập thành công!") {
+                    onLoginSuccess()
+                }
+            } else {
+                showAlert(title: "Thành công", message: "Đăng nhập thành công!") {
+                    self.routeToNextScreen(for: user)
+                }
             }
         } catch {
             showAlert(title: "Đăng nhập thất bại", message: error.localizedDescription)
@@ -54,6 +68,16 @@ class LoginViewController: UIViewController {
         
         if let registerVC = storyboard.instantiateViewController(withIdentifier: "RegisterVC") as? RegisterViewController {
             
+            registerVC.onRegisterSuccess = { [weak self, weak registerVC] user in
+                registerVC?.dismiss(animated: true) {
+                    if let onLoginSuccess = self?.onLoginSuccess {
+                        onLoginSuccess()
+                    } else {
+                        self?.routeToNextScreen(for: user)
+                    }
+                }
+            }
+            
             registerVC.modalPresentationStyle = .fullScreen
             
             self.present(registerVC, animated: true, completion: nil)
@@ -64,22 +88,23 @@ class LoginViewController: UIViewController {
 
     private func routeToNextScreen(for user: User) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let targetIdentifier: String
-
-        switch user.role {
-        case .admin:
-            targetIdentifier = "AdminDashboardVC"
-        case .staff:
-            targetIdentifier = "StaffCheckInVC"
-        case .user:
-            targetIdentifier = "MainTabBarVC"
+        
+        if user.role == .user {
+            guard let nextViewController = storyboard.instantiateViewController(withIdentifier: "MainTabBarVC") as UIViewController? else {
+                return
+            }
+            nextViewController.modalPresentationStyle = .fullScreen
+            present(nextViewController, animated: true)
+        } else {
+            // Admin và Staff dùng chung Dashboard hợp nhất
+            guard let dashboardVC = storyboard.instantiateViewController(withIdentifier: "AdminDashboardVC") as? AdminDashboardViewController else {
+                return
+            }
+            let navController = UINavigationController(rootViewController: dashboardVC)
+            navController.modalPresentationStyle = .fullScreen
+            // Ẩn thanh navigation mặc định ở màn hình Dashboard (tuỳ chọn)
+            navController.setNavigationBarHidden(true, animated: false)
+            present(navController, animated: true)
         }
-
-        guard let nextViewController = storyboard.instantiateViewController(withIdentifier: targetIdentifier) as UIViewController? else {
-            return
-        }
-
-        nextViewController.modalPresentationStyle = .fullScreen
-        present(nextViewController, animated: true)
     }
 }

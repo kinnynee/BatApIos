@@ -26,9 +26,21 @@ class ForgotPasswordViewController: UIViewController {
         
         do {
             let message = try store.sendResetPassword(email: email)
-            showAlert(title: "Đã gửi", message: message) {
+            let alert = UIAlertController(
+                title: "Đã gửi",
+                message: "\(message)\n\nBạn có muốn đặt lại mật khẩu ngay không?",
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "Để sau", style: .cancel, handler: { _ in
                 self.dismiss(animated: true)
-            }
+            }))
+            alert.addAction(UIAlertAction(title: "Đặt lại ngay", style: .default, handler: { _ in
+                let resetViewController = ResetPasswordViewController()
+                resetViewController.emailAddress = email
+                resetViewController.modalPresentationStyle = .fullScreen
+                self.present(resetViewController, animated: true)
+            }))
+            present(alert, animated: true)
         } catch {
             showAlert(title: "Không thể xử lý", message: error.localizedDescription)
         }

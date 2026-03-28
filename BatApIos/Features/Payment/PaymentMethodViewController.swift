@@ -47,8 +47,8 @@ final class PaymentMethodViewController: UIViewController {
     @IBOutlet private weak var viewVisa: UIView!
     @IBOutlet private weak var viewZalo: UIView!
     
-    // BỔ SUNG: Nút xác nhận thanh toán ở dưới cùng
-    @IBOutlet private weak var confirmButton: UIButton!
+    // BỔ SUNG: Nút xác nhận thanh toán ở dưới cùng (tạo bằng code để tránh lỗi Storyboard)
+    private var confirmButton: UIButton!
 
     // MARK: - Public Variables (Biến để màn hình trước truyền dữ liệu vào)
     var amountToPay: Double = 0
@@ -65,12 +65,42 @@ final class PaymentMethodViewController: UIViewController {
 
     private var selectedMethod: PaymentMethod = .momo
     private let store = AppMockStore.shared
+    private let themeGreen = UIColor(red: 0.0, green: 0.82, blue: 0.38, alpha: 1.0)
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         updateSelectionUI()
+        
+        // Setup programmatic button
+        setupConfirmButton()
+    }
+
+    private func setupConfirmButton() {
+        let button = UIButton(type: .system)
+        button.setTitle("Xác nhận thanh toán", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = themeGreen
+        button.layer.cornerRadius = 16
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(confirmPaymentProgrammatic), for: .touchUpInside)
+        
+        view.addSubview(button)
+        self.confirmButton = button
+        
+        NSLayoutConstraint.activate([
+            button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            button.heightAnchor.constraint(equalToConstant: 54)
+        ])
+        
+        // Adjust scroll view inset to avoid overlap
+        if let scrollView = view.subviews.first(where: { $0 is UIScrollView }) as? UIScrollView {
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+        }
     }
 
     // MARK: - Setup
@@ -119,12 +149,17 @@ final class PaymentMethodViewController: UIViewController {
     }
     
     // BỔ SUNG: Sự kiện khi bấm nút Xác nhận thanh toán ở cuối màn hình
-    @IBAction private func confirmPaymentTapped(_ sender: UIButton) {
+    @objc private func confirmPaymentProgrammatic() {
         do {
             let booking = try store.confirmPayment(for: bookingId, methodName: displayName(for: selectedMethod))
             let successViewController = BookingSuccessViewController()
             successViewController.bookingCode = booking.id
-            navigationController?.pushViewController(successViewController, animated: true)
+            if let nav = navigationController {
+                nav.pushViewController(successViewController, animated: true)
+            } else {
+                successViewController.modalPresentationStyle = .fullScreen
+                present(successViewController, animated: true)
+            }
         } catch {
             let alert = UIAlertController(title: "Không thể thanh toán", message: error.localizedDescription, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Đóng", style: .default))
@@ -144,10 +179,10 @@ final class PaymentMethodViewController: UIViewController {
 
         configurations.forEach { method, view, checkmark in
             let isSelected = method == selectedMethod
-            view.layer.borderColor = isSelected ? UIColor.systemMint.cgColor : UIColor.systemGray5.cgColor
-            view.backgroundColor = isSelected ? UIColor.systemMint.withAlphaComponent(0.08) : .systemBackground
+            view.layer.borderColor = isSelected ? themeGreen.cgColor : UIColor.systemGray5.cgColor
+            view.backgroundColor = isSelected ? themeGreen.withAlphaComponent(0.08) : .systemBackground
             checkmark.image = UIImage(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-            checkmark.tintColor = isSelected ? .systemMint : .systemGray3
+            checkmark.tintColor = isSelected ? themeGreen : .systemGray3
         }
     }
     

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="main-tab-bar-controller">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24765" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24743"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -847,7 +847,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" distribution="fillEqually" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="pIA-zY-BVN">
-                                                    <rect key="frame" x="119.00000000000003" y="16" width="59.333333333333343" height="20.333333333333329"/>
+                                                    <rect key="frame" x="119.00000000000001" y="16" width="59.333333333333329" height="20.333333333333329"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tên sân" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0x5-3s-kBA">
                                                             <rect key="frame" x="0.0" y="0.0" width="59.333333333333336" height="20.333333333333332"/>
@@ -887,6 +887,10 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Lịch sử" image="clock.fill" catalog="system" id="tab-p-1"/>
+                    <connections>
+                        <outlet property="segmentedControl" destination="pay-segmented-control" id="pay-out-1"/>
+                        <outlet property="tableView" destination="sny-OR-27y" id="pay-out-2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9JG-1r-kqY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1098,7 +1102,7 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Mã đặt sân: #SC-9921" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pay-lbl-id">
                                                         <rect key="frame" x="7.9999999999999858" y="2" width="128" height="46"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
-                                                        <color key="textColor" red="0.035294117649999998" green="0.45098039220000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="textColor" red="0.0" green="0.81999999999999995" blue="0.38" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
@@ -1118,7 +1122,7 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.050980392149999998" green="0.94901960780000005" blue="0.87450980389999999" alpha="0.050000000000000003" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.0" green="0.81999999999999995" blue="0.38" alpha="0.050000000000000003" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="140" id="pt-1"/>
                                     <constraint firstItem="pay-stk-total" firstAttribute="centerX" secondItem="pay-total-box" secondAttribute="centerX" id="pt-2"/>
@@ -1196,7 +1200,7 @@
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="icon-zalo">
                                                         <rect key="frame" x="16" y="14" width="40" height="40"/>
-                                                        <color key="backgroundColor" red="0.0" green="0.5607843137254902" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="backgroundColor" red="0.0" green="0.81999999999999995" blue="0.38" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="iz-1"/>
                                                             <constraint firstAttribute="width" constant="40" id="iz-2"/>
@@ -1497,7 +1501,7 @@
                                                     </imageView>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sci-laser">
                                                         <rect key="frame" x="46.666666666666657" y="146.33333333333331" width="300" height="2"/>
-                                                        <color key="backgroundColor" red="0.050980392149999998" green="0.94901960780000005" blue="0.87450980389999999" alpha="0.70000000000000007" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="backgroundColor" red="0.0" green="0.81999999999999995" blue="0.38" alpha="0.70000000000000007" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="300" id="sz-1"/>
                                                             <constraint firstAttribute="height" constant="2" id="sz-2"/>
@@ -1527,7 +1531,7 @@
                                                                 <state key="normal" title="Button"/>
                                                                 <buttonConfiguration key="configuration" style="filled" image="qrcode.viewfinder" catalog="system" cornerStyle="capsule">
                                                                     <color key="baseForegroundColor" red="0.062745098040000002" green="0.1333333333" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <color key="baseBackgroundColor" red="0.050980392149999998" green="0.94901960780000005" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <color key="baseBackgroundColor" red="0.0" green="0.81999999999999995" blue="0.38" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 </buttonConfiguration>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btn-gallery">
@@ -1584,12 +1588,12 @@
                                                                     <constraint firstAttribute="width" constant="40" id="shb-1"/>
                                                                     <constraint firstAttribute="height" constant="40" id="shb-2"/>
                                                                 </constraints>
-                                                                <color key="tintColor" red="0.050980392149999998" green="0.94901960780000005" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <color key="tintColor" red="0.0" green="0.81999999999999995" blue="0.38" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <state key="normal" title="Button"/>
                                                                 <buttonConfiguration key="configuration" style="plain" image="magnifyingglass" catalog="system"/>
                                                             </button>
                                                         </subviews>
-                                                        <color key="backgroundColor" red="0.93333333330000001" green="0.94901960780000005" blue="0.95294117640000009" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="backgroundColor" red="0.0" green="0.81999999999999995" blue="0.38" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstItem="sci-tf-code" firstAttribute="leading" secondItem="sci-tf-container" secondAttribute="leading" constant="16" id="sm-1x"/>
                                                             <constraint firstAttribute="trailing" secondItem="sci-btn-search" secondAttribute="trailing" constant="8" id="sm-2x"/>
@@ -1641,11 +1645,11 @@
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Đã thanh toán" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sci-lbl-badge">
                                                                         <rect key="frame" x="0.0" y="0.0" width="100" height="24"/>
                                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
-                                                                        <color key="textColor" red="0.1850332579" green="0.76942896839999997" blue="0.45316187689999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                        <color key="textColor" red="0.0" green="0.81999999999999995" blue="0.38" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                 </subviews>
-                                                                <color key="backgroundColor" red="0.85098039215686272" green="0.98039215686274506" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <color key="backgroundColor" red="0.0" green="0.81999999999999995" blue="0.38" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <constraints>
                                                                     <constraint firstItem="sci-lbl-badge" firstAttribute="leading" secondItem="sci-badge" secondAttribute="leading" id="bd-1"/>
                                                                     <constraint firstAttribute="height" constant="24" id="bd-2"/>
@@ -1772,7 +1776,7 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bn-1">
                                                 <rect key="frame" x="0.0" y="0.0" width="98.333333333333329" height="53"/>
-                                                <color key="tintColor" red="0.050980392149999998" green="0.94901960780000005" blue="0.87450980389999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="tintColor" red="0.0" green="0.81999999999999995" blue="0.38" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" image="qrcode.viewfinder" catalog="system" imagePlacement="top" title="Check-in" imagePadding="4">
                                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="10"/>
@@ -1816,7 +1820,7 @@
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="sci-safe"/>
-                        <color key="backgroundColor" red="0.96078431372549022" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.0" green="0.81999999999999995" blue="0.38" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="sci-bottom-nav" firstAttribute="leading" secondItem="sci-safe" secondAttribute="leading" id="sm-1"/>
                             <constraint firstItem="sci-safe" firstAttribute="trailing" secondItem="sci-header" secondAttribute="trailing" id="sm-10x"/>
@@ -2020,6 +2024,12 @@
                             <constraint firstItem="home-scroll-main" firstAttribute="top" secondItem="home-tf-search" secondAttribute="bottom" constant="16" id="home-main-cst-9"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="bellButton" destination="home-btn-bell" id="out-hm-1"/>
+                        <outlet property="nameLabel" destination="home-lbl-name" id="out-hm-2"/>
+                        <outlet property="searchTextField" destination="home-tf-search" id="out-hm-3"/>
+                        <segue destination="ntf-vc-main" kind="show" identifier="showNotifications" id="home-seg-ntf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="home-responder" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2298,7 +2308,15 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Trang chủ" image="house.fill" catalog="system" id="tab-h-1"/>
                     <connections>
-                        <segue destination="ntf-vc-main" kind="show" identifier="showNotifications" id="seg-h-ntf"/>
+                        <outlet property="bellButton" destination="home2-btn-bell" id="out-ds-1"/>
+                        <outlet property="card1View" destination="home2-view-card1" id="out-ds-2"/>
+                        <outlet property="card2View" destination="home2-view-card2" id="out-ds-3"/>
+                        <outlet property="nameLabel" destination="home2-lbl-name" id="out-ds-4"/>
+                        <outlet property="offer1View" destination="home2-view-offer1" id="out-ds-6"/>
+                        <outlet property="offer2View" destination="home2-view-offer2" id="out-ds-7"/>
+                        <outlet property="offer3View" destination="home2-view-offer3" id="out-ds-8"/>
+                        <outlet property="searchTextField" destination="home2-tf-search" id="out-ds-5"/>
+                        <segue destination="ntf-vc-main" kind="show" identifier="showNotifications" id="home2-seg-ntf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="home2-responder" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2510,7 +2528,7 @@
                                                         <rect key="frame" x="0.0" y="135.99999999999994" width="345" height="56"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="📱 E-wallet (GrabPay/Momo)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="chk-lbl-p3">
-                                                                <rect key="frame" x="16" y="18.333333333333371" width="217.33333333333334" height="19.333333333333329"/>
+                                                                <rect key="frame" x="16" y="18.333333333333371" width="217.33333333333331" height="19.333333333333329"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -2620,10 +2638,26 @@
                             <constraint firstItem="chk-safe" firstAttribute="trailing" secondItem="chk-header" secondAttribute="trailing" id="cm-c9"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="applePayCheckmark" destination="chk-img-p1" id="chk-out-5"/>
+                        <outlet property="applePayView" destination="chk-v-pay1" id="chk-out-4"/>
+                        <outlet property="backButton" destination="chk-btn-back" id="chk-out-1"/>
+                        <outlet property="bookingTimeLabel" destination="chk-lbl-ctime" id="chk-out-10"/>
+                        <outlet property="cardPayCheckmark" destination="chk-img-p2" id="chk-out-7"/>
+                        <outlet property="cardPayView" destination="chk-v-pay2" id="chk-out-6"/>
+                        <outlet property="confirmButton" destination="chk-btn-confirm" id="chk-out-13"/>
+                        <outlet property="courtImageView" destination="chk-img-court" id="chk-out-8"/>
+                        <outlet property="courtNameLabel" destination="chk-lbl-cname" id="chk-out-9"/>
+                        <outlet property="courtTypeLabel" destination="chk-lbl-ctype" id="chk-out-11"/>
+                        <outlet property="eWalletPayCheckmark" destination="chk-img-p3" id="chk-out-3"/>
+                        <outlet property="eWalletPayView" destination="chk-v-pay3" id="chk-out-2"/>
+                        <outlet property="screenTitleLabel" destination="chk-lbl-title" id="chk-out-12"/>
+                        <outlet property="totalAmountLabel" destination="chk-lbl-tamt" id="chk-out-14"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="chk-responder" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="18434" y="-27"/>
+            <point key="canvasLocation" x="16822" y="715"/>
         </scene>
         <!--Book a Court-->
         <scene sceneID="court-booking-scene-new">
@@ -3381,6 +3415,28 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Đặt sân" image="plus.circle.fill" catalog="system" id="tab-b-1"/>
                     <connections>
+                        <outlet property="applyVoucherButton" destination="nbtn1" id="ncb-out-12"/>
+                        <outlet property="backButton" destination="ncb-btn-back" id="ncb-out-1"/>
+                        <outlet property="confirmButton" destination="ncb-btn-confirm" id="ncb-out-13"/>
+                        <outlet property="day1View" destination="ncb-d1" id="ncb-out-3"/>
+                        <outlet property="day2View" destination="ncb-d2" id="ncb-out-4"/>
+                        <outlet property="day3View" destination="ncb-d3" id="ncb-out-5"/>
+                        <outlet property="day4View" destination="ncb-d4" id="ncb-out-6"/>
+                        <outlet property="day5View" destination="ncb-d5" id="ncb-out-7"/>
+                        <outlet property="mainStackView" destination="ncb-stack-main" id="ncb-out-15"/>
+                        <outlet property="repeatSwitch" destination="nsw1" id="ncb-out-10"/>
+                        <outlet property="screenTitleLabel" destination="ncb-lbl-title" id="ncb-out-2"/>
+                        <outlet property="scrollView" destination="ncb-scroll" id="ncb-out-14"/>
+                        <outlet property="selectedDateLabel" destination="ncb-lbl-d2" id="ncb-out-16"/>
+                        <outlet property="standardTypeView" destination="ncb-v-type1" id="ncb-out-8"/>
+                        <outlet property="timeSlot1Button" destination="nt1" id="ncb-out-17"/>
+                        <outlet property="timeSlot2Button" destination="nt2" id="ncb-out-18"/>
+                        <outlet property="timeSlot3Button" destination="nt3" id="ncb-out-19"/>
+                        <outlet property="timeSlot4Button" destination="nt4" id="ncb-out-20"/>
+                        <outlet property="timeSlot5Button" destination="nt5" id="ncb-out-21"/>
+                        <outlet property="timeSlot6Button" destination="nt6" id="ncb-out-22"/>
+                        <outlet property="vipTypeView" destination="ncb-v-type2" id="ncb-out-9"/>
+                        <outlet property="voucherTextField" destination="ntf1" id="ncb-out-11"/>
                         <segue destination="payment-vc" kind="show" identifier="showPaymentMethod" id="seg-ncb-pay"/>
                         <segue destination="calendar-vc" kind="show" identifier="showCalendar" id="seg-ncb-cal"/>
                     </connections>
@@ -4538,9 +4594,20 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Cá nhân" image="person.fill" catalog="system" id="tab-pr-1"/>
                     <connections>
+                        <outlet property="avatarImageView" destination="prof-img-avatar" id="out-pr-1"/>
+                        <outlet property="bookingsCountLabel" destination="pst1-l2" id="out-pr-2"/>
+                        <outlet property="editButton" destination="prof-btn-edit" id="out-pr-3"/>
+                        <outlet property="editInfoView" destination="pam-1" id="out-pr-4"/>
+                        <outlet property="logoutButton" destination="prof-btn-logout" id="out-pr-5"/>
+                        <outlet property="nameLabel" destination="prof-lbl-name" id="out-pr-6"/>
+                        <outlet property="notificationsView" destination="pam-3" id="out-pr-7"/>
+                        <outlet property="paymentMethodsView" destination="pam-2" id="out-pr-8"/>
+                        <outlet property="pointsLabel" destination="pst2-l2" id="out-pr-9"/>
+                        <outlet property="subtitleLabel" destination="prof-lbl-sub" id="out-pr-10"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="logout" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="seg-pr-out"/>
                         <segue destination="abt-vc-main" kind="show" identifier="showAbout" id="seg-pr-abt"/>
                         <segue destination="change-vc" kind="show" identifier="showChangePassword" id="seg-pr-chg"/>
+                        <segue destination="ntf-vc-main" kind="show" identifier="showNotifications" id="seg-pr-ntf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="prof-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -5125,6 +5192,14 @@
                             <constraint firstItem="ntf-scroll" firstAttribute="leading" secondItem="ntf-safe" secondAttribute="leading" id="ntfc-a9"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="backButton" destination="ntf-btn-back" id="out-nt-1"/>
+                        <outlet property="row1Sub" destination="ntf-r1-s" id="out-nt-2"/>
+                        <outlet property="row1Title" destination="ntf-r1-t" id="out-nt-3"/>
+                        <outlet property="row2Sub" destination="ntf-r2-s" id="out-nt-4"/>
+                        <outlet property="row2Title" destination="ntf-r2-t" id="out-nt-5"/>
+                        <outlet property="titleLabel" destination="ntf-lbl-title" id="out-nt-6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ntf-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -6399,15 +6474,15 @@ All rights reserved.</string>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="adm-stk-actions">
                                         <rect key="frame" x="281" y="16" width="88" height="40"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="adm-btn-search">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="adm-btn-logout">
                                                 <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="admc-sh"/>
-                                                    <constraint firstAttribute="width" constant="40" id="admc-sw"/>
+                                                    <constraint firstAttribute="height" constant="40" id="admc-lh"/>
+                                                    <constraint firstAttribute="width" constant="40" id="admc-lw"/>
                                                 </constraints>
-                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" image="magnifyingglass" catalog="system"/>
+                                                <color key="tintColor" systemColor="systemRedColor"/>
+                                                <state key="normal" image="rectangle.portrait.and.arrow.right" catalog="system"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                         <integer key="value" value="20"/>
@@ -6419,6 +6494,9 @@ All rights reserved.</string>
                                                         <color key="value" red="0.94899999999999995" green="0.94899999999999995" blue="0.96799999999999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="logoutTapped:" destination="adm-vc-main" eventType="touchUpInside" id="adm-conn-logout"/>
+                                                </connections>
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-v-notif">
                                                 <rect key="frame" x="48" y="0.0" width="40" height="40"/>
@@ -6508,7 +6586,7 @@ All rights reserved.</string>
                                                 <rect key="frame" x="90.333333333333343" y="0.0" width="90.333333333333343" height="50"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                                                 <color key="tintColor" white="0.66659999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" title="Trạng thái" image="chart.bar.xaxis" catalog="system"/>
+                                                <state key="normal" title="Sân" image="figure.badminton" catalog="system"/>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="adm-nv-3">
                                                 <rect key="frame" x="180.66666666666666" y="0.0" width="89.999999999999972" height="50"/>
@@ -6545,11 +6623,73 @@ All rights reserved.</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-v-content">
                                         <rect key="frame" x="0.0" y="0.0" width="393" height="800"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="adm-stk-main">
-                                                <rect key="frame" x="24" y="16" width="345" height="740.33333333333337"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="adm-stk-main">
+                                                <rect key="frame" x="24" y="16" width="345" height="864.33333333333337"/>
                                                 <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-sec-checkin">
+                                                        <rect key="frame" x="0.0" y="0.0" width="345" height="100"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-c-checkin" customClass="UIControl">
+                                                                <rect key="frame" x="0.0" y="0.0" width="345" height="100"/>
+                                                                <subviews>
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="qrcode.viewfinder" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-img-qr">
+                                                                        <rect key="frame" x="20" y="26" width="50" height="48"/>
+                                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="50" id="adm-h-qr"/>
+                                                                            <constraint firstAttribute="width" constant="50" id="adm-w-qr"/>
+                                                                        </constraints>
+                                                                    </imageView>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="CHECK-IN &amp; QUÉT MÃ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-lbl-qr1">
+                                                                        <rect key="frame" x="89.999999999999986" y="25" width="180.66666666666663" height="20.333333333333329"/>
+                                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Quét mã QR để nhận sân ngay" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-lbl-qr2">
+                                                                        <rect key="frame" x="90.000000000000014" y="50.333333333333314" width="171.33333333333337" height="14.333333333333329"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                        <color key="textColor" white="1" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-img-qr3">
+                                                                        <rect key="frame" x="305" y="42" width="20" height="16.333333333333329"/>
+                                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="20" id="adm-h-qrc"/>
+                                                                            <constraint firstAttribute="width" constant="20" id="adm-w-qrc"/>
+                                                                        </constraints>
+                                                                    </imageView>
+                                                                </subviews>
+                                                                <color key="backgroundColor" red="0.0" green="0.81999999999999995" blue="0.38" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <constraints>
+                                                                    <constraint firstItem="adm-img-qr" firstAttribute="centerY" secondItem="adm-c-checkin" secondAttribute="centerY" id="adm-c-qr1"/>
+                                                                    <constraint firstItem="adm-img-qr" firstAttribute="leading" secondItem="adm-c-checkin" secondAttribute="leading" constant="20" id="adm-c-qr2"/>
+                                                                    <constraint firstItem="adm-lbl-qr1" firstAttribute="leading" secondItem="adm-img-qr" secondAttribute="trailing" constant="20" id="adm-c-qr3"/>
+                                                                    <constraint firstItem="adm-lbl-qr1" firstAttribute="top" secondItem="adm-img-qr" secondAttribute="top" id="adm-c-qr4"/>
+                                                                    <constraint firstItem="adm-lbl-qr2" firstAttribute="leading" secondItem="adm-lbl-qr1" secondAttribute="leading" id="adm-c-qr5"/>
+                                                                    <constraint firstItem="adm-lbl-qr2" firstAttribute="top" secondItem="adm-lbl-qr1" secondAttribute="bottom" constant="5" id="adm-c-qr6"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="adm-img-qr3" secondAttribute="trailing" constant="20" id="adm-c-qr7"/>
+                                                                    <constraint firstItem="adm-img-qr3" firstAttribute="centerY" secondItem="adm-c-checkin" secondAttribute="centerY" id="adm-c-qr8"/>
+                                                                </constraints>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                        <integer key="value" value="20"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                            </view>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstItem="adm-c-checkin" firstAttribute="leading" secondItem="adm-sec-checkin" secondAttribute="leading" id="adm-c-sec01"/>
+                                                            <constraint firstAttribute="trailing" secondItem="adm-c-checkin" secondAttribute="trailing" id="adm-c-sec02"/>
+                                                            <constraint firstItem="adm-c-checkin" firstAttribute="top" secondItem="adm-sec-checkin" secondAttribute="top" id="adm-c-sec03"/>
+                                                            <constraint firstAttribute="bottom" secondItem="adm-c-checkin" secondAttribute="bottom" id="adm-c-sec04"/>
+                                                            <constraint firstAttribute="height" constant="100" id="adm-h-sec0"/>
+                                                        </constraints>
+                                                    </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-sec1">
-                                                        <rect key="frame" x="0.0" y="0.0" width="345" height="174.33333333333334"/>
+                                                        <rect key="frame" x="0.0" y="124.00000000000001" width="345" height="174.33333333333337"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Hệ thống" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-s1-lbl">
                                                                 <rect key="frame" x="4" y="0.0" width="337" height="14.333333333333334"/>
@@ -6558,7 +6698,7 @@ All rights reserved.</string>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="adm-s1-grid">
-                                                                <rect key="frame" x="0.0" y="24.333333333333343" width="345" height="150"/>
+                                                                <rect key="frame" x="0.0" y="24.333333333333314" width="345" height="150"/>
                                                                 <subviews>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-c1">
                                                                         <rect key="frame" x="0.0" y="0.0" width="164.66666666666666" height="150"/>
@@ -6572,19 +6712,19 @@ All rights reserved.</string>
                                                                                 </constraints>
                                                                             </imageView>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="78%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-c1-pct">
-                                                                                <rect key="frame" x="63" y="45.999999999999972" width="38.333333333333343" height="20.333333333333329"/>
+                                                                                <rect key="frame" x="63" y="46" width="38.333333333333343" height="20.333333333333329"/>
                                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-c1-t1">
-                                                                                <rect key="frame" x="0.0" y="103.99999999999997" width="164.66666666666666" height="0.0"/>
+                                                                                <rect key="frame" x="0.0" y="104" width="164.66666666666666" height="0.0"/>
                                                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                                                                 <nil key="textColor"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Tỷ lệ lấp đầy sân" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-c1-t2">
-                                                                                <rect key="frame" x="0.0" y="105.99999999999997" width="164.66666666666666" height="12"/>
+                                                                                <rect key="frame" x="0.0" y="106" width="164.66666666666666" height="12"/>
                                                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="10"/>
                                                                                 <color key="textColor" systemColor="viewFlipsideBackgroundColor"/>
                                                                                 <nil key="highlightedColor"/>
@@ -6622,7 +6762,7 @@ All rights reserved.</string>
                                                                                 <rect key="frame" x="16" y="20" width="40" height="40"/>
                                                                                 <subviews>
                                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="exclamationmark.triangle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-c2-img">
-                                                                                        <rect key="frame" x="10" y="11.333333333333302" width="20" height="17.666666666666671"/>
+                                                                                        <rect key="frame" x="10" y="11.33333333333333" width="20" height="17.666666666666671"/>
                                                                                         <color key="tintColor" red="0.97599999999999998" green="0.45100000000000001" blue="0.085999999999999993" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                         <constraints>
                                                                                             <constraint firstAttribute="height" constant="20" id="admc-c2ih"/>
@@ -6644,19 +6784,19 @@ All rights reserved.</string>
                                                                                 </userDefinedRuntimeAttributes>
                                                                             </view>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Bảo trì" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-c2-t1">
-                                                                                <rect key="frame" x="16" y="75.999999999999972" width="132.33333333333334" height="17"/>
+                                                                                <rect key="frame" x="16" y="76" width="132.33333333333334" height="17"/>
                                                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                                                                 <nil key="textColor"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-c2-t2">
-                                                                                <rect key="frame" x="16" y="96.999999999999972" width="132.33333333333334" height="0.0"/>
+                                                                                <rect key="frame" x="16" y="97" width="132.33333333333334" height="0.0"/>
                                                                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="10"/>
                                                                                 <color key="textColor" white="0.33329999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-c2-prog-bg">
-                                                                                <rect key="frame" x="16" y="104.99999999999997" width="132.33333333333334" height="4"/>
+                                                                                <rect key="frame" x="16" y="105" width="132.33333333333334" height="4"/>
                                                                                 <subviews>
                                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-c2-prog-fill">
                                                                                         <rect key="frame" x="0.0" y="0.0" width="87.333333333333329" height="4"/>
@@ -6722,7 +6862,7 @@ All rights reserved.</string>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-sec2">
-                                                        <rect key="frame" x="0.0" y="198.33333333333331" width="345" height="212"/>
+                                                        <rect key="frame" x="0.0" y="322.33333333333337" width="345" height="212"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Doanh thu hôm nay" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-s2-t1">
                                                                 <rect key="frame" x="20" y="20" width="128" height="17"/>
@@ -6760,7 +6900,7 @@ All rights reserved.</string>
                                                                 </userDefinedRuntimeAttributes>
                                                             </view>
                                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="bottom" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="adm-s2-chart">
-                                                                <rect key="frame" x="20" y="87.666666666666686" width="305" height="80"/>
+                                                                <rect key="frame" x="20" y="87.666666666666629" width="305" height="80"/>
                                                                 <subviews>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-ch1">
                                                                         <rect key="frame" x="0.0" y="48" width="21.666666666666668" height="32"/>
@@ -6912,7 +7052,7 @@ All rights reserved.</string>
                                                                 </constraints>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="adm-s2-time">
-                                                                <rect key="frame" x="20" y="175.66666666666669" width="305" height="12"/>
+                                                                <rect key="frame" x="20" y="175.66666666666663" width="305" height="12"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="08:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-s2-l1">
                                                                         <rect key="frame" x="0.0" y="0.0" width="30" height="12"/>
@@ -6969,198 +7109,324 @@ All rights reserved.</string>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-sec3">
-                                                        <rect key="frame" x="0.0" y="434.33333333333337" width="345" height="162"/>
+                                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="adm-sec3">
+                                                        <rect key="frame" x="0.0" y="558.33333333333337" width="345" height="162"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" ambiguous="YES" text="QUICK ACTIONS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-s3-lbl">
-                                                                <rect key="frame" x="4" y="0.0" width="337" height="14.333299999999999"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="100.66666666666667" height="14.333333333333334"/>
                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                                                                <color key="textColor" white="0.66659999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="adm-s3-stk">
-                                                                <rect key="frame" x="0.0" y="24.333299999999994" width="345" height="72"/>
+                                                                <rect key="frame" x="0.0" y="24.333333333333314" width="345" height="300"/>
                                                                 <subviews>
-                                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="345" height="30"/>
-                                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    </button>
-                                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2">
-                                                                        <rect key="frame" x="0.0" y="42" width="345" height="30"/>
-                                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    </button>
+                                                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1-cnt" customClass="UIControl">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="345" height="64"/>
+                                                                        <subviews>
+                                                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1-icbg">
+                                                                                <rect key="frame" x="16" y="12" width="40" height="40"/>
+                                                                                <subviews>
+                                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="figure.badminton" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1-img">
+                                                                                        <rect key="frame" x="10" y="8.6666666666666679" width="20" height="23"/>
+                                                                                        <color key="tintColor" red="0.0" green="0.90190000000000003" blue="0.46660000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                                        <constraints>
+                                                                                            <constraint firstAttribute="height" constant="20" id="admc-qa1ih"/>
+                                                                                            <constraint firstAttribute="width" constant="20" id="admc-qa1iw"/>
+                                                                                        </constraints>
+                                                                                    </imageView>
+                                                                                </subviews>
+                                                                                <color key="backgroundColor" red="0.0" green="0.90190000000000003" blue="0.46660000000000001" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="height" constant="40" id="admc-qa1h"/>
+                                                                                    <constraint firstAttribute="width" constant="40" id="admc-qa1w"/>
+                                                                                    <constraint firstItem="adm-qa1-img" firstAttribute="centerX" secondItem="adm-qa1-icbg" secondAttribute="centerX" id="admc-qa1x"/>
+                                                                                    <constraint firstItem="adm-qa1-img" firstAttribute="centerY" secondItem="adm-qa1-icbg" secondAttribute="centerY" id="admc-qa1y"/>
+                                                                                </constraints>
+                                                                                <userDefinedRuntimeAttributes>
+                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                        <integer key="value" value="20"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                </userDefinedRuntimeAttributes>
+                                                                            </view>
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Quản lý sân" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1-t1">
+                                                                                <rect key="frame" x="72" y="14" width="80" height="17"/>
+                                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                                                                <nil key="textColor"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Chỉnh sửa sân &amp; trạng thái" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1-t2">
+                                                                                <rect key="frame" x="72" y="35" width="149" height="14.333333333333336"/>
+                                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                                <color key="textColor" white="0.33329999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1-arr">
+                                                                                <rect key="frame" x="313" y="26" width="16" height="12.333333333333329"/>
+                                                                                <color key="tintColor" white="0.66659999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="height" constant="16" id="admc-qa1ah"/>
+                                                                                    <constraint firstAttribute="width" constant="16" id="admc-qa1aw"/>
+                                                                                </constraints>
+                                                                            </imageView>
+                                                                        </subviews>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="64" id="adm-qa1-h"/>
+                                                                            <constraint firstItem="adm-qa1-icbg" firstAttribute="centerY" secondItem="adm-qa1-cnt" secondAttribute="centerY" id="admc-qa1c1"/>
+                                                                            <constraint firstItem="adm-qa1-icbg" firstAttribute="leading" secondItem="adm-qa1-cnt" secondAttribute="leading" constant="16" id="admc-qa1c2"/>
+                                                                            <constraint firstItem="adm-qa1-t1" firstAttribute="leading" secondItem="adm-qa1-icbg" secondAttribute="trailing" constant="16" id="admc-qa1c3"/>
+                                                                            <constraint firstItem="adm-qa1-t1" firstAttribute="top" secondItem="adm-qa1-cnt" secondAttribute="top" constant="14" id="admc-qa1c4"/>
+                                                                            <constraint firstItem="adm-qa1-t2" firstAttribute="leading" secondItem="adm-qa1-icbg" secondAttribute="trailing" constant="16" id="admc-qa1c5"/>
+                                                                            <constraint firstItem="adm-qa1-t2" firstAttribute="top" secondItem="adm-qa1-t1" secondAttribute="bottom" constant="4" id="admc-qa1c6"/>
+                                                                            <constraint firstAttribute="trailing" secondItem="adm-qa1-arr" secondAttribute="trailing" constant="16" id="admc-qa1c7"/>
+                                                                            <constraint firstItem="adm-qa1-arr" firstAttribute="centerY" secondItem="adm-qa1-cnt" secondAttribute="centerY" id="admc-qa1c8"/>
+                                                                        </constraints>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                <integer key="value" value="12"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                                                                <integer key="value" value="1"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                            <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
+                                                                                <color key="value" red="0.94899999999999995" green="0.94899999999999995" blue="0.96799999999999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </view>
+                                                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa3-cnt" customClass="UIControl">
+                                                                        <rect key="frame" x="0.0" y="76" width="345" height="64"/>
+                                                                        <subviews>
+                                                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa3-icbg">
+                                                                                <rect key="frame" x="16" y="12" width="40" height="40"/>
+                                                                                <subviews>
+                                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="calendar.badge.clock" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa3-img">
+                                                                                        <rect key="frame" x="10.000000000000002" y="11.666666666666666" width="22.666666666666671" height="19.666666666666671"/>
+                                                                                        <color key="tintColor" red="0.0" green="0.45882352939999999" blue="0.8980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                                        <constraints>
+                                                                                            <constraint firstAttribute="height" constant="20" id="admc-qa3ih"/>
+                                                                                            <constraint firstAttribute="width" constant="20" id="admc-qa3iw"/>
+                                                                                        </constraints>
+                                                                                    </imageView>
+                                                                                </subviews>
+                                                                                <color key="backgroundColor" red="0.0" green="0.45882352939999999" blue="0.8980392157" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="height" constant="40" id="admc-qa3h"/>
+                                                                                    <constraint firstAttribute="width" constant="40" id="admc-qa3w"/>
+                                                                                    <constraint firstItem="adm-qa3-img" firstAttribute="centerX" secondItem="adm-qa3-icbg" secondAttribute="centerX" id="admc-qa3x"/>
+                                                                                    <constraint firstItem="adm-qa3-img" firstAttribute="centerY" secondItem="adm-qa3-icbg" secondAttribute="centerY" id="admc-qa3y"/>
+                                                                                </constraints>
+                                                                                <userDefinedRuntimeAttributes>
+                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                        <integer key="value" value="20"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                </userDefinedRuntimeAttributes>
+                                                                            </view>
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Quản lý đặt sân" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa3-t1">
+                                                                                <rect key="frame" x="72" y="14" width="106.66666666666669" height="17"/>
+                                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                                                                <nil key="textColor"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Xem lịch đặt &amp; xử lý booking" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa3-t2">
+                                                                                <rect key="frame" x="72" y="35" width="161" height="14.333333333333336"/>
+                                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                                <color key="textColor" white="0.33329999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa3-arr">
+                                                                                <rect key="frame" x="313" y="26" width="16" height="12.333333333333329"/>
+                                                                                <color key="tintColor" white="0.66659999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="height" constant="16" id="admc-qa3ah"/>
+                                                                                    <constraint firstAttribute="width" constant="16" id="admc-qa3aw"/>
+                                                                                </constraints>
+                                                                            </imageView>
+                                                                        </subviews>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="64" id="adm-qa3-h"/>
+                                                                            <constraint firstItem="adm-qa3-icbg" firstAttribute="centerY" secondItem="adm-qa3-cnt" secondAttribute="centerY" id="admc-qa3c1"/>
+                                                                            <constraint firstItem="adm-qa3-icbg" firstAttribute="leading" secondItem="adm-qa3-cnt" secondAttribute="leading" constant="16" id="admc-qa3c2"/>
+                                                                            <constraint firstItem="adm-qa3-t1" firstAttribute="leading" secondItem="adm-qa3-icbg" secondAttribute="trailing" constant="16" id="admc-qa3c3"/>
+                                                                            <constraint firstItem="adm-qa3-t1" firstAttribute="top" secondItem="adm-qa3-cnt" secondAttribute="top" constant="14" id="admc-qa3c4"/>
+                                                                            <constraint firstItem="adm-qa3-t2" firstAttribute="leading" secondItem="adm-qa3-icbg" secondAttribute="trailing" constant="16" id="admc-qa3c5"/>
+                                                                            <constraint firstItem="adm-qa3-t2" firstAttribute="top" secondItem="adm-qa3-t1" secondAttribute="bottom" constant="4" id="admc-qa3c6"/>
+                                                                            <constraint firstAttribute="trailing" secondItem="adm-qa3-arr" secondAttribute="trailing" constant="16" id="admc-qa3c7"/>
+                                                                            <constraint firstItem="adm-qa3-arr" firstAttribute="centerY" secondItem="adm-qa3-cnt" secondAttribute="centerY" id="admc-qa3c8"/>
+                                                                        </constraints>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                <integer key="value" value="12"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                                                                <integer key="value" value="1"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                            <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
+                                                                                <color key="value" red="0.94899999999999995" green="0.94899999999999995" blue="0.96799999999999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </view>
+                                                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa4-cnt" customClass="UIControl">
+                                                                        <rect key="frame" x="0.0" y="152" width="345" height="64"/>
+                                                                        <subviews>
+                                                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa4-icbg">
+                                                                                <rect key="frame" x="16" y="12" width="40" height="40"/>
+                                                                                <subviews>
+                                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="person.2.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa4-img">
+                                                                                        <rect key="frame" x="10" y="11.666666666666664" width="20" height="18"/>
+                                                                                        <color key="tintColor" systemColor="systemOrangeColor"/>
+                                                                                        <constraints>
+                                                                                            <constraint firstAttribute="height" constant="20" id="admc-qa4ih"/>
+                                                                                            <constraint firstAttribute="width" constant="20" id="admc-qa4iw"/>
+                                                                                        </constraints>
+                                                                                    </imageView>
+                                                                                </subviews>
+                                                                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="height" constant="40" id="admc-qa4h"/>
+                                                                                    <constraint firstAttribute="width" constant="40" id="admc-qa4w"/>
+                                                                                    <constraint firstItem="adm-qa4-img" firstAttribute="centerX" secondItem="adm-qa4-icbg" secondAttribute="centerX" id="admc-qa4x"/>
+                                                                                    <constraint firstItem="adm-qa4-img" firstAttribute="centerY" secondItem="adm-qa4-icbg" secondAttribute="centerY" id="admc-qa4y"/>
+                                                                                </constraints>
+                                                                                <userDefinedRuntimeAttributes>
+                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                        <integer key="value" value="20"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                </userDefinedRuntimeAttributes>
+                                                                            </view>
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Quản lý nhân sự" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa4-t1">
+                                                                                <rect key="frame" x="72" y="14" width="109.66666666666669" height="17"/>
+                                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                                                                <nil key="textColor"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Phân quyền &amp; quản lý nhân viên" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa4-t2">
+                                                                                <rect key="frame" x="72.000000000000014" y="35" width="180.33333333333337" height="14.333333333333336"/>
+                                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                                <color key="textColor" white="0.33329999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa4-arr">
+                                                                                <rect key="frame" x="313" y="26" width="16" height="12.333333333333329"/>
+                                                                                <color key="tintColor" white="0.66659999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="height" constant="16" id="admc-qa4ah"/>
+                                                                                    <constraint firstAttribute="width" constant="16" id="admc-qa4aw"/>
+                                                                                </constraints>
+                                                                            </imageView>
+                                                                        </subviews>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="64" id="adm-qa4-h"/>
+                                                                            <constraint firstItem="adm-qa4-icbg" firstAttribute="centerY" secondItem="adm-qa4-cnt" secondAttribute="centerY" id="admc-qa4c1"/>
+                                                                            <constraint firstItem="adm-qa4-icbg" firstAttribute="leading" secondItem="adm-qa4-cnt" secondAttribute="leading" constant="16" id="admc-qa4c2"/>
+                                                                            <constraint firstItem="adm-qa4-t1" firstAttribute="leading" secondItem="adm-qa4-icbg" secondAttribute="trailing" constant="16" id="admc-qa4c3"/>
+                                                                            <constraint firstItem="adm-qa4-t1" firstAttribute="top" secondItem="adm-qa4-cnt" secondAttribute="top" constant="14" id="admc-qa4c4"/>
+                                                                            <constraint firstItem="adm-qa4-t2" firstAttribute="leading" secondItem="adm-qa4-icbg" secondAttribute="trailing" constant="16" id="admc-qa4c5"/>
+                                                                            <constraint firstItem="adm-qa4-t2" firstAttribute="top" secondItem="adm-qa4-t1" secondAttribute="bottom" constant="4" id="admc-qa4c6"/>
+                                                                            <constraint firstAttribute="trailing" secondItem="adm-qa4-arr" secondAttribute="trailing" constant="16" id="admc-qa4c7"/>
+                                                                            <constraint firstItem="adm-qa4-arr" firstAttribute="centerY" secondItem="adm-qa4-cnt" secondAttribute="centerY" id="admc-qa4c8"/>
+                                                                        </constraints>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                <integer key="value" value="12"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                                                                <integer key="value" value="1"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                            <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
+                                                                                <color key="value" red="0.94899999999999995" green="0.94899999999999995" blue="0.96799999999999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </view>
+                                                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-cnt" customClass="UIControl">
+                                                                        <rect key="frame" x="0.0" y="228" width="345" height="72"/>
+                                                                        <subviews>
+                                                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-icbg">
+                                                                                <rect key="frame" x="16" y="16" width="40" height="40"/>
+                                                                                <subviews>
+                                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="text.document.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-img">
+                                                                                        <rect key="frame" x="10" y="10.33333333333333" width="20" height="19.666666666666671"/>
+                                                                                        <color key="tintColor" white="0.33329999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                        <constraints>
+                                                                                            <constraint firstAttribute="height" constant="20" id="admc-qa2ih"/>
+                                                                                            <constraint firstAttribute="width" constant="20" id="admc-qa2iw"/>
+                                                                                        </constraints>
+                                                                                    </imageView>
+                                                                                </subviews>
+                                                                                <color key="backgroundColor" red="0.94899999999999995" green="0.94899999999999995" blue="0.96799999999999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="height" constant="40" id="admc-qa2h"/>
+                                                                                    <constraint firstAttribute="width" constant="40" id="admc-qa2w"/>
+                                                                                    <constraint firstItem="adm-qa2-img" firstAttribute="centerX" secondItem="adm-qa2-icbg" secondAttribute="centerX" id="admc-qa2x"/>
+                                                                                    <constraint firstItem="adm-qa2-img" firstAttribute="centerY" secondItem="adm-qa2-icbg" secondAttribute="centerY" id="admc-qa2y"/>
+                                                                                </constraints>
+                                                                                <userDefinedRuntimeAttributes>
+                                                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                        <integer key="value" value="20"/>
+                                                                                    </userDefinedRuntimeAttribute>
+                                                                                </userDefinedRuntimeAttributes>
+                                                                            </view>
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Lịch sử hệ thống" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-t1">
+                                                                                <rect key="frame" x="72" y="14" width="113.33333333333331" height="17"/>
+                                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                                                                <nil key="textColor"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Truy cập hệ thống lịch sử" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-t2">
+                                                                                <rect key="frame" x="71.999999999999986" y="35" width="142.66666666666663" height="14.333333333333336"/>
+                                                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                                <color key="textColor" white="0.33329999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-arr">
+                                                                                <rect key="frame" x="313" y="30" width="16" height="12.333333333333329"/>
+                                                                                <color key="tintColor" white="0.66659999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="height" constant="16" id="admc-qa2ah"/>
+                                                                                    <constraint firstAttribute="width" constant="16" id="admc-qa2aw"/>
+                                                                                </constraints>
+                                                                            </imageView>
+                                                                        </subviews>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="64" id="adm-qa2-h"/>
+                                                                            <constraint firstItem="adm-qa2-icbg" firstAttribute="centerY" secondItem="adm-qa2-cnt" secondAttribute="centerY" id="admc-qa2c1"/>
+                                                                            <constraint firstItem="adm-qa2-icbg" firstAttribute="leading" secondItem="adm-qa2-cnt" secondAttribute="leading" constant="16" id="admc-qa2c2"/>
+                                                                            <constraint firstItem="adm-qa2-t1" firstAttribute="leading" secondItem="adm-qa2-icbg" secondAttribute="trailing" constant="16" id="admc-qa2c3"/>
+                                                                            <constraint firstItem="adm-qa2-t1" firstAttribute="top" secondItem="adm-qa2-cnt" secondAttribute="top" constant="14" id="admc-qa2c4"/>
+                                                                            <constraint firstItem="adm-qa2-t2" firstAttribute="leading" secondItem="adm-qa2-icbg" secondAttribute="trailing" constant="16" id="admc-qa2c5"/>
+                                                                            <constraint firstItem="adm-qa2-t2" firstAttribute="top" secondItem="adm-qa2-t1" secondAttribute="bottom" constant="4" id="admc-qa2c6"/>
+                                                                            <constraint firstAttribute="trailing" secondItem="adm-qa2-arr" secondAttribute="trailing" constant="16" id="admc-qa2c7"/>
+                                                                            <constraint firstItem="adm-qa2-arr" firstAttribute="centerY" secondItem="adm-qa2-cnt" secondAttribute="centerY" id="admc-qa2c8"/>
+                                                                        </constraints>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                <integer key="value" value="12"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                                                                <integer key="value" value="1"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                            <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
+                                                                                <color key="value" red="0.94899999999999995" green="0.94899999999999995" blue="0.96799999999999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                            </userDefinedRuntimeAttribute>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </view>
                                                                 </subviews>
                                                                 <constraints>
-                                                                    <constraint firstItem="adm-qa1" firstAttribute="height" secondItem="adm-qa2" secondAttribute="height" id="admc-qae"/>
+                                                                    <constraint firstAttribute="height" constant="300" id="adm-s3-stkh"/>
                                                                 </constraints>
                                                             </stackView>
-                                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1-cnt">
-                                                                <rect key="frame" x="0.0" y="24.333300000000001" width="345" height="62.666600000000003"/>
-                                                                <subviews>
-                                                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1-icbg">
-                                                                        <rect key="frame" x="16" y="11.333300000000001" width="40" height="40"/>
-                                                                        <subviews>
-                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="figure.badminton" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1-img">
-                                                                                <rect key="frame" x="10" y="8.6666666666666679" width="20" height="23"/>
-                                                                                <color key="tintColor" red="0.0" green="0.90190000000000003" blue="0.46660000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                <constraints>
-                                                                                    <constraint firstAttribute="height" constant="20" id="admc-qa1ih"/>
-                                                                                    <constraint firstAttribute="width" constant="20" id="admc-qa1iw"/>
-                                                                                </constraints>
-                                                                            </imageView>
-                                                                        </subviews>
-                                                                        <color key="backgroundColor" red="0.0" green="0.90190000000000003" blue="0.46660000000000001" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="height" constant="40" id="admc-qa1h"/>
-                                                                            <constraint firstAttribute="width" constant="40" id="admc-qa1w"/>
-                                                                            <constraint firstItem="adm-qa1-img" firstAttribute="centerX" secondItem="adm-qa1-icbg" secondAttribute="centerX" id="admc-qa1x"/>
-                                                                            <constraint firstItem="adm-qa1-img" firstAttribute="centerY" secondItem="adm-qa1-icbg" secondAttribute="centerY" id="admc-qa1y"/>
-                                                                        </constraints>
-                                                                        <userDefinedRuntimeAttributes>
-                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                                <integer key="value" value="20"/>
-                                                                            </userDefinedRuntimeAttribute>
-                                                                        </userDefinedRuntimeAttributes>
-                                                                    </view>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Quản lý sân" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1-t1">
-                                                                        <rect key="frame" x="72" y="14" width="80" height="17"/>
-                                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                                                        <nil key="textColor"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Chỉnh sửa sân" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1-t2">
-                                                                        <rect key="frame" x="72" y="35" width="79.666666666666686" height="14.333333333333336"/>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                                        <color key="textColor" white="0.33329999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1-arr">
-                                                                        <rect key="frame" x="313" y="25" width="16" height="12.666600000000001"/>
-                                                                        <color key="tintColor" white="0.66659999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="height" constant="16" id="admc-qa1ah"/>
-                                                                            <constraint firstAttribute="width" constant="16" id="admc-qa1aw"/>
-                                                                        </constraints>
-                                                                    </imageView>
-                                                                </subviews>
-                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <constraints>
-                                                                    <constraint firstItem="adm-qa1-icbg" firstAttribute="centerY" secondItem="adm-qa1-cnt" secondAttribute="centerY" id="admc-qa1c1"/>
-                                                                    <constraint firstItem="adm-qa1-icbg" firstAttribute="leading" secondItem="adm-qa1-cnt" secondAttribute="leading" constant="16" id="admc-qa1c2"/>
-                                                                    <constraint firstItem="adm-qa1-t1" firstAttribute="leading" secondItem="adm-qa1-icbg" secondAttribute="trailing" constant="16" id="admc-qa1c3"/>
-                                                                    <constraint firstItem="adm-qa1-t1" firstAttribute="top" secondItem="adm-qa1-cnt" secondAttribute="top" constant="14" id="admc-qa1c4"/>
-                                                                    <constraint firstItem="adm-qa1-t2" firstAttribute="leading" secondItem="adm-qa1-icbg" secondAttribute="trailing" constant="16" id="admc-qa1c5"/>
-                                                                    <constraint firstItem="adm-qa1-t2" firstAttribute="top" secondItem="adm-qa1-t1" secondAttribute="bottom" constant="4" id="admc-qa1c6"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="adm-qa1-arr" secondAttribute="trailing" constant="16" id="admc-qa1c7"/>
-                                                                    <constraint firstItem="adm-qa1-arr" firstAttribute="centerY" secondItem="adm-qa1-cnt" secondAttribute="centerY" id="admc-qa1c8"/>
-                                                                </constraints>
-                                                                <userDefinedRuntimeAttributes>
-                                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                        <integer key="value" value="12"/>
-                                                                    </userDefinedRuntimeAttribute>
-                                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                                        <integer key="value" value="1"/>
-                                                                    </userDefinedRuntimeAttribute>
-                                                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
-                                                                        <color key="value" red="0.94899999999999995" green="0.94899999999999995" blue="0.96799999999999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    </userDefinedRuntimeAttribute>
-                                                                </userDefinedRuntimeAttributes>
-                                                            </view>
-                                                            <view userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-cnt">
-                                                                <rect key="frame" x="0.0" y="99" width="345" height="63"/>
-                                                                <subviews>
-                                                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-icbg">
-                                                                        <rect key="frame" x="16" y="11.333300000000001" width="40" height="40"/>
-                                                                        <subviews>
-                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="text.document.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-img">
-                                                                                <rect key="frame" x="10" y="10.33333333333333" width="20" height="19.666666666666671"/>
-                                                                                <color key="tintColor" white="0.33329999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                                <constraints>
-                                                                                    <constraint firstAttribute="height" constant="20" id="admc-qa2ih"/>
-                                                                                    <constraint firstAttribute="width" constant="20" id="admc-qa2iw"/>
-                                                                                </constraints>
-                                                                            </imageView>
-                                                                        </subviews>
-                                                                        <color key="backgroundColor" red="0.94899999999999995" green="0.94899999999999995" blue="0.96799999999999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="height" constant="40" id="admc-qa2h"/>
-                                                                            <constraint firstAttribute="width" constant="40" id="admc-qa2w"/>
-                                                                            <constraint firstItem="adm-qa2-img" firstAttribute="centerX" secondItem="adm-qa2-icbg" secondAttribute="centerX" id="admc-qa2x"/>
-                                                                            <constraint firstItem="adm-qa2-img" firstAttribute="centerY" secondItem="adm-qa2-icbg" secondAttribute="centerY" id="admc-qa2y"/>
-                                                                        </constraints>
-                                                                        <userDefinedRuntimeAttributes>
-                                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                                <integer key="value" value="20"/>
-                                                                            </userDefinedRuntimeAttribute>
-                                                                        </userDefinedRuntimeAttributes>
-                                                                    </view>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Lịch sử hệ thống" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-t1">
-                                                                        <rect key="frame" x="72" y="14" width="113.33333333333331" height="17"/>
-                                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                                                        <nil key="textColor"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Truy cập hệ thống lịch sử" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-t2">
-                                                                        <rect key="frame" x="71.999999999999986" y="35" width="142.66666666666663" height="14.333333333333336"/>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                                        <color key="textColor" white="0.33329999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-arr">
-                                                                        <rect key="frame" x="313" y="25.333300000000001" width="16" height="12.666600000000001"/>
-                                                                        <color key="tintColor" white="0.66659999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="height" constant="16" id="admc-qa2ah"/>
-                                                                            <constraint firstAttribute="width" constant="16" id="admc-qa2aw"/>
-                                                                        </constraints>
-                                                                    </imageView>
-                                                                </subviews>
-                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <constraints>
-                                                                    <constraint firstItem="adm-qa2-icbg" firstAttribute="centerY" secondItem="adm-qa2-cnt" secondAttribute="centerY" id="admc-qa2c1"/>
-                                                                    <constraint firstItem="adm-qa2-icbg" firstAttribute="leading" secondItem="adm-qa2-cnt" secondAttribute="leading" constant="16" id="admc-qa2c2"/>
-                                                                    <constraint firstItem="adm-qa2-t1" firstAttribute="leading" secondItem="adm-qa2-icbg" secondAttribute="trailing" constant="16" id="admc-qa2c3"/>
-                                                                    <constraint firstItem="adm-qa2-t1" firstAttribute="top" secondItem="adm-qa2-cnt" secondAttribute="top" constant="14" id="admc-qa2c4"/>
-                                                                    <constraint firstItem="adm-qa2-t2" firstAttribute="leading" secondItem="adm-qa2-icbg" secondAttribute="trailing" constant="16" id="admc-qa2c5"/>
-                                                                    <constraint firstItem="adm-qa2-t2" firstAttribute="top" secondItem="adm-qa2-t1" secondAttribute="bottom" constant="4" id="admc-qa2c6"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="adm-qa2-arr" secondAttribute="trailing" constant="16" id="admc-qa2c7"/>
-                                                                    <constraint firstItem="adm-qa2-arr" firstAttribute="centerY" secondItem="adm-qa2-cnt" secondAttribute="centerY" id="admc-qa2c8"/>
-                                                                </constraints>
-                                                                <userDefinedRuntimeAttributes>
-                                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                        <integer key="value" value="12"/>
-                                                                    </userDefinedRuntimeAttribute>
-                                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                                        <integer key="value" value="1"/>
-                                                                    </userDefinedRuntimeAttribute>
-                                                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
-                                                                        <color key="value" red="0.94899999999999995" green="0.94899999999999995" blue="0.96799999999999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    </userDefinedRuntimeAttribute>
-                                                                </userDefinedRuntimeAttributes>
-                                                            </view>
                                                         </subviews>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
-                                                            <constraint firstItem="adm-qa1-cnt" firstAttribute="leading" secondItem="adm-qa1" secondAttribute="leading" id="admc-qao1"/>
-                                                            <constraint firstItem="adm-qa1-cnt" firstAttribute="trailing" secondItem="adm-qa1" secondAttribute="trailing" id="admc-qao2"/>
-                                                            <constraint firstItem="adm-qa1-cnt" firstAttribute="top" secondItem="adm-qa1" secondAttribute="top" id="admc-qao3"/>
-                                                            <constraint firstItem="adm-qa1-cnt" firstAttribute="bottom" secondItem="adm-qa1" secondAttribute="bottom" id="admc-qao4"/>
-                                                            <constraint firstItem="adm-qa2-cnt" firstAttribute="leading" secondItem="adm-qa2" secondAttribute="leading" id="admc-qao5"/>
-                                                            <constraint firstItem="adm-qa2-cnt" firstAttribute="trailing" secondItem="adm-qa2" secondAttribute="trailing" id="admc-qao6"/>
-                                                            <constraint firstItem="adm-qa2-cnt" firstAttribute="top" secondItem="adm-qa2" secondAttribute="top" id="admc-qao7"/>
-                                                            <constraint firstItem="adm-qa2-cnt" firstAttribute="bottom" secondItem="adm-qa2" secondAttribute="bottom" id="admc-qao8"/>
-                                                            <constraint firstAttribute="height" constant="162" id="admc-s3h"/>
-                                                            <constraint firstItem="adm-s3-lbl" firstAttribute="leading" secondItem="adm-sec3" secondAttribute="leading" constant="4" id="admc-s3l1"/>
-                                                            <constraint firstItem="adm-s3-lbl" firstAttribute="top" secondItem="adm-sec3" secondAttribute="top" id="admc-s3l2"/>
-                                                            <constraint firstAttribute="trailing" secondItem="adm-s3-lbl" secondAttribute="trailing" constant="4" id="admc-s3l3"/>
-                                                            <constraint firstItem="adm-s3-stk" firstAttribute="leading" secondItem="adm-sec3" secondAttribute="leading" id="admc-s3s1"/>
                                                             <constraint firstAttribute="trailing" secondItem="adm-s3-stk" secondAttribute="trailing" id="admc-s3s2"/>
                                                             <constraint firstItem="adm-s3-stk" firstAttribute="top" secondItem="adm-s3-lbl" secondAttribute="bottom" constant="10" id="admc-s3s3"/>
                                                             <constraint firstAttribute="bottom" secondItem="adm-s3-stk" secondAttribute="bottom" id="admc-s3s4"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-sec4">
-                                                        <rect key="frame" x="0.0" y="620.33333333333337" width="345" height="120"/>
+                                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="adm-sec4">
+                                                        <rect key="frame" x="0.0" y="744.33333333333337" width="345" height="120"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Tình trạng sân" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-s4-lbl">
                                                                 <rect key="frame" x="4" y="0.0" width="337" height="14.333333333333334"/>
@@ -7238,7 +7504,7 @@ All rights reserved.</string>
                                                                                 <rect key="frame" x="0.0" y="48" width="345" height="47.666666666666657"/>
                                                                                 <subviews>
                                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-sh2-dot">
-                                                                                        <rect key="frame" x="16" y="19.666666666666742" width="8" height="8"/>
+                                                                                        <rect key="frame" x="16" y="19.666666666666629" width="8" height="8"/>
                                                                                         <color key="backgroundColor" red="0.97599999999999998" green="0.45100000000000001" blue="0.085999999999999993" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                         <constraints>
                                                                                             <constraint firstAttribute="height" constant="8" id="admc-sh2h"/>
@@ -7356,6 +7622,17 @@ All rights reserved.</string>
                             <constraint firstItem="adm-scroll" firstAttribute="leading" secondItem="adm-safe" secondAttribute="leading" id="admc-m9"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="bookingsCard" destination="adm-qa3-cnt" id="adm-out-book"/>
+                        <outlet property="maintenanceCard" destination="adm-qa2-cnt" id="adm-out-maint"/>
+                        <outlet property="courtCard" destination="adm-qa1-cnt" id="adm-out-court"/>
+                        <outlet property="nameLabel" destination="adm-lbl-name" id="adm-out-1"/>
+                        <outlet property="revenueCard" destination="adm-c2" id="adm-out-rev"/>
+                        <outlet property="revenueSection" destination="adm-sec2" id="adm-out-sec2"/>
+                        <outlet property="staffCard" destination="adm-qa4-cnt" id="adm-out-staff"/>
+                        <outlet property="statsCard" destination="adm-c1" id="adm-out-stats"/>
+                        <outlet property="statsSection" destination="adm-sec1" id="adm-out-sec1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="adm-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -7926,6 +8203,51 @@ All rights reserved.</string>
             </objects>
             <point key="canvasLocation" x="17379" y="-27"/>
         </scene>
+        <!--Booking Management View Controller-->
+        <scene sceneID="booking-mgmt-scene">
+            <objects>
+                <viewController storyboardIdentifier="BookingManagementVC" id="bk-mgmt-vc" customClass="BookingManagementViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bk-mgmt-view">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="6qE-bb-4F0"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bk-mgmt-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="17990" y="-13"/>
+        </scene>
+        <!--Staff Management View Controller-->
+        <scene sceneID="staff-mgmt-scene">
+            <objects>
+                <viewController storyboardIdentifier="StaffManagementVC" id="st-mgmt-vc" customClass="StaffManagementViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="st-mgmt-view">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="BCV-U3-Y9J"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="st-mgmt-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="18600" y="-27"/>
+        </scene>
+        <!--Maintenance View Controller-->
+        <scene sceneID="maint-scene">
+            <objects>
+                <viewController storyboardIdentifier="MaintenanceVC" id="maint-vc" customClass="MaintenanceViewController" customModule="BatApIos" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="maint-view">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="0tl-hX-xH5"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="maint-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="19200" y="-27"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="main-tab-scene">
             <objects>
@@ -7947,6 +8269,9 @@ All rights reserved.</string>
             <point key="canvasLocation" x="-1000" y="-1000"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="home-seg-ntf"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.right" catalog="system" width="128" height="110"/>
         <image name="arrow.forward" catalog="system" width="128" height="95"/>
@@ -7958,6 +8283,7 @@ All rights reserved.</string>
         <image name="bell.fill" catalog="system" width="123" height="128"/>
         <image name="building.columns" catalog="system" width="128" height="112"/>
         <image name="calendar" catalog="system" width="128" height="107"/>
+        <image name="calendar.badge.clock" catalog="system" width="128" height="109"/>
         <image name="camera.viewfinder" catalog="system" width="128" height="115"/>
         <image name="chart.bar.fill" catalog="system" width="128" height="90"/>
         <image name="chart.bar.xaxis" catalog="system" width="128" height="97"/>
@@ -7996,6 +8322,7 @@ All rights reserved.</string>
         <image name="pencil" catalog="system" width="128" height="113"/>
         <image name="person" catalog="system" width="128" height="121"/>
         <image name="person.2" catalog="system" width="128" height="87"/>
+        <image name="person.2.fill" catalog="system" width="128" height="86"/>
         <image name="person.3.fill" catalog="system" width="128" height="66"/>
         <image name="person.circle.fill" catalog="system" width="128" height="123"/>
         <image name="person.crop.circle.fill" catalog="system" width="128" height="123"/>
@@ -8004,6 +8331,7 @@ All rights reserved.</string>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="123"/>
         <image name="qrcode.viewfinder" catalog="system" width="128" height="115"/>
+        <image name="rectangle.portrait.and.arrow.right" catalog="system" width="128" height="109"/>
         <image name="repeat" catalog="system" width="128" height="98"/>
         <image name="slider.horizontal.3" catalog="system" width="128" height="99"/>
         <image name="sportscourt" catalog="system" width="128" height="83"/>
@@ -8029,6 +8357,12 @@ All rights reserved.</string>
         </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.55294117649999996" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.21960784310000001" blue="0.23529411759999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiarySystemGroupedBackgroundColor">
             <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

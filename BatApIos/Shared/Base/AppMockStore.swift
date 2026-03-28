@@ -10,6 +10,31 @@ struct BookingRecord {
     var totalPrice: Double
     var status: BookingStatus
     var paymentMethodName: String?
+    var courtNumber: Int? = nil
+    var courtTypeName: String? = nil
+    var voucherCode: String? = nil
+    var discountAmount: Double = 0
+}
+
+struct CourtBookingDraft {
+    let courtName: String
+    let courtNumber: Int
+    let courtTypeName: String
+    let bookingDate: Date
+    let dateDisplayText: String
+    let timeDisplayText: String
+    let startTime: Date
+    let endTime: Date
+    let voucherCode: String?
+    let discountAmount: Double
+    let totalPrice: Double
+}
+
+struct PromotionBanner {
+    let title: String
+    let subtitle: String
+    let voucherCode: String
+    let discountAmount: Double
 }
 
 struct AppNotificationItem {
@@ -29,6 +54,8 @@ enum AppLogicError: LocalizedError {
     case noActiveSession
     case bookingNotFound
     case bookingAlreadyPaid
+    case bookingNotReadyForCheckIn
+    case bookingAlreadyCheckedIn
 
     var errorDescription: String? {
         switch self {
@@ -48,6 +75,10 @@ enum AppLogicError: LocalizedError {
             return "Không tìm thấy booking cần xử lý."
         case .bookingAlreadyPaid:
             return "Booking này đã được thanh toán."
+        case .bookingNotReadyForCheckIn:
+            return "Chỉ booking đã thanh toán mới có thể check-in."
+        case .bookingAlreadyCheckedIn:
+            return "Booking này đã được check-in trước đó."
         }
     }
 }
@@ -59,6 +90,7 @@ final class AppMockStore {
     private var users: [User] = []
     private var bookings: [BookingRecord] = []
     private var notifications: [AppNotificationItem] = []
+    private var courts: [Court] = []
 
     private init() {
         seedData()
@@ -105,6 +137,7 @@ final class AppMockStore {
             message: "Tài khoản \(newUser.username) đã được tạo thành công."
         )
         appendSystemLog(title: "Đăng ký", message: "Tạo tài khoản mới: \(newUser.email)")
+        currentUser = newUser
         return newUser
     }
 
@@ -156,24 +189,44 @@ final class AppMockStore {
     }
 
     func createBooking(courtTypeName: String, totalPrice: Double) throws -> BookingRecord {
-        guard let user = currentUser else {
-            throw AppLogicError.noActiveSession
-        }
-
         let now = Date()
         let bookingDate = Calendar.current.date(byAdding: .day, value: 1, to: now) ?? now
         let startTime = Calendar.current.date(bySettingHour: 18, minute: 0, second: 0, of: bookingDate) ?? bookingDate
         let endTime = Calendar.current.date(byAdding: .minute, value: 90, to: startTime) ?? startTime
+        let draft = CourtBookingDraft(
+            courtName: courtTypeName,
+            courtNumber: 1,
+            courtTypeName: courtTypeName,
+            bookingDate: bookingDate,
+            dateDisplayText: "",
+            timeDisplayText: "",
+            startTime: startTime,
+            endTime: endTime,
+            voucherCode: nil,
+            discountAmount: 0,
+            totalPrice: totalPrice
+        )
+        return try createBooking(from: draft)
+    }
+
+    func createBooking(from draft: CourtBookingDraft) throws -> BookingRecord {
+        guard let user = currentUser else {
+            throw AppLogicError.noActiveSession
+        }
         let booking = BookingRecord(
             id: Self.makeBookingCode(),
             userId: user.id ?? "",
-            courtName: courtTypeName,
-            bookingDate: bookingDate,
-            startTime: startTime,
-            endTime: endTime,
-            totalPrice: totalPrice,
+            courtName: draft.courtName,
+            bookingDate: draft.bookingDate,
+            startTime: draft.startTime,
+            endTime: draft.endTime,
+            totalPrice: draft.totalPrice,
             status: .pending,
-            paymentMethodName: nil
+            paymentMethodName: nil,
+            courtNumber: draft.courtNumber,
+            courtTypeName: draft.courtTypeName,
+            voucherCode: draft.voucherCode,
+            discountAmount: draft.discountAmount
         )
         bookings.insert(booking, at: 0)
         appendNotification(
@@ -181,7 +234,7 @@ final class AppMockStore {
             title: "Đã tạo booking",
             message: "Booking \(booking.id) cho \(booking.courtName) đang chờ thanh toán."
         )
-        appendSystemLog(title: "Tạo booking", message: "Booking \(booking.id) với giá \(Int(totalPrice)) đ")
+        appendSystemLog(title: "Tạo booking", message: "Booking \(booking.id) với giá \(Int(draft.totalPrice)) đ")
         return booking
     }
 
@@ -223,8 +276,49 @@ final class AppMockStore {
         return bookings.first(where: { $0.userId == user.id })
     }
 
+    func myBookings() -> [BookingRecord] {
+        guard let user = currentUser else { return [] }
+        return bookings
+            .filter { $0.userId == user.id }
+            .sorted { lhs, rhs in
+                if lhs.bookingDate == rhs.bookingDate {
+                    return lhs.startTime > rhs.startTime
+                }
+                return lhs.bookingDate > rhs.bookingDate
+            }
+    }
+
     func findBooking(code: String) -> BookingRecord? {
         bookings.first { $0.id.uppercased() == code.trimmingCharacters(in: .whitespacesAndNewlines).uppercased() }
+    }
+
+    func displayName(for userId: String) -> String {
+        users.first(where: { $0.id == userId })?.username ?? "Khách vãng lai"
+    }
+
+    @discardableResult
+    func checkInBooking(code: String) throws -> BookingRecord {
+        let normalizedCode = code.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        guard let index = bookings.firstIndex(where: { $0.id.uppercased() == normalizedCode }) else {
+            throw AppLogicError.bookingNotFound
+        }
+
+        if bookings[index].status == .active {
+            throw AppLogicError.bookingAlreadyCheckedIn
+        }
+
+        guard bookings[index].status == .fullyPaid || bookings[index].status == .partiallyPaid else {
+            throw AppLogicError.bookingNotReadyForCheckIn
+        }
+
+        bookings[index].status = .active
+        appendNotification(
+            userId: bookings[index].userId,
+            title: "Check-in thành công",
+            message: "Booking \(bookings[index].id) đã được xác nhận check-in."
+        )
+        appendSystemLog(title: "Check-in", message: "Booking \(bookings[index].id) đã được staff xác nhận check-in.")
+        return bookings[index]
     }
 
     func notificationsForCurrentUser() -> [AppNotificationItem] {
@@ -232,6 +326,108 @@ final class AppMockStore {
         return notifications
             .filter { $0.userId == user.id }
             .sorted { $0.createdAt > $1.createdAt }
+    }
+
+    // MARK: - Admin Accessors
+
+    func getAllBookings() -> [BookingRecord] {
+        return bookings.sorted { $0.bookingDate > $1.bookingDate }
+    }
+
+    func getAllUsers() -> [User] {
+        return users.sorted { $0.username < $1.username }
+    }
+
+    func featuredCourts() -> [Court] {
+        courts.filter { $0.status == .active }
+    }
+
+    func activePromotion() -> PromotionBanner {
+        PromotionBanner(
+            title: "Ưu đãi người mới",
+            subtitle: "Nhập GIAM50K để giảm 50.000đ cho lượt đặt sân đầu tiên",
+            voucherCode: "GIAM50K",
+            discountAmount: 50_000
+        )
+    }
+
+    func availablePromotions() -> [PromotionBanner] {
+        [
+            activePromotion(),
+            PromotionBanner(
+                title: "Khung giờ vàng",
+                subtitle: "Nhập MORNING30 để giảm 30.000đ cho lượt đặt trước 10:00",
+                voucherCode: "MORNING30",
+                discountAmount: 30_000
+            ),
+            PromotionBanner(
+                title: "Ưu đãi sân VIP",
+                subtitle: "Nhập VIP20 để giảm 20.000đ khi đặt sân VIP",
+                voucherCode: "VIP20",
+                discountAmount: 20_000
+            )
+        ]
+    }
+    
+    // MARK: - Court Store
+    
+    func getAllCourts() -> [Court] {
+        return courts
+    }
+    
+    func getCourtById(id: String) -> Court? {
+        return courts.first(where: { $0.id == id })
+    }
+    
+    func updateCourtStatus(id: String, status: CourtStatus) {
+        if let index = courts.firstIndex(where: { $0.id == id }) {
+            courts[index].status = status
+            appendSystemLog(title: "Cập nhật sân", message: "Sân \(courts[index].name) được chuyển sang trạng thái \(status.rawValue).")
+        }
+    }
+
+    func createCourt(name: String, type: CourtType, locationId: String, pricePerHour: Double, status: CourtStatus) {
+        let newCourt = Court(
+            id: Self.makeCourtCode(existingIDs: courts.compactMap(\.id)),
+            name: name,
+            type: type,
+            locationId: locationId,
+            pricePerHour: pricePerHour,
+            status: status
+        )
+        courts.append(newCourt)
+        appendSystemLog(title: "Tạo sân", message: "Đã tạo sân \(newCourt.name) với giá \(Int(pricePerHour)) đ/giờ.")
+    }
+
+    func updateCourt(id: String, name: String, type: CourtType, locationId: String, pricePerHour: Double, status: CourtStatus) {
+        guard let index = courts.firstIndex(where: { $0.id == id }) else { return }
+
+        courts[index].name = name
+        courts[index].type = type
+        courts[index].locationId = locationId
+        courts[index].pricePerHour = pricePerHour
+        courts[index].status = status
+
+        appendSystemLog(title: "Sửa sân", message: "Đã cập nhật sân \(courts[index].name).")
+    }
+
+    func deleteCourt(id: String) {
+        guard let index = courts.firstIndex(where: { $0.id == id }) else { return }
+        let removedCourt = courts.remove(at: index)
+        appendSystemLog(title: "Xóa sân", message: "Đã xóa sân \(removedCourt.name).")
+    }
+
+    func getSystemLogs() -> [AppNotificationItem] {
+        return notifications
+            .filter { $0.userId == "system-log" }
+            .sorted { $0.createdAt > $1.createdAt }
+    }
+
+    func updateBookingStatus(id: String, status: BookingStatus) {
+        if let index = bookings.firstIndex(where: { $0.id == id }) {
+            bookings[index].status = status
+            appendSystemLog(title: "Cập nhật Booking", message: "Booking \(id) đổi trạng thái sang \(status).")
+        }
     }
 
     private func seedData() {
@@ -242,7 +438,15 @@ final class AppMockStore {
             User(id: UUID().uuidString, email: "staff@batapp.vn", username: "Staff BatApp", password: "12345678", role: .staff, walletBalance: 0, createdAt: now, updatedAt: now)
         ]
         users = demoUsers
-        currentUser = demoUsers[0]
+        
+        courts = [
+            Court(id: "C01", name: "Sân Thường 01", type: .single, locationId: "L01", pricePerHour: 100_000, status: .active),
+            Court(id: "C02", name: "Sân VIP 02", type: .vip, locationId: "L01", pricePerHour: 220_000, status: .active),
+            Court(id: "C03", name: "Sân Thường 03", type: .double, locationId: "L01", pricePerHour: 150_000, status: .active),
+            Court(id: "C04", name: "Sân VIP 04", type: .vip, locationId: "L01", pricePerHour: 220_000, status: .maintenance)
+        ]
+        // currentUser = demoUsers[0] // Start as guest for demo flow
+
 
         let booking = BookingRecord(
             id: Self.makeBookingCode(),
@@ -292,6 +496,23 @@ final class AppMockStore {
 
     private static func makeBookingCode() -> String {
         "BK-\(Int.random(in: 100000...999999))"
+    }
+
+    private static func makeCourtCode(existingIDs: [String]) -> String {
+        let usedNumbers = Set(
+            existingIDs.compactMap { id -> Int? in
+                guard id.hasPrefix("C") else { return nil }
+                return Int(id.dropFirst())
+            }
+        )
+
+        for number in 1...999 {
+            if usedNumbers.contains(number) == false {
+                return String(format: "C%02d", number)
+            }
+        }
+
+        return "C\(Int.random(in: 1000...9999))"
     }
 
     private static func orderStatus(for status: BookingStatus) -> OrderStatus {

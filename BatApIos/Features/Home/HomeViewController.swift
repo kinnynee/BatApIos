@@ -1,20 +1,48 @@
 import UIKit
 
-final class HomeViewController: StoryboardScreenViewController {
+final class HomeViewController: UIViewController {
 
-    override var screenTitleText: String {
-        "Trang chủ"
+    // MARK: - Outlets
+    @IBOutlet weak var searchTextField: UITextField!
+    @IBOutlet weak var bellButton: UIButton!
+    @IBOutlet weak var nameLabel: UILabel!
+    private let store = AppMockStore.shared
+    
+    // MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+    }
+    
+    private func setupUI() {
+        updateGreeting()
+        searchTextField.addTarget(self, action: #selector(searchTextChanged(_:)), for: .editingChanged)
     }
 
-    override var screenSubtitleText: String {
-        "Điểm vào chính cho người dùng với các lối tắt đặt sân, xem lịch và thông báo."
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateGreeting()
     }
 
-    override var screenHighlights: [String] {
-        [
-            "Đi tới đặt sân trực tuyến",
-            "Xem lịch đặt gần nhất",
-            "Hiển thị ưu đãi hoặc membership"
-        ]
+    // MARK: - Actions
+    @objc private func searchTextChanged(_ textField: UITextField) {
+        // Mock filtering logic
+        print("Searching for: \(textField.text ?? "")")
+    }
+
+    @IBAction func bellTapped(_ sender: Any) {
+        let bookingsViewController = MyBookingsViewController()
+        if let navigationController {
+            navigationController.pushViewController(bookingsViewController, animated: true)
+        } else {
+            let navigationController = UINavigationController(rootViewController: bookingsViewController)
+            navigationController.modalPresentationStyle = .fullScreen
+            present(navigationController, animated: true)
+        }
+    }
+
+    private func updateGreeting() {
+        let username = store.currentUser?.username ?? "Bạn"
+        nameLabel.text = "\(username) 👋"
     }
 }
