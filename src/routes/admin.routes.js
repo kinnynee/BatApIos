@@ -1,9 +1,11 @@
 const {
   checkInBooking,
+  confirmAdminPayment,
   createAdminCourt,
   getAdminOverview,
   listAdminBookings,
   listAdminCourts,
+  listAdminPayments,
   listAdminUsers,
   updateAdminCourt,
   updateAdminUser
@@ -128,6 +130,38 @@ async function handleAdminRoute(req, res, pathname, query, body) {
       }
 
       sendJson(res, 200, { success: true, data: booking });
+      return true;
+    }
+  }
+
+  if (pathParts[2] === "payments") {
+    const paymentId = pathParts[3];
+    const action = pathParts[4];
+
+    if (req.method === "GET" && !paymentId) {
+      const payments = await listAdminPayments({
+        userId: query.get("userId"),
+        bookingId: query.get("bookingId"),
+        paymentStatus: query.get("paymentStatus")
+      });
+      sendJson(res, 200, { success: true, data: payments });
+      return true;
+    }
+
+    if (req.method === "POST" && paymentId && action === "confirm") {
+      const validation = requireFields(body, ["confirmedBy"]);
+      if (!validation.valid) {
+        sendError(res, 400, "Missing confirmedBy for payment confirmation", validation.missingFields);
+        return true;
+      }
+
+      const payment = await confirmAdminPayment(paymentId, body);
+      if (!payment) {
+        sendError(res, 404, "Payment not found");
+        return true;
+      }
+
+      sendJson(res, 200, { success: true, data: payment });
       return true;
     }
   }

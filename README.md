@@ -35,6 +35,8 @@ GET /health
 - `PATCH /api/admin/courts/:id`
 - `GET /api/admin/bookings`
 - `POST /api/admin/bookings/:id/check-in`
+- `GET /api/admin/payments`
+- `POST /api/admin/payments/:id/confirm`
 - `GET /api/users`
 - `GET /api/users/:id`
 - `POST /api/users`
@@ -54,6 +56,8 @@ GET /health
 - `PATCH /api/bookings/:id`
 - `GET /api/payments`
 - `GET /api/payments/:id`
+- `POST /api/payments/submit`
+- `POST /api/payments/:id/confirm`
 - `POST /api/payments`
 - `PATCH /api/payments/:id`
 
@@ -141,6 +145,7 @@ thi app co the mo giao dien quan ly san cho admin. Neu `role = user` thi mo giao
 - `GET /api/admin/users?role=user&status=active`
 - `GET /api/admin/courts?courtType=vip&status=available`
 - `GET /api/admin/bookings?bookingDate=2026-03-28&bookingStatus=confirmed`
+- `GET /api/admin/payments?paymentStatus=pending`
 - `GET /api/users?role=admin&status=active`
 - `GET /api/courts?courtType=vip&status=available`
 - `GET /api/vouchers?status=active`
@@ -189,6 +194,23 @@ POST /api/admin/bookings/booking_001/check-in
 {
   "checkedInBy": "admin_001",
   "checkInNote": "Khach da den san va nhan nuoc"
+}
+```
+
+Admin xem danh sach thanh toan cho duyet:
+
+```txt
+GET /api/admin/payments?paymentStatus=pending
+```
+
+Admin xac nhan khach da thanh toan:
+
+```json
+POST /api/admin/payments/payment_002/confirm
+{
+  "confirmedBy": "admin_001",
+  "adminNote": "Da nhan tien chuyen khoan",
+  "bookingStatusAfterConfirm": "confirmed"
 }
 ```
 
@@ -256,6 +278,25 @@ POST /api/vouchers/apply
 ```
 
 Backend se tra ve tong tien sau giam va danh sach qua tang `freeItems`.
+
+### Vi du khach gui thanh toan
+
+Khach gui thong tin thanh toan de admin nhan va duyet:
+
+```json
+POST /api/payments/submit
+{
+  "id": "payment_003",
+  "bookingId": "booking_002",
+  "userId": "user_002",
+  "paymentMethod": "bank_transfer",
+  "transactionCode": "BANK-20260328-003",
+  "paymentProofUrl": "https://example.com/chuyen-khoan.jpg",
+  "customerNote": "Em da chuyen khoan, nho admin xac nhan"
+}
+```
+
+Sau khi gui, payment se o trang thai `pending` va admin co the vao danh sach thanh toan cho duyet de bam nut xac nhan.
 
 ### Vi du tao court
 

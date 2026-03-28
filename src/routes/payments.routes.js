@@ -1,7 +1,9 @@
 const {
+  confirmPayment,
   createPayment,
   getPaymentById,
   listPayments,
+  submitPaymentRequest,
   updatePayment
 } = require("../services/payments.service");
 const { sendError, sendJson } = require("../utils/http");
@@ -14,6 +16,46 @@ async function handlePaymentsRoute(req, res, pathname, query, body) {
   }
 
   const id = pathParts[2];
+
+  if (req.method === "POST" && id === "submit") {
+    const validation = requireFields(body, [
+      "id",
+      "bookingId",
+      "userId",
+      "paymentMethod",
+      "transactionCode"
+    ]);
+    if (!validation.valid) {
+      sendError(res, 400, "Missing required payment submission fields", validation.missingFields);
+      return true;
+    }
+
+    if (body.amount !== undefined && !isPositiveNumber(body.amount)) {
+      sendError(res, 400, "amount must be a non-negative number");
+      return true;
+    }
+
+    const payment = await submitPaymentRequest(body.id, body);
+    sendJson(res, 201, { success: true, data: payment });
+    return true;
+  }
+
+  if (req.method === "POST" && id && pathParts[3] === "confirm") {
+    const validation = requireFields(body, ["confirmedBy"]);
+    if (!validation.valid) {
+      sendError(res, 400, "Missing confirmedBy for payment confirmation", validation.missingFields);
+      return true;
+    }
+
+    const payment = await confirmPayment(id, body);
+    if (!payment) {
+      sendError(res, 404, "Payment not found");
+      return true;
+    }
+
+    sendJson(res, 200, { success: true, data: payment });
+    return true;
+  }
 
   if (req.method === "GET" && !id) {
     const payments = await listPayments({

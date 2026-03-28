@@ -1,5 +1,6 @@
 const { getDb } = require("../config/firebase");
 const { buildTimestampFields, serializeDocument } = require("../utils/firestore");
+const { getBookingById, updateBooking } = require("./bookings.service");
 
 const COLLECTION = "payments";
 
@@ -42,6 +43,35 @@ async function createPayment(id, payload) {
   return serializeDocument(doc);
 }
 
+async function submitPaymentRequest(id, payload) {
+  const booking = await getBookingById(payload.bookingId);
+  if (!booking) {
+    const error = new Error("Booking not found for payment");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const amount = payload.amount ?? booking.totalAmount ?? 0;
+  const payment = await createPayment(id, {
+    bookingId: payload.bookingId,
+    userId: payload.userId,
+    amount,
+    paymentMethod: payload.paymentMethod,
+    paymentStatus: "pending",
+    transactionCode: payload.transactionCode,
+    paymentProofUrl: payload.paymentProofUrl ?? "",
+    customerNote: payload.customerNote ?? "",
+    submittedAt: new Date().toISOString(),
+    paidAt: null
+  });
+
+  await updateBooking(payload.bookingId, {
+    paymentStatus: "pending"
+  });
+
+  return payment;
+}
+
 async function updatePayment(id, payload) {
   const paymentRef = getDb().collection(COLLECTION).doc(id);
   const existing = await paymentRef.get();
@@ -58,9 +88,33 @@ async function updatePayment(id, payload) {
   return serializeDocument(doc);
 }
 
+async function confirmPayment(id, payload) {
+  const payment = await getPaymentById(id);
+  if (!payment) {
+    return null;
+  }
+
+  const confirmedPayment = await updatePayment(id, {
+    paymentStatus: "paid",
+    paidAt: payload.paidAt ?? new Date().toISOString(),
+    confirmedAt: new Date().toISOString(),
+    confirmedBy: payload.confirmedBy,
+    adminNote: payload.adminNote ?? ""
+  });
+
+  await updateBooking(payment.bookingId, {
+    paymentStatus: "paid",
+    bookingStatus: payload.bookingStatusAfterConfirm ?? "confirmed"
+  });
+
+  return confirmedPayment;
+}
+
 module.exports = {
   createPayment,
+  confirmPayment,
   getPaymentById,
   listPayments,
+  submitPaymentRequest,
   updatePayment
 };

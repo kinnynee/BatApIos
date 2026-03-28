@@ -2,6 +2,7 @@ const { getDb } = require("../config/firebase");
 const { listUsers, updateUser } = require("./users.service");
 const { createCourt, listCourts, updateCourt } = require("./courts.service");
 const { getBookingById, listBookings, updateBooking } = require("./bookings.service");
+const { confirmPayment, listPayments } = require("./payments.service");
 
 async function getAdminOverview() {
   const db = getDb();
@@ -92,12 +93,22 @@ async function checkInBooking(bookingId, payload) {
   });
 }
 
+async function listAdminPayments(filters) {
+  return listPayments(filters);
+}
+
+async function confirmAdminPayment(paymentId, payload) {
+  return confirmPayment(paymentId, payload);
+}
+
 module.exports = {
   checkInBooking,
+  confirmAdminPayment,
   createAdminCourt,
   getAdminOverview,
   listAdminBookings,
   listAdminCourts,
+  listAdminPayments,
   listAdminUsers,
   updateAdminCourt,
   updateAdminUser
