@@ -9,10 +9,18 @@ const { notFound, readJsonBody, sendError, sendJson } = require("./utils/http");
 
 loadEnvFile();
 
+function applyCorsHeaders(res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PATCH,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+}
+
 async function routeRequest(req, res) {
   const url = new URL(req.url, "http://localhost");
   const pathname = url.pathname;
   const query = url.searchParams;
+
+  applyCorsHeaders(res);
 
   if (req.method === "OPTIONS") {
     sendJson(res, 200, { success: true });

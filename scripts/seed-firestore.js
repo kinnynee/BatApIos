@@ -83,7 +83,7 @@ async function main() {
   }
 
   const db = isDryRun ? null : admin.firestore();
-  const collections = ["users", "courts", "bookings", "payments"];
+  const collections = ["users", "courts", "vouchers", "bookings", "payments"];
 
   for (const collectionName of collections) {
     const docs = seedData[collectionName] || [];
