@@ -32,7 +32,7 @@ class BookingManagementViewController: UIViewController, UITableViewDataSource, 
     }
     
     private func loadData() {
-        bookings = AppMockStore.shared.getAllBookings()
+        bookings = AppStore.shared.getAllBookings()
         tableView.reloadData()
     }
     
@@ -65,7 +65,7 @@ class BookingManagementViewController: UIViewController, UITableViewDataSource, 
         let statusOptions: [BookingStatus] = [.pending, .fullyPaid, .active, .cancelled]
         for status in statusOptions {
             alert.addAction(UIAlertAction(title: status.rawValue, style: .default, handler: { [weak self] _ in
-                AppMockStore.shared.updateBookingStatus(id: booking.id, status: status)
+                AppStore.shared.updateBookingStatus(id: booking.id, status: status)
                 self?.loadData()
             }))
         }
@@ -178,7 +178,7 @@ class StaffManagementViewController: UIViewController, UITableViewDataSource, UI
     }
     
     private func loadData() {
-        users = AppMockStore.shared.getAllUsers()
+        users = AppStore.shared.getAllUsers()
         tableView.reloadData()
     }
     
@@ -235,7 +235,7 @@ class MaintenanceViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     private func loadData() {
-        logs = AppMockStore.shared.getSystemLogs()
+        logs = AppStore.shared.getSystemLogs()
         tableView.reloadData()
     }
     
@@ -267,7 +267,7 @@ class CourtManagementViewController: UIViewController, UITableViewDataSource, UI
     
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     private var courts: [Court] = []
-    private let store = AppMockStore.shared
+    private let store = AppStore.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()

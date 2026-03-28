@@ -19,7 +19,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Properties
     private let themeGreen = UIColor(red: 0.0, green: 0.82, blue: 0.38, alpha: 1.0)
-    private let store = AppMockStore.shared
+    private let store = AppStore.shared
 
     // MARK: - Lifecycle
     override func viewDidLoad() {

@@ -6,7 +6,7 @@ final class HomeViewController: UIViewController {
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var bellButton: UIButton!
     @IBOutlet weak var nameLabel: UILabel!
-    private let store = AppMockStore.shared
+    private let store = AppStore.shared
     
     // MARK: - Lifecycle
     override func viewDidLoad() {

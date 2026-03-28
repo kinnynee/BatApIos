@@ -152,12 +152,12 @@ final class BookingSummaryViewController: UIViewController {
         do {
             let booking: BookingRecord
             if let bookingDraft {
-                booking = try AppMockStore.shared.createBooking(from: bookingDraft)
+                booking = try AppStore.shared.createBooking(from: bookingDraft)
             } else {
                 let amountString = bookingInfo["Tổng tiền"]?.replacingOccurrences(of: ".000đ", with: "000").replacingOccurrences(of: "đ", with: "").replacingOccurrences(of: ".", with: "") ?? "0"
                 let amount = Double(amountString) ?? 0
                 let courtName = bookingInfo["Sân"] ?? "Sân Cầu Lông"
-                booking = try AppMockStore.shared.createBooking(courtTypeName: courtName, totalPrice: amount)
+                booking = try AppStore.shared.createBooking(courtTypeName: courtName, totalPrice: amount)
             }
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)

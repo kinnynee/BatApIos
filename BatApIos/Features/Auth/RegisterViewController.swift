@@ -10,7 +10,7 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var passwordEyeButton: UIButton!
     
     var isPassVisible = false
-    private let store = AppMockStore.shared
+    private let store = AppStore.shared
     
     /// Callback sau khi đăng ký thành công
     var onRegisterSuccess: ((User) -> Void)?

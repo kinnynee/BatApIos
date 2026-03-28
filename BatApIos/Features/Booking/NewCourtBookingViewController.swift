@@ -70,7 +70,7 @@ final class NewCourtBookingViewController: UIViewController {
     }
 
     private func checkAuth() {
-        if AppMockStore.shared.currentUser == nil {
+        if AppStore.shared.currentUser == nil {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             guard let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as? LoginViewController else { return }
             loginVC.modalPresentationStyle = .fullScreen

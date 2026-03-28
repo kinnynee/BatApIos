@@ -15,7 +15,7 @@ final class DiscoverViewController: UIViewController {
     
     // Labels
     @IBOutlet weak var nameLabel: UILabel!
-    private let store = AppMockStore.shared
+    private let store = AppStore.shared
     private let themeGreen = UIColor(red: 0.0, green: 0.82, blue: 0.38, alpha: 1.0)
     private let themeDark = UIColor(red: 0.06, green: 0.14, blue: 0.10, alpha: 1.0)
     
@@ -90,9 +90,9 @@ final class DiscoverViewController: UIViewController {
 
         configureCard(
             card1View,
-            title: featuredCourt?.name ?? "Sân nổi bật",
-            subtitle: featuredCourt.map { "\($0.type.rawValue) • \(Int($0.pricePerHour)) đ/giờ" } ?? "Đặt lịch nhanh trong hôm nay",
-            accentText: "Xem sân",
+            title: featuredCourt?.name ?? "Chưa có sân",
+            subtitle: featuredCourt.map { "\($0.type.rawValue) • \(Int($0.pricePerHour)) đ/giờ" } ?? "Chưa có dữ liệu sân từ hệ thống.",
+            accentText: featuredCourt == nil ? "Đang cập nhật" : "Xem sân",
             accentColor: themeGreen,
             iconName: "figure.badminton",
             selector: #selector(openFeaturedCourt)
@@ -100,9 +100,9 @@ final class DiscoverViewController: UIViewController {
 
         configureCard(
             card2View,
-            title: promotion.title,
-            subtitle: promotion.subtitle,
-            accentText: promotion.voucherCode,
+            title: promotion?.title ?? "Chưa có ưu đãi",
+            subtitle: promotion?.subtitle ?? "Ưu đãi sẽ hiển thị khi có dữ liệu từ hệ thống.",
+            accentText: promotion?.voucherCode ?? "Không có mã",
             accentColor: .systemOrange,
             iconName: "ticket.fill",
             selector: #selector(openPromoBooking)
@@ -110,11 +110,16 @@ final class DiscoverViewController: UIViewController {
 
         let offerViews = [offer1View, offer2View, offer3View]
         for (index, offerView) in offerViews.enumerated() {
-            guard index < promotions.count else { continue }
             guard let offerView else { continue }
-            let promo = promotions[index]
-            configureOfferCard(offerView, promotion: promo, selector: #selector(offerCardTapped(_:)))
-            offerView.tag = index
+            if promotions.indices.contains(index) {
+                let promo = promotions[index]
+                configureOfferCard(offerView, promotion: promo, selector: #selector(offerCardTapped(_:)))
+                offerView.tag = index
+                offerView.isHidden = false
+            } else {
+                offerView.subviews.forEach { $0.removeFromSuperview() }
+                offerView.isHidden = true
+            }
         }
     }
 
@@ -206,6 +211,7 @@ final class DiscoverViewController: UIViewController {
     }
 
     @objc private func openFeaturedCourt() {
+        guard store.featuredCourts().isEmpty == false else { return }
         let vc = CourtDetailsVC()
         if let nav = navigationController {
             nav.pushViewController(vc, animated: true)
@@ -216,7 +222,8 @@ final class DiscoverViewController: UIViewController {
     }
 
     @objc private func openPromoBooking() {
-        openBooking(prefilledVoucherCode: store.activePromotion().voucherCode)
+        guard let voucherCode = store.activePromotion()?.voucherCode else { return }
+        openBooking(prefilledVoucherCode: voucherCode)
     }
 
     @objc private func offerCardTapped(_ gesture: UITapGestureRecognizer) {

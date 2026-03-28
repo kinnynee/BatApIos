@@ -8,7 +8,7 @@ class PaymentViewController: UIViewController {
     var allPayments: [PaymentInfo] = []
     
     var displayedPayments: [PaymentInfo] = []
-    private let store = AppMockStore.shared
+    private let store = AppStore.shared
     private let themeGreen = UIColor(red: 0.0, green: 0.82, blue: 0.38, alpha: 1.0)
 
     override func viewDidLoad() {

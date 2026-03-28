@@ -11,7 +11,7 @@ final class StaffCheckInViewController: UIViewController {
     @IBOutlet private weak var timeLabel: UILabel!
 
     private var isFlashEnabled = false
-    private let store = AppMockStore.shared
+    private let store = AppStore.shared
     var prefilledBookingCode: String?
     private var pasteCodeButton: UIButton?
 

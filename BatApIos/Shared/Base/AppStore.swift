@@ -83,8 +83,8 @@ enum AppLogicError: LocalizedError {
     }
 }
 
-final class AppMockStore {
-    static let shared = AppMockStore()
+final class AppStore {
+    static let shared = AppStore()
 
     private(set) var currentUser: User?
     private var users: [User] = []
@@ -92,9 +92,7 @@ final class AppMockStore {
     private var notifications: [AppNotificationItem] = []
     private var courts: [Court] = []
 
-    private init() {
-        seedData()
-    }
+    private init() {}
 
     func login(email: String, password: String) throws -> User {
         let normalizedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
@@ -342,31 +340,12 @@ final class AppMockStore {
         courts.filter { $0.status == .active }
     }
 
-    func activePromotion() -> PromotionBanner {
-        PromotionBanner(
-            title: "Ưu đãi người mới",
-            subtitle: "Nhập GIAM50K để giảm 50.000đ cho lượt đặt sân đầu tiên",
-            voucherCode: "GIAM50K",
-            discountAmount: 50_000
-        )
+    func activePromotion() -> PromotionBanner? {
+        availablePromotions().first
     }
 
     func availablePromotions() -> [PromotionBanner] {
-        [
-            activePromotion(),
-            PromotionBanner(
-                title: "Khung giờ vàng",
-                subtitle: "Nhập MORNING30 để giảm 30.000đ cho lượt đặt trước 10:00",
-                voucherCode: "MORNING30",
-                discountAmount: 30_000
-            ),
-            PromotionBanner(
-                title: "Ưu đãi sân VIP",
-                subtitle: "Nhập VIP20 để giảm 20.000đ khi đặt sân VIP",
-                voucherCode: "VIP20",
-                discountAmount: 20_000
-            )
-        ]
+        []
     }
     
     // MARK: - Court Store
@@ -428,44 +407,6 @@ final class AppMockStore {
             bookings[index].status = status
             appendSystemLog(title: "Cập nhật Booking", message: "Booking \(id) đổi trạng thái sang \(status).")
         }
-    }
-
-    private func seedData() {
-        let now = Date()
-        let demoUsers = [
-            User(id: UUID().uuidString, email: "user@batapp.vn", username: "Nguyen Van A", password: "12345678", role: .user, walletBalance: 250_000, createdAt: now, updatedAt: now),
-            User(id: UUID().uuidString, email: "admin@batapp.vn", username: "Admin BatApp", password: "12345678", role: .admin, walletBalance: 0, createdAt: now, updatedAt: now),
-            User(id: UUID().uuidString, email: "staff@batapp.vn", username: "Staff BatApp", password: "12345678", role: .staff, walletBalance: 0, createdAt: now, updatedAt: now)
-        ]
-        users = demoUsers
-        
-        courts = [
-            Court(id: "C01", name: "Sân Thường 01", type: .single, locationId: "L01", pricePerHour: 100_000, status: .active),
-            Court(id: "C02", name: "Sân VIP 02", type: .vip, locationId: "L01", pricePerHour: 220_000, status: .active),
-            Court(id: "C03", name: "Sân Thường 03", type: .double, locationId: "L01", pricePerHour: 150_000, status: .active),
-            Court(id: "C04", name: "Sân VIP 04", type: .vip, locationId: "L01", pricePerHour: 220_000, status: .maintenance)
-        ]
-        // currentUser = demoUsers[0] // Start as guest for demo flow
-
-
-        let booking = BookingRecord(
-            id: Self.makeBookingCode(),
-            userId: demoUsers[0].id ?? "",
-            courtName: "Sân VIP 02",
-            bookingDate: now,
-            startTime: now,
-            endTime: Calendar.current.date(byAdding: .minute, value: 90, to: now) ?? now,
-            totalPrice: 220_000,
-            status: .fullyPaid,
-            paymentMethodName: "MoMo"
-        )
-        bookings = [booking]
-        appendNotification(
-            userId: booking.userId,
-            title: "Chào mừng quay lại",
-            message: "Bạn đang có 1 booking đã thanh toán và sẵn sàng check-in."
-        )
-        appendSystemLog(title: "Khởi tạo dữ liệu mẫu", message: "Đã nạp dữ liệu demo cho ứng dụng.")
     }
 
     private func appendNotification(userId: String, title: String, message: String) {
@@ -533,4 +474,5 @@ final class AppMockStore {
         formatter.maximumFractionDigits = 0
         return formatter
     }()
+
 }

@@ -3,7 +3,7 @@ import UIKit
 class ForgotPasswordViewController: UIViewController {
 
     @IBOutlet weak var emailTextField: UITextField!
-    private let store = AppMockStore.shared
+    private let store = AppStore.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -4,7 +4,7 @@ final class MyBookingsViewController: UIViewController {
 
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     private let emptyStateLabel = UILabel()
-    private let store = AppMockStore.shared
+    private let store = AppStore.shared
     private var bookings: [BookingRecord] = []
 
     override func viewDidLoad() {

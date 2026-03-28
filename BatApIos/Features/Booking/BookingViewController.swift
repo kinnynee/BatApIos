@@ -27,7 +27,7 @@ final class BookingViewController: UIViewController {
 
     private let validDiscountCode = "GIAM50K"
     private let discountValue: Double = 50_000
-    private let store = AppMockStore.shared
+    private let store = AppStore.shared
     
     private var isVoucherApplied = false {
         didSet {

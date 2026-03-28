@@ -11,7 +11,7 @@ class ResetPasswordViewController: UIViewController {
     var isNewPassVisible = false
     var isConfirmPassVisible = false
     var emailAddress: String?
-    private let store = AppMockStore.shared
+    private let store = AppStore.shared
 
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()

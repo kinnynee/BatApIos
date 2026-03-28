@@ -46,13 +46,13 @@ final class AdminDashboardViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = UIColor(red: 0.96, green: 0.97, blue: 0.97, alpha: 1.0)
         
-        let user = AppMockStore.shared.currentUser
+        let user = AppStore.shared.currentUser
         nameLabel.text = user?.username ?? "Management"
         configureDashboardCards()
     }
     
     private func applyRolePermissions() {
-        let isAdmin = AppMockStore.shared.currentUser?.role == .admin
+        let isAdmin = AppStore.shared.currentUser?.role == .admin
         
         // Hide/Show sections based on role
         statsSection?.isHidden = !isAdmin
@@ -62,7 +62,7 @@ final class AdminDashboardViewController: UIViewController {
         
         // Staff sees Check-in and Bookings most prominently
         if !isAdmin {
-            nameLabel.text = "Staff: \(AppMockStore.shared.currentUser?.username ?? "Member")"
+            nameLabel.text = "Staff: \(AppStore.shared.currentUser?.username ?? "Member")"
         }
     }
     
@@ -254,7 +254,7 @@ final class AdminDashboardViewController: UIViewController {
     // MARK: - Actions
     
     @IBAction func logoutTapped(_ sender: Any) {
-        AppMockStore.shared.logout()
+        AppStore.shared.logout()
         dismiss(animated: true)
     }
     

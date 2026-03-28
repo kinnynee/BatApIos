@@ -7,7 +7,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var eyeButton: UIButton!
     
     var isPasswordVisible = false
-    private let store = AppMockStore.shared
+    private let store = AppStore.shared
     
     /// Callback sau khi đăng nhập thành công. Nếu set, sẽ không tự động chuyển sang TabBar.
     var onLoginSuccess: (() -> Void)?

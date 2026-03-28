@@ -5,7 +5,7 @@ final class ChangePasswordViewController: UIViewController {
     @IBOutlet private weak var currentPasswordTextField: UITextField!
     @IBOutlet private weak var newPasswordTextField: UITextField!
     @IBOutlet private weak var confirmPasswordTextField: UITextField!
-    private let store = AppMockStore.shared
+    private let store = AppStore.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()

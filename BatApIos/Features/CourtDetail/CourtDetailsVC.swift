@@ -253,7 +253,7 @@ class CourtDetailsVC: UIViewController {
     }
 
     @objc private func bookNowTapped() {
-        if AppMockStore.shared.currentUser == nil {
+        if AppStore.shared.currentUser == nil {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             guard let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as? LoginViewController else { return }
             

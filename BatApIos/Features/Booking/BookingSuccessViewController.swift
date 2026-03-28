@@ -3,7 +3,7 @@ import UIKit
 final class BookingSuccessViewController: UIViewController {
 
     var bookingCode: String = "BK-882941"
-    private let store = AppMockStore.shared
+    private let store = AppStore.shared
 
     private let bookingIdLabel = UILabel()
 
