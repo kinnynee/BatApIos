@@ -2,6 +2,7 @@ const http = require("http");
 const { loadEnvFile } = require("./config/env");
 const { handleUsersRoute } = require("./routes/users.routes");
 const { handleAuthRoute } = require("./routes/auth.routes");
+const { handleAdminRoute } = require("./routes/admin.routes");
 const { handleCourtsRoute } = require("./routes/courts.routes");
 const { handleVouchersRoute } = require("./routes/vouchers.routes");
 const { handleBookingsRoute } = require("./routes/bookings.routes");
@@ -43,6 +44,7 @@ async function routeRequest(req, res) {
 
   const handlers = [
     () => handleAuthRoute(req, res, pathname, query, body),
+    () => handleAdminRoute(req, res, pathname, query, body),
     () => handleUsersRoute(req, res, pathname, query, body),
     () => handleCourtsRoute(req, res, pathname, query, body),
     () => handleVouchersRoute(req, res, pathname, query, body),

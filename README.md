@@ -27,6 +27,14 @@ GET /health
 - `POST /api/auth/login`
 - `POST /api/auth/sync-user`
 - `GET /api/auth/profile/:uid`
+- `GET /api/admin/overview`
+- `GET /api/admin/users`
+- `PATCH /api/admin/users/:id`
+- `GET /api/admin/courts`
+- `POST /api/admin/courts`
+- `PATCH /api/admin/courts/:id`
+- `GET /api/admin/bookings`
+- `POST /api/admin/bookings/:id/check-in`
 - `GET /api/users`
 - `GET /api/users/:id`
 - `POST /api/users`
@@ -130,11 +138,59 @@ thi app co the mo giao dien quan ly san cho admin. Neu `role = user` thi mo giao
 
 ### Query filter ho tro
 
+- `GET /api/admin/users?role=user&status=active`
+- `GET /api/admin/courts?courtType=vip&status=available`
+- `GET /api/admin/bookings?bookingDate=2026-03-28&bookingStatus=confirmed`
 - `GET /api/users?role=admin&status=active`
 - `GET /api/courts?courtType=vip&status=available`
 - `GET /api/vouchers?status=active`
 - `GET /api/bookings?userId=user_001&bookingDate=2026-03-27`
 - `GET /api/payments?bookingId=booking_001&paymentStatus=paid`
+
+### Vi du admin
+
+Tong quan dashboard admin:
+
+```txt
+GET /api/admin/overview
+```
+
+Cap nhat role user:
+
+```json
+PATCH /api/admin/users/user_001
+{
+  "role": "staff",
+  "status": "active"
+}
+```
+
+Quan ly san:
+
+```json
+POST /api/admin/courts
+{
+  "id": "court_vip_03",
+  "name": "San VIP 03",
+  "courtType": "vip",
+  "surfaceType": "synthetic_grass",
+  "pricePerHour": 650000,
+  "capacity": 14,
+  "status": "available",
+  "description": "San danh cho khach VIP",
+  "imageUrls": []
+}
+```
+
+Check-in khach den san:
+
+```json
+POST /api/admin/bookings/booking_001/check-in
+{
+  "checkedInBy": "admin_001",
+  "checkInNote": "Khach da den san va nhan nuoc"
+}
+```
 
 ### Vi du voucher
 

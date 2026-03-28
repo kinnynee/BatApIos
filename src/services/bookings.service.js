@@ -4,7 +4,7 @@ const { getCourtById } = require("./courts.service");
 const { previewVoucherApplication } = require("./vouchers.service");
 
 const COLLECTION = "bookings";
-const BLOCKING_STATUSES = new Set(["pending", "confirmed", "completed"]);
+const BLOCKING_STATUSES = new Set(["pending", "confirmed", "checked_in", "completed"]);
 
 function rangesOverlap(startA, endA, startB, endB) {
   return startA < endB && startB < endA;
