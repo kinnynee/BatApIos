@@ -30,9 +30,11 @@ enum OrderStatus: Int {
 }
 
 struct PaymentInfo {
+    let bookingId: String
     let productImage: UIImage?
     let productName: String
     let subtitle: String
+    let amountValue: Double
     let price: String
     let paymentMethod: String
     let status: OrderStatus

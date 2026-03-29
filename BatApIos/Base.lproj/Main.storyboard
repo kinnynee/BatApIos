@@ -228,6 +228,35 @@
                         <outlet property="eyeButton" destination="btn-eye-login" id="lL5-lq-c4Q"/>
                         <outlet property="passwordTextField" destination="tf-p-login" id="3lW-qj-WgT"/>
                     </connections>
+                    <connections>
+                        <outlet property="backButton" destination="syslog-btn-back" id="syslog-out-back"/>
+                        <outlet property="filterButton" destination="syslog-btn-filter" id="syslog-out-filter"/>
+                        <outlet property="firstCardBadgeLabel" destination="slc1-badgelbl" id="syslog-out-c1-badgelbl"/>
+                        <outlet property="firstCardBadgeView" destination="slc1-badge" id="syslog-out-c1-badge"/>
+                        <outlet property="firstCardDetailButton" destination="slc1-btn" id="syslog-out-c1-btn"/>
+                        <outlet property="firstCardIconImageView" destination="slc1-img" id="syslog-out-c1-img"/>
+                        <outlet property="firstCardSubtitleLabel" destination="slc1-sub" id="syslog-out-c1-sub"/>
+                        <outlet property="firstCardTimeLabel" destination="slc1-time" id="syslog-out-c1-time"/>
+                        <outlet property="firstCardTitleLabel" destination="slc1-title" id="syslog-out-c1-title"/>
+                        <outlet property="firstCardView" destination="syslog-card1" id="syslog-out-c1-view"/>
+                        <outlet property="searchTextField" destination="syslog-tf-search" id="syslog-out-search"/>
+                        <outlet property="secondCardBadgeLabel" destination="slc2-badgelbl" id="syslog-out-c2-badgelbl"/>
+                        <outlet property="secondCardBadgeView" destination="slc2-badge" id="syslog-out-c2-badge"/>
+                        <outlet property="secondCardDescriptionLabel" destination="slc2-desc" id="syslog-out-c2-desc"/>
+                        <outlet property="secondCardDetailButton" destination="slc2-btn" id="syslog-out-c2-btn"/>
+                        <outlet property="secondCardIconImageView" destination="slc2-img" id="syslog-out-c2-img"/>
+                        <outlet property="secondCardSubtitleLabel" destination="slc2-sub" id="syslog-out-c2-sub"/>
+                        <outlet property="secondCardTimeLabel" destination="slc2-time" id="syslog-out-c2-time"/>
+                        <outlet property="secondCardTitleLabel" destination="slc2-title" id="syslog-out-c2-title"/>
+                        <outlet property="secondCardView" destination="syslog-card2" id="syslog-out-c2-view"/>
+                        <outlet property="thirdCardDetailButton" destination="slc3-btn" id="syslog-out-c3-btn"/>
+                        <outlet property="thirdCardIconImageView" destination="slc3-img" id="syslog-out-c3-img"/>
+                        <outlet property="thirdCardSubtitleLabel" destination="slc3-sub" id="syslog-out-c3-sub"/>
+                        <outlet property="thirdCardTimeLabel" destination="slc3-time" id="syslog-out-c3-time"/>
+                        <outlet property="thirdCardTitleLabel" destination="slc3-title" id="syslog-out-c3-title"/>
+                        <outlet property="thirdCardView" destination="syslog-card3" id="syslog-out-c3-view"/>
+                        <outlet property="titleLabel" destination="syslog-lbl-title" id="syslog-out-title"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -853,23 +882,9 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" distribution="fillEqually" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="pIA-zY-BVN">
-                                                    <rect key="frame" x="119.00000000000001" y="16" width="59.333333333333329" height="20.333333333333329"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tên sân" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0x5-3s-kBA">
-                                                            <rect key="frame" x="0.0" y="0.0" width="59.333333333333336" height="20.333333333333332"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tên" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J0f-91-UcC">
-                                                    <rect key="frame" x="119" y="16" width="240" height="21"/>
+                                                    <rect key="frame" x="119.00000000000003" y="16" width="59.333333333333343" height="20.333333333333329"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="500 vnđ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q5z-3a-gox">
                                                     <rect key="frame" x="119" y="43" width="240" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -881,7 +896,6 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
-                                            <outlet property="nameLabel" destination="J0f-91-UcC" id="payment-cell-name"/>
                                             <outlet property="priceLabel" destination="Q5z-3a-gox" id="payment-cell-price"/>
                                             <outlet property="productImageView" destination="1oE-6q-iWX" id="payment-cell-image"/>
                                         </connections>
@@ -2111,13 +2125,22 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="home2-view-content">
                                         <rect key="frame" x="0.0" y="0.0" width="393" height="850"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Sân " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="home2-lbl-nearby">
-                                                <rect key="frame" x="23.999999999999996" y="16" width="36.666666666666657" height="21.666666666666671"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Sân đấu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="home2-lbl-nearby">
+                                                <rect key="frame" x="24" y="16" width="69.333333333333329" height="21.666666666666671"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <nil key="textColor"/>
                                             </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="home2-btn-all-courts">
+                                                <rect key="frame" x="301" y="13" width="68" height="28"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                                                <color key="tintColor" red="0.0" green="0.90196078430000004" blue="0.46666666670000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" title="Xem tất cả"/>
+                                                <connections>
+                                                    <action selector="viewAllCourtsTapped:" destination="home2-vc-main" eventType="touchUpInside" id="home2-act-all-courts"/>
+                                                </connections>
+                                            </button>
                                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="home2-scroll-h">
-                                                <rect key="frame" x="0.0" y="45.666666666666686" width="393" height="220"/>
+                                                <rect key="frame" x="0.0" y="51.666666666666686" width="393" height="220"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="home2-stack-h">
                                                         <rect key="frame" x="24" y="0.0" width="576" height="220"/>
@@ -2159,12 +2182,12 @@
                                                 </constraints>
                                             </scrollView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Voucher " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="home2-lbl-offers">
-                                                <rect key="frame" x="24" y="289.66666666666663" width="76" height="21.666666666666686"/>
+                                                <rect key="frame" x="24" y="295.66666666666663" width="76" height="21.666666666666686"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                 <nil key="textColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="home2-stack-v">
-                                                <rect key="frame" x="24" y="327.33333333333337" width="345" height="234"/>
+                                                <rect key="frame" x="24" y="333.33333333333337" width="345" height="234"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="home2-view-offer1">
                                                         <rect key="frame" x="0.0" y="0.0" width="345" height="70"/>
@@ -2207,6 +2230,8 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstItem="home2-btn-all-courts" firstAttribute="centerY" secondItem="home2-lbl-nearby" secondAttribute="centerY" id="home2-cst-all-cy"/>
+                                            <constraint firstAttribute="trailing" secondItem="home2-btn-all-courts" secondAttribute="trailing" constant="24" id="home2-cst-all-r"/>
                                             <constraint firstAttribute="height" constant="850" id="home2-cst-content-h"/>
                                             <constraint firstItem="home2-lbl-nearby" firstAttribute="leading" secondItem="home2-view-content" secondAttribute="leading" constant="24" id="home2-cst-nbl-l"/>
                                             <constraint firstItem="home2-lbl-nearby" firstAttribute="top" secondItem="home2-view-content" secondAttribute="top" constant="16" id="home2-cst-nbl-t"/>
@@ -2214,7 +2239,7 @@
                                             <constraint firstItem="home2-lbl-offers" firstAttribute="top" secondItem="home2-scroll-h" secondAttribute="bottom" constant="24" id="home2-cst-off-t"/>
                                             <constraint firstItem="home2-scroll-h" firstAttribute="leading" secondItem="home2-view-content" secondAttribute="leading" id="home2-cst-scrh-l"/>
                                             <constraint firstAttribute="trailing" secondItem="home2-scroll-h" secondAttribute="trailing" id="home2-cst-scrh-r"/>
-                                            <constraint firstItem="home2-scroll-h" firstAttribute="top" secondItem="home2-lbl-nearby" secondAttribute="bottom" constant="8" id="home2-cst-scrh-t"/>
+                                            <constraint firstItem="home2-scroll-h" firstAttribute="top" secondItem="home2-lbl-nearby" secondAttribute="bottom" constant="14" id="home2-cst-scrh-t"/>
                                             <constraint firstItem="home2-stack-v" firstAttribute="leading" secondItem="home2-view-content" secondAttribute="leading" constant="24" id="home2-cst-stkv-l"/>
                                             <constraint firstAttribute="trailing" secondItem="home2-stack-v" secondAttribute="trailing" constant="24" id="home2-cst-stkv-r"/>
                                             <constraint firstItem="home2-stack-v" firstAttribute="top" secondItem="home2-lbl-offers" secondAttribute="bottom" constant="16" id="home2-cst-stkv-t"/>
@@ -2321,9 +2346,12 @@
                     <tabBarItem key="tabBarItem" title="Trang chủ" image="house.fill" catalog="system" id="tab-h-1"/>
                     <connections>
                         <outlet property="firstCourtCardView" destination="home2-view-card1" id="home2-out-card1"/>
+                        <outlet property="firstVoucherCardView" destination="home2-view-offer1" id="home2-out-offer1"/>
                         <outlet property="greetingLabel" destination="home2-lbl-greeting" id="home2-out-greet"/>
                         <outlet property="nameLabel" destination="home2-lbl-name" id="home2-out-name"/>
                         <outlet property="secondCourtCardView" destination="home2-view-card2" id="home2-out-card2"/>
+                        <outlet property="secondVoucherCardView" destination="home2-view-offer2" id="home2-out-offer2"/>
+                        <outlet property="thirdVoucherCardView" destination="home2-view-offer3" id="home2-out-offer3"/>
                         <segue destination="ntf-vc-main" kind="show" identifier="showNotifications" id="seg-h-ntf"/>
                     </connections>
                 </viewController>
@@ -3433,6 +3461,9 @@
                                         <color key="tintColor" red="0.0" green="0.90196078430000004" blue="0.46666666670000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="chevron.backward" catalog="system"/>
+                                        <connections>
+                                            <action selector="backTapped:" destination="syslog-vc-main" eventType="touchUpInside" id="syslog-act-back"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="System Logs" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="syslog-lbl-title">
                                         <rect key="frame" x="136" y="16" width="121" height="24"/>
@@ -3637,6 +3668,9 @@
                                                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="12"/>
                                                                     <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
                                                                 </buttonConfiguration>
+                                                                <connections>
+                                                                    <action selector="firstDetailTapped:" destination="syslog-vc-main" eventType="touchUpInside" id="slc1-act-detail"/>
+                                                                </connections>
                                                             </button>
                                                         </subviews>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -3748,6 +3782,9 @@
                                                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="12"/>
                                                                     <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
                                                                 </buttonConfiguration>
+                                                                <connections>
+                                                                    <action selector="secondDetailTapped:" destination="syslog-vc-main" eventType="touchUpInside" id="slc2-act-detail"/>
+                                                                </connections>
                                                             </button>
                                                         </subviews>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -3833,6 +3870,9 @@
                                                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="12"/>
                                                                     <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
                                                                 </buttonConfiguration>
+                                                                <connections>
+                                                                    <action selector="thirdDetailTapped:" destination="syslog-vc-main" eventType="touchUpInside" id="slc3-act-detail"/>
+                                                                </connections>
                                                             </button>
                                                         </subviews>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -5687,8 +5727,8 @@ All rights reserved.</string>
                                         <color key="textColor" red="0.0" green="0.90196078430000004" blue="0.46666666670000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Sân" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="crt-lbl-title">
-                                        <rect key="frame" x="24" y="34.333333333333343" width="54" height="36"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Sân đấu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="crt-lbl-title">
+                                        <rect key="frame" x="24.000000000000007" y="34.333333333333343" width="113.66666666666669" height="36"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -5712,6 +5752,9 @@ All rights reserved.</string>
                                                                 <integer key="value" value="20"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="allFilterTapped:" destination="crt-vc-main" eventType="touchUpInside" id="crt-act-f1"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="crt-f2">
                                                         <rect key="frame" x="109.66666666666666" y="0.0" width="97.666666666666657" height="40"/>
@@ -5726,6 +5769,9 @@ All rights reserved.</string>
                                                                 <integer key="value" value="20"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="availableFilterTapped:" destination="crt-vc-main" eventType="touchUpInside" id="crt-act-f2"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="crt-f3">
                                                         <rect key="frame" x="219.33333333333334" y="0.0" width="97.666666666666657" height="40"/>
@@ -5740,6 +5786,9 @@ All rights reserved.</string>
                                                                 <integer key="value" value="20"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="occupiedFilterTapped:" destination="crt-vc-main" eventType="touchUpInside" id="crt-act-f3"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="crt-f4">
                                                         <rect key="frame" x="329" y="0.0" width="97.666666666666686" height="40"/>
@@ -5754,6 +5803,9 @@ All rights reserved.</string>
                                                                 <integer key="value" value="20"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="maintenanceFilterTapped:" destination="crt-vc-main" eventType="touchUpInside" id="crt-act-f4"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -6401,6 +6453,14 @@ All rights reserved.</string>
                             <constraint firstItem="crt-scroll" firstAttribute="leading" secondItem="crt-safe" secondAttribute="leading" id="crtc-m9"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="allFilterButton" destination="crt-f1" id="crt-out-f1"/>
+                        <outlet property="availableFilterButton" destination="crt-f2" id="crt-out-f2"/>
+                        <outlet property="cardsContentHeightConstraint" destination="crtc-c-stk4" id="crt-out-h"/>
+                        <outlet property="cardsStackView" destination="crt-stk-cards" id="crt-out-stack"/>
+                        <outlet property="maintenanceFilterButton" destination="crt-f4" id="crt-out-f4"/>
+                        <outlet property="occupiedFilterButton" destination="crt-f3" id="crt-out-f3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="crt-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -6607,7 +6667,7 @@ All rights reserved.</string>
                                         <rect key="frame" x="0.0" y="0.0" width="393" height="800"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="adm-stk-main">
-                                                <rect key="frame" x="24" y="16" width="345" height="740.33333333333337"/>
+                                                <rect key="frame" x="24" y="16" width="345" height="766.33333333333337"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-sec1">
                                                         <rect key="frame" x="0.0" y="0.0" width="345" height="174.33333333333334"/>
@@ -7031,7 +7091,7 @@ All rights reserved.</string>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-sec3">
-                                                        <rect key="frame" x="0.0" y="434.33333333333337" width="345" height="162"/>
+                                                        <rect key="frame" x="0.0" y="434.33333333333337" width="345" height="188"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" ambiguous="YES" text="QUICK ACTIONS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-s3-lbl">
                                                                 <rect key="frame" x="4" y="0.0" width="337" height="14.333299999999999"/>
@@ -7039,15 +7099,15 @@ All rights reserved.</string>
                                                                 <color key="textColor" white="0.66659999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="adm-s3-stk">
-                                                                <rect key="frame" x="0.0" y="24.333299999999994" width="345" height="72"/>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="adm-s3-stk">
+                                                                <rect key="frame" x="0.0" y="24.333299999999994" width="345" height="74"/>
                                                                 <subviews>
                                                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1">
                                                                         <rect key="frame" x="0.0" y="0.0" width="345" height="30"/>
                                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     </button>
                                                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2">
-                                                                        <rect key="frame" x="0.0" y="42" width="345" height="30"/>
+                                                                        <rect key="frame" x="0.0" y="44" width="345" height="30"/>
                                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     </button>
                                                                 </subviews>
@@ -7056,10 +7116,10 @@ All rights reserved.</string>
                                                                 </constraints>
                                                             </stackView>
                                                             <view userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1-cnt">
-                                                                <rect key="frame" x="0.0" y="24.333300000000001" width="345" height="62.666600000000003"/>
+                                                                <rect key="frame" x="0.0" y="24.333300000000008" width="345" height="82"/>
                                                                 <subviews>
                                                                     <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1-icbg">
-                                                                        <rect key="frame" x="16" y="11.333300000000001" width="40" height="40"/>
+                                                                        <rect key="frame" x="16" y="21" width="40" height="40"/>
                                                                         <subviews>
                                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="figure.badminton" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1-img">
                                                                                 <rect key="frame" x="10" y="8.6666666666666679" width="20" height="23"/>
@@ -7084,19 +7144,19 @@ All rights reserved.</string>
                                                                         </userDefinedRuntimeAttributes>
                                                                     </view>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Quản lý sân" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1-t1">
-                                                                        <rect key="frame" x="72" y="14" width="80" height="17"/>
+                                                                        <rect key="frame" x="72" y="18" width="80" height="17"/>
                                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Chỉnh sửa sân" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1-t2">
-                                                                        <rect key="frame" x="72" y="35" width="79.666666666666686" height="14.333333333333336"/>
+                                                                        <rect key="frame" x="72" y="39" width="79.666666666666686" height="14.333333333333336"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                         <color key="textColor" white="0.33329999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa1-arr">
-                                                                        <rect key="frame" x="313" y="25" width="16" height="12.666600000000001"/>
+                                                                        <rect key="frame" x="313" y="33" width="16" height="16"/>
                                                                         <color key="tintColor" white="0.66659999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="16" id="admc-qa1ah"/>
@@ -7109,7 +7169,7 @@ All rights reserved.</string>
                                                                     <constraint firstItem="adm-qa1-icbg" firstAttribute="centerY" secondItem="adm-qa1-cnt" secondAttribute="centerY" id="admc-qa1c1"/>
                                                                     <constraint firstItem="adm-qa1-icbg" firstAttribute="leading" secondItem="adm-qa1-cnt" secondAttribute="leading" constant="16" id="admc-qa1c2"/>
                                                                     <constraint firstItem="adm-qa1-t1" firstAttribute="leading" secondItem="adm-qa1-icbg" secondAttribute="trailing" constant="16" id="admc-qa1c3"/>
-                                                                    <constraint firstItem="adm-qa1-t1" firstAttribute="top" secondItem="adm-qa1-cnt" secondAttribute="top" constant="14" id="admc-qa1c4"/>
+                                                                    <constraint firstItem="adm-qa1-t1" firstAttribute="top" secondItem="adm-qa1-cnt" secondAttribute="top" constant="18" id="admc-qa1c4"/>
                                                                     <constraint firstItem="adm-qa1-t2" firstAttribute="leading" secondItem="adm-qa1-icbg" secondAttribute="trailing" constant="16" id="admc-qa1c5"/>
                                                                     <constraint firstItem="adm-qa1-t2" firstAttribute="top" secondItem="adm-qa1-t1" secondAttribute="bottom" constant="4" id="admc-qa1c6"/>
                                                                     <constraint firstAttribute="trailing" secondItem="adm-qa1-arr" secondAttribute="trailing" constant="16" id="admc-qa1c7"/>
@@ -7128,10 +7188,10 @@ All rights reserved.</string>
                                                                 </userDefinedRuntimeAttributes>
                                                             </view>
                                                             <view userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-cnt">
-                                                                <rect key="frame" x="0.0" y="99" width="345" height="63"/>
+                                                                <rect key="frame" x="0.0" y="106.33330000000001" width="345" height="82"/>
                                                                 <subviews>
                                                                     <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-icbg">
-                                                                        <rect key="frame" x="16" y="11.333300000000001" width="40" height="40"/>
+                                                                        <rect key="frame" x="16" y="21" width="40" height="40"/>
                                                                         <subviews>
                                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="text.document.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-img">
                                                                                 <rect key="frame" x="10" y="10.33333333333333" width="20" height="19.666666666666671"/>
@@ -7156,19 +7216,19 @@ All rights reserved.</string>
                                                                         </userDefinedRuntimeAttributes>
                                                                     </view>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Lịch sử hệ thống" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-t1">
-                                                                        <rect key="frame" x="72" y="14" width="113.33333333333331" height="17"/>
+                                                                        <rect key="frame" x="72" y="18" width="113.33333333333331" height="17"/>
                                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Truy cập hệ thống lịch sử" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-t2">
-                                                                        <rect key="frame" x="71.999999999999986" y="35" width="142.66666666666663" height="14.333333333333336"/>
+                                                                        <rect key="frame" x="71.999999999999986" y="39" width="142.66666666666663" height="14.333333333333336"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                         <color key="textColor" white="0.33329999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="adm-qa2-arr">
-                                                                        <rect key="frame" x="313" y="25.333300000000001" width="16" height="12.666600000000001"/>
+                                                                        <rect key="frame" x="313" y="33" width="16" height="16"/>
                                                                         <color key="tintColor" white="0.66659999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="16" id="admc-qa2ah"/>
@@ -7181,7 +7241,7 @@ All rights reserved.</string>
                                                                     <constraint firstItem="adm-qa2-icbg" firstAttribute="centerY" secondItem="adm-qa2-cnt" secondAttribute="centerY" id="admc-qa2c1"/>
                                                                     <constraint firstItem="adm-qa2-icbg" firstAttribute="leading" secondItem="adm-qa2-cnt" secondAttribute="leading" constant="16" id="admc-qa2c2"/>
                                                                     <constraint firstItem="adm-qa2-t1" firstAttribute="leading" secondItem="adm-qa2-icbg" secondAttribute="trailing" constant="16" id="admc-qa2c3"/>
-                                                                    <constraint firstItem="adm-qa2-t1" firstAttribute="top" secondItem="adm-qa2-cnt" secondAttribute="top" constant="14" id="admc-qa2c4"/>
+                                                                    <constraint firstItem="adm-qa2-t1" firstAttribute="top" secondItem="adm-qa2-cnt" secondAttribute="top" constant="18" id="admc-qa2c4"/>
                                                                     <constraint firstItem="adm-qa2-t2" firstAttribute="leading" secondItem="adm-qa2-icbg" secondAttribute="trailing" constant="16" id="admc-qa2c5"/>
                                                                     <constraint firstItem="adm-qa2-t2" firstAttribute="top" secondItem="adm-qa2-t1" secondAttribute="bottom" constant="4" id="admc-qa2c6"/>
                                                                     <constraint firstAttribute="trailing" secondItem="adm-qa2-arr" secondAttribute="trailing" constant="16" id="admc-qa2c7"/>
@@ -7210,7 +7270,7 @@ All rights reserved.</string>
                                                             <constraint firstItem="adm-qa2-cnt" firstAttribute="trailing" secondItem="adm-qa2" secondAttribute="trailing" id="admc-qao6"/>
                                                             <constraint firstItem="adm-qa2-cnt" firstAttribute="top" secondItem="adm-qa2" secondAttribute="top" id="admc-qao7"/>
                                                             <constraint firstItem="adm-qa2-cnt" firstAttribute="bottom" secondItem="adm-qa2" secondAttribute="bottom" id="admc-qao8"/>
-                                                            <constraint firstAttribute="height" constant="162" id="admc-s3h"/>
+                                                            <constraint firstAttribute="height" constant="188" id="admc-s3h"/>
                                                             <constraint firstItem="adm-s3-lbl" firstAttribute="leading" secondItem="adm-sec3" secondAttribute="leading" constant="4" id="admc-s3l1"/>
                                                             <constraint firstItem="adm-s3-lbl" firstAttribute="top" secondItem="adm-sec3" secondAttribute="top" id="admc-s3l2"/>
                                                             <constraint firstAttribute="trailing" secondItem="adm-s3-lbl" secondAttribute="trailing" constant="4" id="admc-s3l3"/>
@@ -7221,9 +7281,9 @@ All rights reserved.</string>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adm-sec4">
-                                                        <rect key="frame" x="0.0" y="620.33333333333337" width="345" height="120"/>
+                                                        <rect key="frame" x="0.0" y="646.33333333333337" width="345" height="120"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Tình trạng sân" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-s4-lbl">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Sân đấu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-s4-lbl">
                                                                 <rect key="frame" x="4" y="0.0" width="337" height="14.333333333333334"/>
                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                                                 <color key="textColor" white="0.66659999999999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -7420,7 +7480,12 @@ All rights reserved.</string>
                     <connections>
                         <outlet property="adminNameLabel" destination="adm-lbl-name" id="adm-out-name"/>
                         <outlet property="contentHeightConstraint" destination="admc-cv1" id="adm-out-height"/>
+                        <outlet property="courtStatusSectionHeightConstraint" destination="admc-s4h" id="adm-out-s4h"/>
+                        <outlet property="courtStatusStackView" destination="adm-s4-stk" id="adm-out-s4stk"/>
                         <outlet property="mainContentStack" destination="adm-stk-main" id="adm-out-stack"/>
+                        <outlet property="quickActionPrimaryButton" destination="adm-qa1" id="adm-out-qa1"/>
+                        <outlet property="quickActionSecondaryButton" destination="adm-qa2" id="adm-out-qa2"/>
+                        <outlet property="quickActionsSectionHeightConstraint" destination="admc-s3h" id="adm-out-qah"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="adm-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -7452,6 +7517,9 @@ All rights reserved.</string>
                                                 <integer key="value" value="20"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="backTapped:" destination="rev-vc-main" eventType="touchUpInside" id="rev-act-back"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Doanh thu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rev-lbl-title">
                                         <rect key="frame" x="72" y="13.666666666666659" width="115.33333333333331" height="28.666666666666671"/>
@@ -7473,6 +7541,9 @@ All rights reserved.</string>
                                                 <integer key="value" value="20"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="refreshTapped:" destination="rev-vc-main" eventType="touchUpInside" id="rev-act-refresh"/>
+                                        </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rev-v-filters">
                                         <rect key="frame" x="24" y="64" width="345" height="40"/>
@@ -7492,6 +7563,9 @@ All rights reserved.</string>
                                                                 <integer key="value" value="8"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="dayFilterTapped:" destination="rev-vc-main" eventType="touchUpInside" id="rev-act-day"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rev-f2">
                                                         <rect key="frame" x="85.333333333333343" y="0.0" width="81.333333333333343" height="32"/>
@@ -7499,6 +7573,9 @@ All rights reserved.</string>
                                                         <state key="normal" title="Tuần">
                                                             <color key="titleColor" white="0.33329999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="weekFilterTapped:" destination="rev-vc-main" eventType="touchUpInside" id="rev-act-week"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rev-f3">
                                                         <rect key="frame" x="170.66666666666666" y="0.0" width="81" height="32"/>
@@ -7506,6 +7583,9 @@ All rights reserved.</string>
                                                         <state key="normal" title="Tháng">
                                                             <color key="titleColor" white="0.33329999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="monthFilterTapped:" destination="rev-vc-main" eventType="touchUpInside" id="rev-act-month"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rev-f4">
                                                         <rect key="frame" x="255.66666666666671" y="0.0" width="81.333333333333343" height="32"/>
@@ -7513,6 +7593,9 @@ All rights reserved.</string>
                                                         <state key="normal" title="Năm">
                                                             <color key="titleColor" white="0.33329999999999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="yearFilterTapped:" destination="rev-vc-main" eventType="touchUpInside" id="rev-act-year"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -7987,6 +8070,26 @@ All rights reserved.</string>
                             <constraint firstItem="rev-scroll" firstAttribute="leading" secondItem="rev-safe" secondAttribute="leading" id="revc-m9"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="chartBackgroundView" destination="rev-chart-bg" id="rev-out-chart-bg"/>
+                        <outlet property="chartDaysStackView" destination="rev-c3-days" id="rev-out-chart-days"/>
+                        <outlet property="chartSubtitleLabel" destination="rev-c3-t2" id="rev-out-chart-subtitle"/>
+                        <outlet property="chartTitleLabel" destination="rev-c3-t1" id="rev-out-chart-title"/>
+                        <outlet property="contentHeightConstraint" destination="revc-cv1" id="rev-out-content-height"/>
+                        <outlet property="dayFilterButton" destination="rev-f1" id="rev-out-day"/>
+                        <outlet property="legendPrimaryLabel" destination="rev-lt1" id="rev-out-legend-1"/>
+                        <outlet property="legendSecondaryLabel" destination="rev-lt2" id="rev-out-legend-2"/>
+                        <outlet property="monthFilterButton" destination="rev-f3" id="rev-out-month"/>
+                        <outlet property="revenueTrendImageView" destination="rev-c1-img" id="rev-out-revenue-trend-image"/>
+                        <outlet property="revenueTrendLabel" destination="rev-c1-t3" id="rev-out-revenue-trend"/>
+                        <outlet property="revenueValueLabel" destination="rev-c1-t2" id="rev-out-revenue-value"/>
+                        <outlet property="secondaryMetricTitleLabel" destination="rev-c2-t1" id="rev-out-secondary-title"/>
+                        <outlet property="secondaryMetricTrendImageView" destination="rev-c2-img" id="rev-out-secondary-trend-image"/>
+                        <outlet property="secondaryMetricTrendLabel" destination="rev-c2-t3" id="rev-out-secondary-trend"/>
+                        <outlet property="secondaryMetricValueLabel" destination="rev-c2-t2" id="rev-out-secondary-value"/>
+                        <outlet property="weekFilterButton" destination="rev-f2" id="rev-out-week"/>
+                        <outlet property="yearFilterButton" destination="rev-f4" id="rev-out-year"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rev-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

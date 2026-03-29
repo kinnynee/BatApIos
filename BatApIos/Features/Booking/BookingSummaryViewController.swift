@@ -105,7 +105,7 @@ final class BookingSummaryViewController: UIViewController {
     private func populateData() {
         if let bookingDraft {
             bookingInfo = [
-                "Sân": bookingDraft.courtName,
+                "Sân đấu": bookingDraft.courtName,
                 "Số sân": "Sân \(bookingDraft.courtNumber)",
                 "Ngày": bookingDraft.dateDisplayText,
                 "Giờ": bookingDraft.timeDisplayText,
@@ -115,7 +115,7 @@ final class BookingSummaryViewController: UIViewController {
             ]
         }
 
-        let keys = ["Sân", "Số sân", "Ngày", "Giờ", "Loại sân", "Voucher", "Tổng tiền"]
+        let keys = ["Sân đấu", "Số sân", "Ngày", "Giờ", "Loại sân", "Voucher", "Tổng tiền"]
         for key in keys {
             if let value = bookingInfo[key] {
                 addInfoRow(label: key, value: value)
@@ -149,33 +149,18 @@ final class BookingSummaryViewController: UIViewController {
     }
 
     @objc private func confirmTapped() {
-        do {
-            let booking: AppStoreBookingRecord
-            if let bookingDraft {
-                booking = try AppStore.shared.createBooking(from: bookingDraft)
-            } else {
-                let amountString = bookingInfo["Tổng tiền"]?.replacingOccurrences(of: ".000đ", with: "000").replacingOccurrences(of: "đ", with: "").replacingOccurrences(of: ".", with: "") ?? "0"
-                let amount = Double(amountString) ?? 0
-                let courtName = bookingInfo["Sân"] ?? "Sân Cầu Lông"
-                booking = try AppStore.shared.createBooking(courtTypeName: courtName, totalPrice: amount)
-            }
-            
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let paymentVC = storyboard.instantiateViewController(withIdentifier: "PaymentMethodVC") as? PaymentMethodViewController else {
-                return
-            }
-            
-            paymentVC.configure(amount: booking.totalPrice, bookingId: booking.id)
-            
-            if let nav = navigationController {
-                nav.pushViewController(paymentVC, animated: true)
-            } else {
-                present(paymentVC, animated: true)
-            }
-        } catch {
-            let alert = UIAlertController(title: "Lỗi", message: "Không thể tạo đặt sân: \(error.localizedDescription)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Đóng", style: .default))
-            present(alert, animated: true)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let checkoutVC = storyboard.instantiateViewController(withIdentifier: "CheckoutVC") as? CheckoutViewController else {
+            return
+        }
+
+        checkoutVC.bookingDraft = bookingDraft
+        checkoutVC.bookingInfo = bookingInfo
+
+        if let nav = navigationController {
+            nav.pushViewController(checkoutVC, animated: true)
+        } else {
+            present(checkoutVC, animated: true)
         }
     }
 }

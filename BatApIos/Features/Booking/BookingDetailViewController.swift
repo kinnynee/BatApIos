@@ -3,7 +3,7 @@ import UIKit
 
 final class BookingDetailViewController: UIViewController {
 
-    var booking: AppStoreBookingRecord?
+    var booking: BackendBookingRecord?
 
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -102,32 +102,23 @@ private extension BookingDetailViewController {
     func populateData() {
         guard let booking else { return }
 
-        bookingCodeLabel.text = "Mã check-in: #\(booking.id)"
-        qrImageView.image = generateQRCode(from: booking.id)
+        bookingCodeLabel.text = "Mã check-in: #\(booking.bookingCode)"
+        qrImageView.image = generateQRCode(from: booking.bookingCode)
 
         let currencyFormatter = NumberFormatter()
         currencyFormatter.numberStyle = .currency
         currencyFormatter.locale = Locale(identifier: "vi_VN")
         currencyFormatter.maximumFractionDigits = 0
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "vi_VN")
-        dateFormatter.dateFormat = "EEEE, dd/MM/yyyy"
-
-        let timeFormatter = DateFormatter()
-        timeFormatter.locale = Locale(identifier: "vi_VN")
-        timeFormatter.dateFormat = "HH:mm"
-
         let detailItems: [(String, String)] = [
-            ("Sân", booking.courtName),
-            ("Số sân", booking.courtNumber.map { "Sân \($0)" } ?? "Đang cập nhật"),
-            ("Loại sân", booking.courtTypeName ?? "Đang cập nhật"),
-            ("Ngày chơi", dateFormatter.string(from: booking.bookingDate)),
-            ("Khung giờ", "\(timeFormatter.string(from: booking.startTime)) - \(timeFormatter.string(from: booking.endTime))"),
-            ("Trạng thái", statusText(for: booking.status)),
-            ("Thanh toán", booking.paymentMethodName ?? "Chưa thanh toán"),
-            ("Voucher", booking.voucherCode ?? "Không áp dụng"),
-            ("Tổng tiền", currencyFormatter.string(from: NSNumber(value: booking.totalPrice)) ?? "0 đ")
+            ("Sân đấu", booking.courtName),
+            ("Mã booking", booking.bookingCode),
+            ("Mã sân", booking.courtId),
+            ("Ngày chơi", booking.bookingDate),
+            ("Khung giờ", "\(booking.startTime) - \(booking.endTime)"),
+            ("Trạng thái booking", normalizedBookingStatus(booking.bookingStatus)),
+            ("Trạng thái thanh toán", normalizedPaymentStatus(booking.paymentStatus)),
+            ("Tổng tiền", currencyFormatter.string(from: NSNumber(value: booking.totalAmount)) ?? "0 đ")
         ]
 
         detailItems.forEach { title, value in
@@ -171,18 +162,31 @@ private extension BookingDetailViewController {
         return container
     }
 
-    func statusText(for status: BookingStatus) -> String {
-        switch status {
-        case .pending:
+    func normalizedBookingStatus(_ value: String) -> String {
+        switch value.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
+        case "pending":
             return "Chờ thanh toán"
-        case .partiallyPaid:
-            return "Đã cọc"
-        case .fullyPaid:
+        case "fully paid", "confirmed":
             return "Đã thanh toán"
-        case .active:
+        case "active":
             return "Đang diễn ra"
-        case .cancelled:
+        case "cancelled":
             return "Đã hủy"
+        default:
+            return value
+        }
+    }
+
+    func normalizedPaymentStatus(_ value: String) -> String {
+        switch value.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
+        case "paid":
+            return "Đã thanh toán"
+        case "pending":
+            return "Chờ thanh toán"
+        case "cancelled":
+            return "Đã hủy"
+        default:
+            return value
         }
     }
 
@@ -204,7 +208,7 @@ private extension BookingDetailViewController {
         guard let checkInViewController = storyboard.instantiateViewController(withIdentifier: "StaffCheckInVC") as? StaffCheckInViewController else {
             return
         }
-        checkInViewController.prefilledBookingCode = booking.id
+        checkInViewController.prefilledBookingCode = booking.bookingCode
         navigationController?.pushViewController(checkInViewController, animated: true)
     }
 }

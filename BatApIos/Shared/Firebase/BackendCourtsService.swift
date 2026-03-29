@@ -1,9 +1,20 @@
 import Foundation
 
 struct BackendCourtCard {
+    let id: String
     let name: String
     let type: String
     let status: String
+    let pricePerHour: Double
+    let priceText: String
+}
+
+struct BackendCourtOption {
+    let id: String
+    let name: String
+    let type: String
+    let status: String
+    let pricePerHour: Double
     let priceText: String
 }
 
@@ -35,6 +46,19 @@ final class BackendCourtsService {
     }
 
     func fetchCourts() async throws -> [BackendCourtCard] {
+        try await fetchCourtOptions().map {
+            BackendCourtCard(
+                id: $0.id,
+                name: $0.name,
+                type: $0.type,
+                status: $0.status,
+                pricePerHour: $0.pricePerHour,
+                priceText: $0.priceText
+            )
+        }
+    }
+
+    func fetchCourtOptions() async throws -> [BackendCourtOption] {
         guard let url = URL(string: "\(baseURL)/api/courts") else {
             throw BackendCourtsError.invalidURL
         }
@@ -56,6 +80,8 @@ final class BackendCourtsService {
         }
 
         return items.compactMap { item in
+            let id = Self.resolveCourtID(from: item)
+            guard id.isEmpty == false else { return nil }
             let name = (item["name"] as? String) ?? (item["courtName"] as? String) ?? "Sân chưa đặt tên"
             let type = (item["courtType"] as? String) ?? (item["type"] as? String) ?? "Standard"
             let status = (item["status"] as? String) ?? "Active"
@@ -68,10 +94,12 @@ final class BackendCourtsService {
                 return nil
             }()
 
-            return BackendCourtCard(
+            return BackendCourtOption(
+                id: id,
                 name: name,
                 type: type,
                 status: status,
+                pricePerHour: priceValue ?? 0,
                 priceText: Self.currencyText(for: priceValue ?? 0)
             )
         }
@@ -83,5 +111,24 @@ final class BackendCourtsService {
         formatter.locale = Locale(identifier: "vi_VN")
         formatter.maximumFractionDigits = 0
         return formatter.string(from: NSNumber(value: value)) ?? "0 đ"
+    }
+
+    private static func resolveCourtID(from item: [String: Any]) -> String {
+        let candidateKeys = [
+            "id",
+            "courtId",
+            "court_id",
+            "_id",
+            "documentId",
+            "docId"
+        ]
+
+        for key in candidateKeys {
+            if let value = item[key] as? String, value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false {
+                return value
+            }
+        }
+
+        return ""
     }
 }

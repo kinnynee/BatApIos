@@ -141,6 +141,29 @@ final class BackendBookingsService {
         bookingStatus: String,
         paymentStatus: String
     ) async throws -> BackendBookingRecord {
+        try await updateBooking(
+            bookingId: bookingId,
+            payload: [
+                "bookingStatus": bookingStatus,
+                "paymentStatus": paymentStatus
+            ]
+        )
+    }
+
+    func cancelBooking(bookingId: String) async throws -> BackendBookingRecord {
+        try await updateBooking(
+            bookingId: bookingId,
+            payload: [
+                "bookingStatus": "Cancelled",
+                "paymentStatus": "Cancelled"
+            ]
+        )
+    }
+
+    func updateBooking(
+        bookingId: String,
+        payload: [String: Any]
+    ) async throws -> BackendBookingRecord {
         guard let url = URL(string: "\(baseURL)/api/bookings/\(bookingId)") else {
             throw BackendBookingsError.invalidURL
         }
@@ -148,10 +171,7 @@ final class BackendBookingsService {
         var request = URLRequest(url: url)
         request.httpMethod = "PATCH"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try JSONSerialization.data(withJSONObject: [
-            "bookingStatus": bookingStatus,
-            "paymentStatus": paymentStatus
-        ])
+        request.httpBody = try JSONSerialization.data(withJSONObject: payload)
 
         let (data, response) = try await session.data(for: request)
         let bookings = try parseBookingsResponse(data: data, response: response)
@@ -177,11 +197,13 @@ final class BackendBookingsService {
     func paymentInfo(from booking: BackendBookingRecord) -> PaymentInfo {
         let status = orderStatus(for: booking)
         return PaymentInfo(
+            bookingId: booking.id,
             productImage: iconImage(for: status),
             productName: booking.courtName,
             subtitle: "\(booking.bookingCode) • \(booking.bookingDate) • \(booking.startTime)-\(booking.endTime)",
+            amountValue: booking.totalAmount,
             price: currencyText(booking.totalAmount),
-            paymentMethod: booking.paymentStatus,
+            paymentMethod: paymentMethodText(for: booking),
             status: status
         )
     }
@@ -206,6 +228,8 @@ final class BackendBookingsService {
 
         if let dictionary = payload as? [String: Any], let dataArray = dictionary["data"] as? [[String: Any]] {
             items = dataArray
+        } else if let dictionary = payload as? [String: Any], let dataObject = dictionary["data"] as? [String: Any] {
+            items = [dataObject]
         } else if let dictionary = payload as? [String: Any] {
             items = [dictionary]
         } else if let array = payload as? [[String: Any]] {
@@ -267,6 +291,18 @@ final class BackendBookingsService {
             return UIImage(systemName: "clock.badge")
         case .cancelled:
             return UIImage(systemName: "xmark.circle.fill")
+        }
+    }
+
+    private func paymentMethodText(for booking: BackendBookingRecord) -> String {
+        let paymentValue = booking.paymentStatus.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        switch paymentValue {
+        case "paid":
+            return "Đã thanh toán"
+        case "cancelled":
+            return "Đã hủy"
+        default:
+            return "Chạm để xem chi tiết"
         }
     }
 }

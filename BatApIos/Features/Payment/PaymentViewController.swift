@@ -13,6 +13,7 @@ class PaymentViewController: UIViewController {
 
     private let store = AppMockStore.shared
     private let bookingsService = BackendBookingsService.shared
+    private let systemLogStore = SystemLogStore.shared
     private let emptyStateLabel = UILabel()
     private let headerView = UIView()
     private let titleLabel = UILabel()
@@ -197,5 +198,25 @@ extension PaymentViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         118
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let payment = displayedPayments[indexPath.row]
+        guard let paymentViewController = PaymentMethodViewController.instantiate(
+            amount: payment.amountValue,
+            bookingId: payment.bookingId
+        ) else {
+            showAlert(title: "Lỗi", message: "Không thể mở thông tin thanh toán.")
+            return
+        }
+
+        if let navigationController {
+            navigationController.pushViewController(paymentViewController, animated: true)
+        } else {
+            let navigationController = UINavigationController(rootViewController: paymentViewController)
+            navigationController.modalPresentationStyle = .fullScreen
+            present(navigationController, animated: true)
+        }
     }
 }

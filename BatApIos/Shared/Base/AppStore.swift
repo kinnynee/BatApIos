@@ -261,9 +261,11 @@ final class AppStore {
             .filter { $0.userId == user.id }
             .map {
                 PaymentInfo(
+                    bookingId: $0.id,
                     productImage: nil,
                     productName: "\($0.courtName) • \($0.id)",
                     subtitle: "\(Self.scheduleText(for: $0))",
+                    amountValue: $0.totalPrice,
                     price: Self.currencyFormatter.string(from: NSNumber(value: $0.totalPrice)) ?? "0 đ",
                     paymentMethod: $0.paymentMethodName ?? "Chưa thanh toán",
                     status: Self.orderStatus(for: $0.status)

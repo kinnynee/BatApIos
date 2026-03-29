@@ -1,12 +1,19 @@
 import UIKit
 
 final class NewCourtBookingViewController: UIViewController {
+    var preselectedCourtID: String?
+    var preselectedCourtName: String?
+
     private let store = AppMockStore.shared
     private let bookingsService = BackendBookingsService.shared
+    private let systemLogStore = SystemLogStore.shared
+    private let courtsService = BackendCourtsService.shared
+    private let vouchersService = BackendVouchersService.shared
     private let calendar = Calendar.current
 
     private let scrollView = UIScrollView()
     private let contentStack = UIStackView()
+    private let courtSectionStack = UIStackView()
     private let selectedDateLabel = UILabel()
     private let voucherTextField = UITextField()
     private let totalAmountLabel = UILabel()
@@ -29,11 +36,7 @@ final class NewCourtBookingViewController: UIViewController {
         "19:00",
         "20:00"
     ]
-    private let courts: [(id: String, name: String, price: Double)] = [
-        ("court_standard", "Sân Standard", 150_000),
-        ("court_vip", "Sân VIP", 220_000),
-        ("court_single", "Sân Single", 320_000)
-    ]
+    private var courts: [BackendCourtOption] = []
 
     private var selectedDateIndex = 1 {
         didSet { updateDateSelectionUI() }
@@ -47,6 +50,10 @@ final class NewCourtBookingViewController: UIViewController {
     private var isVoucherApplied = false {
         didSet { updateSummary() }
     }
+    private var appliedVoucherCode: String?
+    private var appliedDiscountAmount: Double = 0 {
+        didSet { updateSummary() }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +63,7 @@ final class NewCourtBookingViewController: UIViewController {
         updateTimeSelectionUI()
         updateCourtSelectionUI()
         updateSummary()
+        loadCourts()
     }
 
     private func configureScreen() {
@@ -196,22 +204,16 @@ final class NewCourtBookingViewController: UIViewController {
     }
 
     private func makeCourtSection() -> UIView {
-        let section = makeSectionContainer(title: "Chọn loại sân")
-
-        courtButtons = courts.enumerated().map { index, court in
-            let button = UIButton(type: .system)
-            button.configuration = makeCourtButtonConfiguration(
-                title: court.name,
-                subtitle: currencyText(court.price),
-                selected: index == selectedCourtIndex
-            )
-            button.addAction(UIAction { [weak self] _ in
-                self?.selectedCourtIndex = index
-            }, for: .touchUpInside)
-            section.addArrangedSubview(button)
-            return button
+        courtSectionStack.axis = .vertical
+        courtSectionStack.spacing = 12
+        courtSectionStack.arrangedSubviews.forEach { view in
+            courtSectionStack.removeArrangedSubview(view)
+            view.removeFromSuperview()
         }
 
+        let section = makeSectionContainer(title: "Chọn loại sân")
+        section.addArrangedSubview(courtSectionStack)
+        renderCourtOptions()
         return section
     }
 
@@ -219,7 +221,7 @@ final class NewCourtBookingViewController: UIViewController {
         let section = makeSectionContainer(title: "Mã giảm giá")
 
         voucherTextField.borderStyle = .none
-        voucherTextField.placeholder = "Nhập GIAM50K để giảm 50.000đ"
+        voucherTextField.placeholder = "Nhập mã giảm giá"
         voucherTextField.font = .systemFont(ofSize: 15)
         voucherTextField.autocapitalizationType = .allCharacters
 
@@ -270,7 +272,7 @@ final class NewCourtBookingViewController: UIViewController {
         title.font = .boldSystemFont(ofSize: 16)
 
         let priceRow = makeSummaryRow(title: "Giá sân", value: currencyText(selectedCourtPrice * bookingDurationHours))
-        let voucherRow = makeSummaryRow(title: "Giảm giá", value: isVoucherApplied ? "-50.000đ" : "0đ", highlight: true)
+        let voucherRow = makeSummaryRow(title: "Giảm giá", value: selectedDiscountAmount > 0 ? "-\(currencyText(selectedDiscountAmount))" : "0đ", highlight: true)
         let totalRow = makeSummaryRow(title: "Tổng cộng", value: currencyText(totalAmount), titleFont: .boldSystemFont(ofSize: 16), valueFont: .boldSystemFont(ofSize: 22), highlight: true)
 
         totalAmountLabel.font = .boldSystemFont(ofSize: 22)
@@ -412,7 +414,8 @@ final class NewCourtBookingViewController: UIViewController {
     }
 
     private var selectedCourtPrice: Double {
-        courts[selectedCourtIndex].price
+        guard courts.indices.contains(selectedCourtIndex) else { return 0 }
+        return courts[selectedCourtIndex].pricePerHour
     }
 
     private var bookingDurationHours: Double {
@@ -424,7 +427,7 @@ final class NewCourtBookingViewController: UIViewController {
     }
 
     private var selectedDiscountAmount: Double {
-        isVoucherApplied ? 50_000 : 0
+        appliedDiscountAmount
     }
 
     private var resolvedBookingDate: Date {
@@ -472,7 +475,7 @@ final class NewCourtBookingViewController: UIViewController {
         for (index, button) in courtButtons.enumerated() {
             button.configuration = makeCourtButtonConfiguration(
                 title: courts[index].name,
-                subtitle: currencyText(courts[index].price),
+                subtitle: courts[index].priceText,
                 selected: index == selectedCourtIndex
             )
         }
@@ -481,7 +484,7 @@ final class NewCourtBookingViewController: UIViewController {
 
     private func updateSummary() {
         priceAmountLabel.text = currencyText(selectedCourtPrice * bookingDurationHours)
-        voucherAmountLabel.text = isVoucherApplied ? "-50.000đ" : "0đ"
+        voucherAmountLabel.text = selectedDiscountAmount > 0 ? "-\(currencyText(selectedDiscountAmount))" : "0đ"
         totalAmountLabel.text = currencyText(totalAmount)
         let durationText = bookingDurationHours == floor(bookingDurationHours)
             ? "\(Int(bookingDurationHours)) giờ"
@@ -503,12 +506,39 @@ final class NewCourtBookingViewController: UIViewController {
 
     @objc private func applyVoucherTapped() {
         let voucher = voucherTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines).uppercased() ?? ""
-        if voucher == "GIAM50K" {
-            isVoucherApplied = true
-            showAlert(title: "Thành công", message: "Đã áp dụng mã giảm giá GIAM50K.")
-        } else {
+        guard voucher.isEmpty == false else {
+            appliedVoucherCode = nil
+            appliedDiscountAmount = 0
             isVoucherApplied = false
-            showAlert(title: "Không hợp lệ", message: "Mã giảm giá không đúng.")
+            showAlert(title: "Thiếu mã", message: "Vui lòng nhập mã giảm giá.")
+            return
+        }
+
+        Task { [weak self] in
+            guard let self else { return }
+
+            do {
+                let preview = try await vouchersService.previewVoucherApplication(
+                    code: voucher,
+                    bookingAmount: selectedCourtPrice * bookingDurationHours,
+                    courtType: selectedCourtType
+                )
+
+                await MainActor.run {
+                    self.appliedVoucherCode = preview.code
+                    self.appliedDiscountAmount = preview.discountAmount
+                    self.isVoucherApplied = preview.applied && preview.discountAmount > 0
+                    let message = preview.message ?? "Đã áp dụng mã giảm giá \(preview.code)."
+                    self.showAlert(title: "Thành công", message: message)
+                }
+            } catch {
+                await MainActor.run {
+                    self.appliedVoucherCode = nil
+                    self.appliedDiscountAmount = 0
+                    self.isVoucherApplied = false
+                    self.showAlert(title: "Không hợp lệ", message: error.localizedDescription)
+                }
+            }
         }
     }
 
@@ -531,7 +561,7 @@ final class NewCourtBookingViewController: UIViewController {
                 let payload = BackendBookingPayload(
                     id: UUID().uuidString,
                     userId: userId,
-                    courtId: courts[selectedCourtIndex].id,
+                    courtId: selectedCourtID,
                     bookingCode: bookingCode,
                     bookingDate: apiDateText(from: resolvedBookingDate),
                     startTime: apiTimeText(from: resolvedStartTime),
@@ -547,6 +577,11 @@ final class NewCourtBookingViewController: UIViewController {
                 let booking = try await bookingsService.createBooking(payload)
 
                 await MainActor.run {
+                    self.systemLogStore.append(
+                        title: "Tạo booking",
+                        message: "Khách đã tạo booking \(booking.bookingCode) cho sân \(booking.courtName) lúc \(booking.startTime)-\(booking.endTime).",
+                        source: "booking"
+                    )
                     self.confirmButton.isEnabled = true
                     self.confirmButton.configuration?.showsActivityIndicator = false
 
@@ -632,6 +667,11 @@ final class NewCourtBookingViewController: UIViewController {
     }
 
     private func validateBookingSelection() -> Bool {
+        if courts.isEmpty {
+            showAlert(title: "Chưa có sân", message: "Không tải được danh sách sân từ backend. Vui lòng thử lại.")
+            return false
+        }
+
         if resolvedBookingDate < calendar.startOfDay(for: Date()) {
             showAlert(title: "Ngày không hợp lệ", message: "Bạn không thể đặt sân cho ngày đã qua.")
             return false
@@ -648,5 +688,86 @@ final class NewCourtBookingViewController: UIViewController {
         }
 
         return true
+    }
+
+    private var selectedCourtID: String {
+        guard courts.indices.contains(selectedCourtIndex) else { return "" }
+        return courts[selectedCourtIndex].id
+    }
+
+    private var selectedCourtType: String? {
+        guard courts.indices.contains(selectedCourtIndex) else { return nil }
+        return courts[selectedCourtIndex].type
+    }
+
+    private func loadCourts() {
+        Task { [weak self] in
+            guard let self else { return }
+
+            do {
+                let fetchedCourts = try await courtsService.fetchCourtOptions()
+                await MainActor.run {
+                    self.courts = fetchedCourts.filter { $0.status.caseInsensitiveCompare("Active") == .orderedSame || $0.status.caseInsensitiveCompare("Available") == .orderedSame }
+                    if self.courts.isEmpty {
+                        self.courts = fetchedCourts
+                    }
+                    self.applyPreselectedCourtIfNeeded()
+                    self.selectedCourtIndex = min(self.selectedCourtIndex, max(self.courts.count - 1, 0))
+                    self.renderCourtOptions()
+                    self.updateSummary()
+                }
+            } catch {
+                await MainActor.run {
+                    self.courts = []
+                    self.renderCourtOptions(message: "Không tải được sân từ backend.")
+                }
+            }
+        }
+    }
+
+    private func renderCourtOptions(message: String? = nil) {
+        courtSectionStack.arrangedSubviews.forEach { view in
+            courtSectionStack.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+
+        guard courts.isEmpty == false else {
+            let stateLabel = UILabel()
+            stateLabel.font = .systemFont(ofSize: 14)
+            stateLabel.textColor = .secondaryLabel
+            stateLabel.numberOfLines = 0
+            stateLabel.text = message ?? "Đang tải danh sách sân..."
+            courtSectionStack.addArrangedSubview(stateLabel)
+            confirmButton.isEnabled = false
+            return
+        }
+
+        confirmButton.isEnabled = true
+        courtButtons = courts.enumerated().map { index, court in
+            let button = UIButton(type: .system)
+            button.configuration = makeCourtButtonConfiguration(
+                title: court.name,
+                subtitle: court.priceText,
+                selected: index == selectedCourtIndex
+            )
+            button.addAction(UIAction { [weak self] _ in
+                self?.selectedCourtIndex = index
+            }, for: .touchUpInside)
+            courtSectionStack.addArrangedSubview(button)
+            return button
+        }
+    }
+
+    private func applyPreselectedCourtIfNeeded() {
+        if let preselectedCourtID,
+           let index = courts.firstIndex(where: { $0.id.caseInsensitiveCompare(preselectedCourtID) == .orderedSame }) {
+            selectedCourtIndex = index
+            return
+        }
+
+        if let preselectedCourtName,
+           let index = courts.firstIndex(where: { $0.name.caseInsensitiveCompare(preselectedCourtName) == .orderedSame }) {
+            selectedCourtIndex = index
+        }
     }
 }

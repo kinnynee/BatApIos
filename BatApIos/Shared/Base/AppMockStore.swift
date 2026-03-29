@@ -271,9 +271,11 @@ final class AppMockStore {
             .map {
                 let status = Self.orderStatus(for: $0.status)
                 return PaymentInfo(
+                    bookingId: $0.id,
                     productImage: Self.iconImage(for: status),
                     productName: $0.courtName,
                     subtitle: "\($0.id) • \(Self.scheduleText(for: $0))",
+                    amountValue: $0.totalPrice,
                     price: Self.currencyFormatter.string(from: NSNumber(value: $0.totalPrice)) ?? "0 đ",
                     paymentMethod: $0.paymentMethodName ?? "Chưa chọn phương thức",
                     status: status
