@@ -5,7 +5,7 @@ final class CalendarViewController: UIViewController {
     @IBOutlet private weak var calendarCollectionView: UICollectionView!
 
     private let calendar = Calendar.current
-    private var selectedDate = Date()
+    private var selectedDate = Calendar.current.startOfDay(for: Date())
     private var visibleDates: [Date] = []
 
     override func viewDidLoad() {
@@ -21,14 +21,20 @@ final class CalendarViewController: UIViewController {
     }
 
     private func reloadDates() {
-        visibleDates = (-3...10).compactMap { offset in
-            calendar.date(byAdding: .day, value: offset, to: selectedDate)
+        let baseDate = calendar.startOfDay(for: Date())
+        visibleDates = (0...14).compactMap { offset in
+            calendar.date(byAdding: .day, value: offset, to: baseDate)
         }
+
+        if visibleDates.contains(where: { calendar.isDate($0, inSameDayAs: selectedDate) }) == false {
+            selectedDate = baseDate
+        }
+
         calendarCollectionView.reloadData()
     }
 
     @IBAction private func backButtonTapped(_ sender: UIButton) {
-        dismiss(animated: true)
+        handleBackNavigation()
     }
 }
 
@@ -116,8 +122,14 @@ private final class CalendarDayCell: UICollectionViewCell {
 
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "vi_VN")
-        formatter.dateFormat = "EEEE"
-        weekdayLabel.text = formatter.string(from: date).capitalized
+        if calendar.isDateInToday(date) {
+            weekdayLabel.text = "Hôm nay"
+        } else if calendar.isDateInTomorrow(date) {
+            weekdayLabel.text = "Ngày mai"
+        } else {
+            formatter.dateFormat = "EEE"
+            weekdayLabel.text = formatter.string(from: date).capitalized
+        }
 
         if isSelected {
             contentView.backgroundColor = UIColor.systemMint.withAlphaComponent(0.16)

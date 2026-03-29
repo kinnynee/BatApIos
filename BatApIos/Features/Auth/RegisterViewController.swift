@@ -11,6 +11,7 @@ class RegisterViewController: UIViewController {
     
     var isPassVisible = false
     private let store = AppMockStore.shared
+    private let authService = FirebaseAuthService.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +21,7 @@ class RegisterViewController: UIViewController {
     }
 
     @IBAction func backButtonTapped(_ sender: UIButton) {
-        self.dismiss(animated: true)
+        handleBackNavigation()
     }
     
     @IBAction func togglePasswordVisibility(_ sender: UIButton) {
@@ -55,13 +56,27 @@ class RegisterViewController: UIViewController {
             return
         }
         
-        do {
-            _ = try store.register(name: name, email: email, password: pass)
-            showAlert(title: "Chào mừng!", message: "Tạo tài khoản SmashBooking thành công.") {
-                self.dismiss(animated: true)
+        Task { [weak self] in
+            guard let self else { return }
+
+            do {
+                let user = try await authService.register(name: name, email: email, password: pass)
+                _ = store.syncAuthenticatedUser(
+                    email: user.email,
+                    displayName: user.username,
+                    firebaseUID: user.id ?? ""
+                )
+
+                await MainActor.run {
+                    self.showAlert(title: "Chào mừng!", message: "Tạo tài khoản SmashBooking thành công.") {
+                        self.handleBackNavigation()
+                    }
+                }
+            } catch {
+                await MainActor.run {
+                    self.showAlert(title: "Không thể đăng ký", message: error.localizedDescription)
+                }
             }
-        } catch {
-            showAlert(title: "Không thể đăng ký", message: error.localizedDescription)
         }
     }
 }

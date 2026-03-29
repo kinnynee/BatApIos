@@ -7,7 +7,10 @@ class StoryboardScreenViewController: UIViewController {
     }
 
     var screenSubtitleText: String {
-        "Màn hình này đã có controller riêng và sẵn sàng để nối nghiệp vụ demo."
+        AppLocalization.localized(
+            vi: "Màn hình này đã có controller riêng và sẵn sàng để nối nghiệp vụ demo.",
+            en: "This screen already has its own controller and is ready for demo business logic."
+        )
     }
 
     var screenHighlights: [String] {

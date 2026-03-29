@@ -7,15 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3FB32B992F6DA58E00BA3D66 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3FB32B982F6DA58E00BA3D66 /* FirebaseCore */; };
-		3FB32B9B2F6DA59500BA3D66 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 3FB32B9A2F6DA59500BA3D66 /* FirebaseDatabase */; };
-		3FB32BA22F6DA7ED00BA3D66 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 3FB32BA12F6DA7ED00BA3D66 /* FirebaseStorage */; };
-		3FB32BA42F6DABDA00BA3D66 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 3FB32BA32F6DABDA00BA3D66 /* FirebaseFirestore */; };
-		3FB32BA62F6DAC2300BA3D66 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 3FB32BA52F6DAC2300BA3D66 /* FirebaseFirestoreCombine-Community */; };
+		B4077431ECCDDCD6A67EAE6C /* Pods_BatApIos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 801A22DDE2FBB8EA7BCA40A8 /* Pods_BatApIos.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		06D110FD7564982B240904E0 /* Pods-BatApIos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BatApIos.release.xcconfig"; path = "Target Support Files/Pods-BatApIos/Pods-BatApIos.release.xcconfig"; sourceTree = "<group>"; };
 		3F0C6C6D2F5E59610057323B /* BatApIos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BatApIos.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		801A22DDE2FBB8EA7BCA40A8 /* Pods_BatApIos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BatApIos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4FC810915FCCABC659E17C9 /* Pods-BatApIos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BatApIos.debug.xcconfig"; path = "Target Support Files/Pods-BatApIos/Pods-BatApIos.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -44,11 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3FB32B9B2F6DA59500BA3D66 /* FirebaseDatabase in Frameworks */,
-				3FB32BA42F6DABDA00BA3D66 /* FirebaseFirestore in Frameworks */,
-				3FB32B992F6DA58E00BA3D66 /* FirebaseCore in Frameworks */,
-				3FB32BA62F6DAC2300BA3D66 /* FirebaseFirestoreCombine-Community in Frameworks */,
-				3FB32BA22F6DA7ED00BA3D66 /* FirebaseStorage in Frameworks */,
+				B4077431ECCDDCD6A67EAE6C /* Pods_BatApIos.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +56,7 @@
 				3F0C6C6F2F5E59610057323B /* BatApIos */,
 				3FB32B972F6DA58E00BA3D66 /* Frameworks */,
 				3F0C6C6E2F5E59610057323B /* Products */,
+				561F142BD960A1F36336F721 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -75,8 +71,18 @@
 		3FB32B972F6DA58E00BA3D66 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				801A22DDE2FBB8EA7BCA40A8 /* Pods_BatApIos.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		561F142BD960A1F36336F721 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B4FC810915FCCABC659E17C9 /* Pods-BatApIos.debug.xcconfig */,
+				06D110FD7564982B240904E0 /* Pods-BatApIos.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -86,9 +92,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3F0C6C802F5E59620057323B /* Build configuration list for PBXNativeTarget "BatApIos" */;
 			buildPhases = (
+				83843874DDF88084C0667C64 /* [CP] Check Pods Manifest.lock */,
 				3F0C6C692F5E59610057323B /* Sources */,
 				3F0C6C6A2F5E59610057323B /* Frameworks */,
 				3F0C6C6B2F5E59610057323B /* Resources */,
+				56A913CC11D06EE32D18EB9D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -99,11 +107,6 @@
 			);
 			name = BatApIos;
 			packageProductDependencies = (
-				3FB32B982F6DA58E00BA3D66 /* FirebaseCore */,
-				3FB32B9A2F6DA59500BA3D66 /* FirebaseDatabase */,
-				3FB32BA12F6DA7ED00BA3D66 /* FirebaseStorage */,
-				3FB32BA32F6DABDA00BA3D66 /* FirebaseFirestore */,
-				3FB32BA52F6DAC2300BA3D66 /* FirebaseFirestoreCombine-Community */,
 			);
 			productName = BatApIos;
 			productReference = 3F0C6C6D2F5E59610057323B /* BatApIos.app */;
@@ -134,7 +137,6 @@
 			mainGroup = 3F0C6C642F5E59610057323B;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				3FB32B962F6DA09F00BA3D66 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3F0C6C6E2F5E59610057323B /* Products */;
@@ -156,6 +158,52 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		56A913CC11D06EE32D18EB9D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BatApIos/Pods-BatApIos-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BatApIos/Pods-BatApIos-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BatApIos/Pods-BatApIos-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		83843874DDF88084C0667C64 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BatApIos-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		3F0C6C692F5E59610057323B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -169,11 +217,13 @@
 /* Begin XCBuildConfiguration section */
 		3F0C6C812F5E59620057323B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4FC810915FCCABC659E17C9 /* Pods-BatApIos.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BatApIos/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -200,11 +250,13 @@
 		};
 		3F0C6C822F5E59620057323B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 06D110FD7564982B240904E0 /* Pods-BatApIos.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BatApIos/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -370,45 +422,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		3FB32B962F6DA09F00BA3D66 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 12.11.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		3FB32B982F6DA58E00BA3D66 /* FirebaseCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3FB32B962F6DA09F00BA3D66 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCore;
-		};
-		3FB32B9A2F6DA59500BA3D66 /* FirebaseDatabase */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3FB32B962F6DA09F00BA3D66 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseDatabase;
-		};
-		3FB32BA12F6DA7ED00BA3D66 /* FirebaseStorage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3FB32B962F6DA09F00BA3D66 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseStorage;
-		};
-		3FB32BA32F6DABDA00BA3D66 /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3FB32B962F6DA09F00BA3D66 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
-		};
-		3FB32BA52F6DAC2300BA3D66 /* FirebaseFirestoreCombine-Community */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3FB32B962F6DA09F00BA3D66 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = "FirebaseFirestoreCombine-Community";
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3F0C6C652F5E59610057323B /* Project object */;
 }
