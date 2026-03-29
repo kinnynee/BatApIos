@@ -18,6 +18,7 @@ class PaymentViewController: UIViewController {
     private let headerView = UIView()
     private let titleLabel = UILabel()
     private let backButton = UIButton(type: .system)
+    private var currentLanguage: AppLanguage { AppLocalization.currentLanguage }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +35,8 @@ class PaymentViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        configureAppearance()
+        configureEmptyState()
         loadPayments()
     }
 
@@ -68,7 +71,7 @@ class PaymentViewController: UIViewController {
                     self.allPayments = self.store.paymentHistory()
                     let selectedStatus = OrderStatus(rawValue: self.segmentedControl.selectedSegmentIndex) ?? .success
                     self.filterData(by: selectedStatus)
-                    self.showAlert(title: "Không tải được lịch sử", message: error.localizedDescription)
+                    self.showAlert(title: self.text(.unableToLoadHistory), message: error.localizedDescription)
                 }
             }
         }
@@ -96,7 +99,7 @@ class PaymentViewController: UIViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = .boldSystemFont(ofSize: 20)
         titleLabel.textColor = UIColor(red: 0.06, green: 0.13, blue: 0.10, alpha: 1)
-        titleLabel.text = "Lịch sử thanh toán"
+        titleLabel.text = text(.paymentHistoryTitle)
 
         backButton.translatesAutoresizingMaskIntoConstraints = false
         backButton.tintColor = UIColor(red: 0.06, green: 0.13, blue: 0.10, alpha: 1)
@@ -165,7 +168,7 @@ class PaymentViewController: UIViewController {
     }
 
     private func configureEmptyState() {
-        emptyStateLabel.text = "Chưa có đơn nào trong mục này.\nHãy thử đổi trạng thái hoặc tạo booking mới."
+        emptyStateLabel.text = "\(text(.noPaymentsInSection))\n\(text(.tryOtherStatusOrCreateBooking))"
         emptyStateLabel.textColor = .secondaryLabel
         emptyStateLabel.font = .systemFont(ofSize: 15, weight: .medium)
         emptyStateLabel.textAlignment = .center
@@ -207,7 +210,7 @@ extension PaymentViewController: UITableViewDataSource, UITableViewDelegate {
             amount: payment.amountValue,
             bookingId: payment.bookingId
         ) else {
-            showAlert(title: "Lỗi", message: "Không thể mở thông tin thanh toán.")
+            showAlert(title: text(.error), message: text(.unableToOpenPaymentInfo))
             return
         }
 
@@ -218,5 +221,11 @@ extension PaymentViewController: UITableViewDataSource, UITableViewDelegate {
             navigationController.modalPresentationStyle = .fullScreen
             present(navigationController, animated: true)
         }
+    }
+}
+
+private extension PaymentViewController {
+    func text(_ key: AppLocalizedKey) -> String {
+        AppLocalization.text(key)
     }
 }

@@ -35,6 +35,7 @@ final class CheckoutViewController: UIViewController {
 
     private let themeGreen = UIColor(red: 0.0, green: 0.82, blue: 0.38, alpha: 1.0)
     private let themeDark = UIColor(red: 0.06, green: 0.14, blue: 0.10, alpha: 1.0)
+    private var currentLanguage: AppLanguage { AppLocalization.currentLanguage }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +47,7 @@ final class CheckoutViewController: UIViewController {
 
     private func setupUI() {
         view.backgroundColor = UIColor(red: 0.96, green: 0.97, blue: 0.97, alpha: 1.0)
-        screenTitleLabel.text = "Checkout"
+        screenTitleLabel.text = text(.checkout)
 
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
@@ -78,17 +79,17 @@ final class CheckoutViewController: UIViewController {
             courtNameLabel.text = bookingDraft.courtName
             bookingTimeLabel.text = "\(bookingDraft.dateDisplayText) • \(bookingDraft.timeDisplayText)"
             courtTypeLabel.text = bookingDraft.courtTypeName
-            totalAmountLabel.text = Self.currencyFormatter.string(from: NSNumber(value: bookingDraft.totalPrice)) ?? "0 đ"
+            totalAmountLabel.text = currencyText(bookingDraft.totalPrice)
         } else {
-            courtNameLabel.text = bookingInfo["Sân đấu"] ?? "Sân cầu lông"
-            let dateText = bookingInfo["Ngày"] ?? "--/--/----"
-            let timeText = bookingInfo["Giờ"] ?? "--:--"
+            courtNameLabel.text = bookingInfo[text(.court)] ?? bookingInfo["Sân đấu"] ?? text(.badmintonCourt)
+            let dateText = bookingInfo[text(.date)] ?? bookingInfo["Ngày"] ?? "--/--/----"
+            let timeText = bookingInfo[text(.time)] ?? bookingInfo["Giờ"] ?? "--:--"
             bookingTimeLabel.text = "\(dateText) • \(timeText)"
-            courtTypeLabel.text = bookingInfo["Loại sân"] ?? "Sân tiêu chuẩn"
-            totalAmountLabel.text = bookingInfo["Tổng tiền"] ?? "0 đ"
+            courtTypeLabel.text = bookingInfo[text(.courtType)] ?? bookingInfo["Loại sân"] ?? text(.standardCourt)
+            totalAmountLabel.text = bookingInfo[text(.total)] ?? bookingInfo["Tổng tiền"] ?? (currentLanguage == .english ? "$0" : "0 đ")
         }
 
-        confirmButton.setTitle("Tiếp tục thanh toán", for: .normal)
+        confirmButton.setTitle(text(.continueToPayment), for: .normal)
     }
 
     @objc private func backButtonTapped() {
@@ -114,8 +115,8 @@ final class CheckoutViewController: UIViewController {
             if let bookingDraft {
                 booking = try AppStore.shared.createBooking(from: bookingDraft)
             } else {
-                let amount = Self.parseCurrency(bookingInfo["Tổng tiền"])
-                let courtName = bookingInfo["Sân đấu"] ?? "Sân cầu lông"
+                let amount = Self.parseCurrency(bookingInfo[text(.total)] ?? bookingInfo["Tổng tiền"])
+                let courtName = bookingInfo[text(.court)] ?? bookingInfo["Sân đấu"] ?? text(.badmintonCourt)
                 booking = try AppStore.shared.createBooking(courtTypeName: courtName, totalPrice: amount)
             }
 
@@ -133,11 +134,11 @@ final class CheckoutViewController: UIViewController {
             }
         } catch {
             let alert = UIAlertController(
-                title: "Không thể checkout",
+                title: text(.unableToCheckout),
                 message: error.localizedDescription,
                 preferredStyle: .alert
             )
-            alert.addAction(UIAlertAction(title: "Đóng", style: .default))
+            alert.addAction(UIAlertAction(title: text(.close), style: .default))
             present(alert, animated: true)
         }
     }
@@ -168,11 +169,23 @@ final class CheckoutViewController: UIViewController {
         return Double(normalized) ?? 0
     }
 
-    private static let currencyFormatter: NumberFormatter = {
+    private func localized(_ vietnamese: String, _ english: String) -> String {
+        AppLocalization.localized(vi: vietnamese, en: english)
+    }
+
+    private func text(_ key: AppLocalizedKey) -> String {
+        AppLocalization.text(key)
+    }
+
+    private func currencyText(_ amount: Double) -> String {
+        Self.currencyFormatter(for: currentLanguage).string(from: NSNumber(value: amount)) ?? (currentLanguage == .english ? "$0" : "0 đ")
+    }
+
+    private static func currencyFormatter(for language: AppLanguage) -> NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.locale = Locale(identifier: "vi_VN")
+        formatter.locale = Locale(identifier: language == .english ? "en_US" : "vi_VN")
         formatter.maximumFractionDigits = 0
         return formatter
-    }()
+    }
 }

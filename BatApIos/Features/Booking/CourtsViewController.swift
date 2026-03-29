@@ -22,18 +22,21 @@ final class CourtsViewController: StoryboardScreenViewController {
     private var selectedFilter: CourtFilter = .all
 
     override var screenTitleText: String {
-        "Danh sách sân"
+        AppLocalization.localized(vi: "Danh sách sân", en: "Courts")
     }
 
     override var screenSubtitleText: String {
-        "Màn hình dùng để xem danh sách sân đấu theo trạng thái thực tế từ backend."
+        AppLocalization.localized(
+            vi: "Màn hình dùng để xem danh sách sân đấu theo trạng thái thực tế từ backend.",
+            en: "Screen used to browse courts by their real-time backend status."
+        )
     }
 
     override var screenHighlights: [String] {
         [
-            "Hiển thị sân trống, đang dùng hoặc bảo trì",
-            "Bám dữ liệu từ /api/courts và booking hôm nay",
-            "Lọc nhanh để chọn sân phù hợp"
+            AppLocalization.localized(vi: "Hiển thị sân trống, đang dùng hoặc bảo trì", en: "Show available, occupied, or maintenance courts"),
+            AppLocalization.localized(vi: "Bám dữ liệu từ /api/courts và booking hôm nay", en: "Use data from /api/courts and today's bookings"),
+            AppLocalization.localized(vi: "Lọc nhanh để chọn sân phù hợp", en: "Quick filters to choose a suitable court")
         ]
     }
 

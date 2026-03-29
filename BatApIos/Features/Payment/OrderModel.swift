@@ -9,11 +9,11 @@ enum OrderStatus: Int {
     var title: String {
         switch self {
         case .success:
-            return "Đã thanh toán"
+            return AppLocalization.text(.paidStatus)
         case .pending:
-            return "Chờ thanh toán"
+            return AppLocalization.text(.pendingStatus)
         case .cancelled:
-            return "Đã hủy"
+            return AppLocalization.text(.cancelled)
         }
     }
 

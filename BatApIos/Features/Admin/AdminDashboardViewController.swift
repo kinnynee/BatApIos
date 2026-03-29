@@ -9,6 +9,36 @@ final class AdminDashboardViewController: StoryboardScreenViewController {
     @IBOutlet private weak var quickActionsSectionHeightConstraint: NSLayoutConstraint!
     @IBOutlet private weak var courtStatusStackView: UIStackView!
     @IBOutlet private weak var courtStatusSectionHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var adminAvatarContainerView: UIView!
+    @IBOutlet private weak var adminSettingsButton: UIButton!
+    @IBOutlet private weak var revenueTitleLabel: UILabel!
+    @IBOutlet private weak var revenueValueLabel: UILabel!
+    @IBOutlet private weak var revenueTrendContainerView: UIView!
+    @IBOutlet private weak var revenueTrendLabel: UILabel!
+    @IBOutlet private weak var revenueBar1: UIView!
+    @IBOutlet private weak var revenueBar2: UIView!
+    @IBOutlet private weak var revenueBar3: UIView!
+    @IBOutlet private weak var revenueBar4: UIView!
+    @IBOutlet private weak var revenueBar5: UIView!
+    @IBOutlet private weak var revenueBar6: UIView!
+    @IBOutlet private weak var revenueBar7: UIView!
+    @IBOutlet private weak var revenueBar8: UIView!
+    @IBOutlet private weak var revenueBar9: UIView!
+    @IBOutlet private weak var revenueBar10: UIView!
+    @IBOutlet private weak var revenueBar11: UIView!
+    @IBOutlet private weak var revenueBar12: UIView!
+    @IBOutlet private weak var revenueBar1HeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var revenueBar2HeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var revenueBar3HeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var revenueBar4HeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var revenueBar5HeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var revenueBar6HeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var revenueBar7HeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var revenueBar8HeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var revenueBar9HeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var revenueBar10HeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var revenueBar11HeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var revenueBar12HeightConstraint: NSLayoutConstraint!
 
     private let store = AppMockStore.shared
     private let adminService = BackendAdminService.shared
@@ -24,6 +54,10 @@ final class AdminDashboardViewController: StoryboardScreenViewController {
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
+    private let chartHourBuckets = Array(8...19)
+    private let chartMaximumBarHeight: CGFloat = 80
+    private let chartMinimumBarHeight: CGFloat = 12
+    private var revenueRefreshTimer: Timer?
 
     private let bookingCodeTextField = UITextField()
     private let resultTitleLabel = UILabel()
@@ -61,11 +95,24 @@ final class AdminDashboardViewController: StoryboardScreenViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureAdminIdentity()
+        configureAdminProfileEntryPoints()
+        configureRevenueChartAppearance()
         configureQuickActionSizing()
         configureAdminActions()
         configureBookingSearchCard()
         loadOverview()
+        loadRevenueChart()
         loadCourtStatuses()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        startRevenueRefreshTimer()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        stopRevenueRefreshTimer()
     }
 
     override func viewDidLayoutSubviews() {
@@ -75,6 +122,71 @@ final class AdminDashboardViewController: StoryboardScreenViewController {
 
     private func configureAdminIdentity() {
         adminNameLabel?.text = authService.restorePersistedUser()?.username ?? store.currentUser?.username ?? "Admin"
+    }
+
+    private func configureAdminProfileEntryPoints() {
+        if let adminAvatarContainerView {
+            adminAvatarContainerView.isUserInteractionEnabled = true
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openAdminProfile))
+            adminAvatarContainerView.addGestureRecognizer(tapGesture)
+        }
+
+        adminSettingsButton?.addTarget(self, action: #selector(openAdminProfile), for: .touchUpInside)
+    }
+
+    private var revenueBarViews: [UIView] {
+        [
+            revenueBar1,
+            revenueBar2,
+            revenueBar3,
+            revenueBar4,
+            revenueBar5,
+            revenueBar6,
+            revenueBar7,
+            revenueBar8,
+            revenueBar9,
+            revenueBar10,
+            revenueBar11,
+            revenueBar12
+        ].compactMap { $0 }
+    }
+
+    private var revenueBarHeightConstraints: [NSLayoutConstraint] {
+        [
+            revenueBar1HeightConstraint,
+            revenueBar2HeightConstraint,
+            revenueBar3HeightConstraint,
+            revenueBar4HeightConstraint,
+            revenueBar5HeightConstraint,
+            revenueBar6HeightConstraint,
+            revenueBar7HeightConstraint,
+            revenueBar8HeightConstraint,
+            revenueBar9HeightConstraint,
+            revenueBar10HeightConstraint,
+            revenueBar11HeightConstraint,
+            revenueBar12HeightConstraint
+        ].compactMap { $0 }
+    }
+
+    private func configureRevenueChartAppearance() {
+        revenueTitleLabel?.text = "Doanh thu hôm nay"
+        revenueValueLabel?.text = currencyText(0)
+        revenueTrendContainerView?.layer.cornerRadius = 6
+        revenueTrendContainerView?.clipsToBounds = true
+        applyRevenueChart(values: Array(repeating: 0, count: chartHourBuckets.count))
+        applyRevenueTrend(currentValue: 0, previousValue: 0)
+    }
+
+    private func startRevenueRefreshTimer() {
+        guard revenueRefreshTimer == nil else { return }
+        revenueRefreshTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+            self?.loadRevenueChart()
+        }
+    }
+
+    private func stopRevenueRefreshTimer() {
+        revenueRefreshTimer?.invalidate()
+        revenueRefreshTimer = nil
     }
 
     private func configureQuickActionSizing() {
@@ -271,6 +383,10 @@ final class AdminDashboardViewController: StoryboardScreenViewController {
             viewController.modalPresentationStyle = .fullScreen
             present(viewController, animated: true)
         }
+    }
+
+    @objc private func openAdminProfile() {
+        openScreen(with: "ProfileVC")
     }
 
     private func pushManagementController(_ viewController: UIViewController) {
@@ -502,6 +618,123 @@ final class AdminDashboardViewController: StoryboardScreenViewController {
                 // Keep local fallback.
             }
         }
+    }
+
+    private func loadRevenueChart() {
+        let today = Date()
+        let todayString = adminDateFormatter.string(from: today)
+        let previousDay = Calendar(identifier: .gregorian).date(byAdding: .day, value: -1, to: today) ?? today
+        let previousDayString = adminDateFormatter.string(from: previousDay)
+
+        Task { [weak self] in
+            guard let self else { return }
+
+            do {
+                async let todayBookingsTask = adminService.fetchBookings(bookingDate: todayString)
+                async let previousBookingsTask = adminService.fetchBookings(bookingDate: previousDayString)
+                let (todayBookings, previousBookings) = try await (todayBookingsTask, previousBookingsTask)
+
+                let todayValues = self.makeRevenueBuckets(from: todayBookings)
+                let previousValues = self.makeRevenueBuckets(from: previousBookings)
+                let todayRevenue = todayValues.reduce(0, +)
+                let previousRevenue = previousValues.reduce(0, +)
+
+                await MainActor.run {
+                    self.revenueValueLabel?.text = self.currencyText(todayRevenue)
+                    self.applyRevenueChart(values: todayValues)
+                    self.applyRevenueTrend(currentValue: todayRevenue, previousValue: previousRevenue)
+                }
+            } catch {
+                await MainActor.run {
+                    let fallbackRevenue = self.overview?.totalRevenue ?? self.store.totalRevenue()
+                    self.revenueValueLabel?.text = self.currencyText(fallbackRevenue)
+                    self.applyRevenueChart(values: Array(repeating: 0, count: self.chartHourBuckets.count))
+                    self.applyRevenueTrend(currentValue: fallbackRevenue, previousValue: 0)
+                }
+            }
+        }
+    }
+
+    private func makeRevenueBuckets(from bookings: [BackendBookingRecord]) -> [Double] {
+        var values = Array(repeating: 0.0, count: chartHourBuckets.count)
+        let hourIndexMap = Dictionary(uniqueKeysWithValues: chartHourBuckets.enumerated().map { ($0.element, $0.offset) })
+
+        for booking in bookings where shouldIncludeRevenue(for: booking) {
+            guard
+                let bookingDate = resolvedDate(for: booking.bookingDate, time: booking.startTime)
+            else {
+                continue
+            }
+
+            let bookingHour = Calendar(identifier: .gregorian).component(.hour, from: bookingDate)
+            guard let bucketIndex = hourIndexMap[bookingHour] else { continue }
+            values[bucketIndex] += booking.totalAmount
+        }
+
+        return values
+    }
+
+    private func shouldIncludeRevenue(for booking: BackendBookingRecord) -> Bool {
+        let bookingStatus = booking.bookingStatus.lowercased()
+        let paymentStatus = booking.paymentStatus.lowercased()
+
+        if bookingStatus.contains("cancel") || paymentStatus.contains("cancel") {
+            return false
+        }
+
+        if paymentStatus.contains("paid") || paymentStatus.contains("success") || paymentStatus.contains("completed") {
+            return true
+        }
+
+        let revenueStatuses = ["active", "confirmed", "fully paid", "checked_in", "checked in", "completed"]
+        return revenueStatuses.contains(bookingStatus)
+    }
+
+    private func applyRevenueChart(values: [Double]) {
+        let cappedValues = Array(values.prefix(revenueBarViews.count))
+        let maxValue = cappedValues.max() ?? 0
+
+        for (index, constraint) in revenueBarHeightConstraints.enumerated() {
+            let value = index < cappedValues.count ? cappedValues[index] : 0
+            let ratio = maxValue > 0 ? value / maxValue : 0
+            let scaledHeight = chartMaximumBarHeight * CGFloat(ratio)
+            let height = maxValue > 0 ? max(chartMinimumBarHeight, scaledHeight) : chartMinimumBarHeight
+            constraint.constant = height
+        }
+
+        let highlightedIndex = cappedValues.enumerated().max(by: { $0.element < $1.element })?.offset
+        for (index, barView) in revenueBarViews.enumerated() {
+            let isHighlighted = highlightedIndex == index && (cappedValues[safe: index] ?? 0) > 0
+            barView.backgroundColor = isHighlighted
+                ? UIColor(red: 0.33, green: 0.88, blue: 0.45, alpha: 1)
+                : UIColor(red: 0.0, green: 0.90, blue: 0.47, alpha: 0.22 + (CGFloat(index % 4) * 0.08))
+        }
+    }
+
+    private func applyRevenueTrend(currentValue: Double, previousValue: Double) {
+        let trendText: String
+        let textColor: UIColor
+        let backgroundColor: UIColor
+
+        if previousValue <= 0 {
+            trendText = currentValue > 0 ? "+100%" : "0%"
+            textColor = UIColor(red: 0.0, green: 0.70, blue: 0.36, alpha: 1)
+            backgroundColor = UIColor(red: 0.0, green: 0.90, blue: 0.47, alpha: 0.1)
+        } else {
+            let percentage = ((currentValue - previousValue) / previousValue) * 100
+            trendText = String(format: "%@%.1f%%", percentage >= 0 ? "+" : "", percentage)
+            if percentage >= 0 {
+                textColor = UIColor(red: 0.0, green: 0.70, blue: 0.36, alpha: 1)
+                backgroundColor = UIColor(red: 0.0, green: 0.90, blue: 0.47, alpha: 0.1)
+            } else {
+                textColor = .systemRed
+                backgroundColor = UIColor.systemRed.withAlphaComponent(0.1)
+            }
+        }
+
+        revenueTrendLabel?.text = trendText
+        revenueTrendLabel?.textColor = textColor
+        revenueTrendContainerView?.backgroundColor = backgroundColor
     }
 
     private func loadCourtStatuses() {
@@ -770,6 +1003,7 @@ final class AdminDashboardViewController: StoryboardScreenViewController {
             contentHeightConstraint.constant = requiredHeight
         }
     }
+
 }
 
 private struct CourtStatusRow {
@@ -785,5 +1019,12 @@ extension AdminDashboardViewController: UITextFieldDelegate {
         searchBookingTapped()
         textField.resignFirstResponder()
         return true
+    }
+}
+
+private extension Array {
+    subscript(safe index: Int) -> Element? {
+        guard indices.contains(index) else { return nil }
+        return self[index]
     }
 }

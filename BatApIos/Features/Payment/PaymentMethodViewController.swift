@@ -28,7 +28,7 @@ final class PaymentMethodViewController: UIViewController {
         if let bookingId { self.bookingId = bookingId }
         openedFromPaymentHistory = true
         if isViewLoaded {
-            amountLabel.text = Self.currencyFormatter.string(from: NSNumber(value: amount)) ?? "0 đ"
+            amountLabel.text = currencyText(amount)
             bookingIdLabel.text = self.bookingId
         }
     }
@@ -76,6 +76,7 @@ final class PaymentMethodViewController: UIViewController {
     private let cancelBookingButton = UIButton(type: .system)
     private var currentBooking: BackendBookingRecord?
     private var openedFromPaymentHistory = false
+    private var currentLanguage: AppLanguage { AppLocalization.currentLanguage }
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -87,15 +88,20 @@ final class PaymentMethodViewController: UIViewController {
         loadCurrentBookingIfNeeded()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reapplyLocalizedContent()
+    }
+
     // MARK: - Setup
     private func configureUI() {
         if let summary = store.paymentSummary(for: bookingId) {
             amountLabel.text = summary.totalText
             bookingIdLabel.text = summary.bookingID
             configurePaymentInfoCard(with: summary)
-            confirmButton?.configuration?.title = "Thanh toán \(summary.totalText)"
+            confirmButton?.configuration?.title = paymentTitle(for: summary.totalText)
         } else {
-            amountLabel.text = Self.currencyFormatter.string(from: NSNumber(value: amountToPay)) ?? "0 đ"
+            amountLabel.text = currencyText(amountToPay)
             bookingIdLabel.text = bookingId
             configureBackendPaymentInfoCard()
         }
@@ -130,6 +136,24 @@ final class PaymentMethodViewController: UIViewController {
         }
     }
 
+    private func reapplyLocalizedContent() {
+        configureCancelButton()
+
+        if let summary = store.paymentSummary(for: bookingId) {
+            amountLabel.text = summary.totalText
+            bookingIdLabel.text = summary.bookingID
+            configurePaymentInfoCard(with: summary)
+            confirmButton?.configuration?.title = paymentTitle(for: summary.totalText)
+        } else {
+            amountLabel.text = currencyText(amountToPay)
+            bookingIdLabel.text = currentBooking?.bookingCode ?? bookingId
+            configureBackendPaymentInfoCard()
+        }
+
+        configureConfirmButtonAppearance()
+        updateActionButtons()
+    }
+
     private func attachBackActionIfNeeded() {
         backButton?.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
@@ -157,7 +181,7 @@ final class PaymentMethodViewController: UIViewController {
 
     private func configureConfirmButtonAppearance() {
         var configuration = UIButton.Configuration.filled()
-        configuration.title = confirmButton?.configuration?.title ?? "Xác nhận thanh toán"
+        configuration.title = confirmButton?.configuration?.title ?? text(.confirmPayment)
         configuration.cornerStyle = .large
         configuration.baseBackgroundColor = UIColor(
             red: 0.345,
@@ -176,7 +200,7 @@ final class PaymentMethodViewController: UIViewController {
 
     private func configureCancelButton() {
         var configuration = UIButton.Configuration.bordered()
-        configuration.title = "Hủy booking"
+        configuration.title = text(.cancelBooking)
         configuration.cornerStyle = .large
         configuration.baseForegroundColor = .systemRed
         cancelBookingButton.configuration = configuration
@@ -204,7 +228,7 @@ final class PaymentMethodViewController: UIViewController {
 
         let titleLabel = UILabel()
         titleLabel.font = .boldSystemFont(ofSize: 16)
-        titleLabel.text = "Thông tin thanh toán"
+        titleLabel.text = text(.paymentInfoTitle)
 
         let courtLabel = UILabel()
         courtLabel.font = .systemFont(ofSize: 15, weight: .semibold)
@@ -225,10 +249,10 @@ final class PaymentMethodViewController: UIViewController {
         paymentInfoCard.addArrangedSubview(courtLabel)
         paymentInfoCard.addArrangedSubview(scheduleLabel)
         paymentInfoCard.addArrangedSubview(statusBadge)
-        paymentInfoCard.addArrangedSubview(makeInfoRow(title: "Tạm tính", value: summary.subtotalText))
-        paymentInfoCard.addArrangedSubview(makeInfoRow(title: "Giảm giá", value: summary.discountText))
-        paymentInfoCard.addArrangedSubview(makeInfoRow(title: "Tổng thanh toán", value: summary.totalText, emphasize: true))
-        paymentInfoCard.addArrangedSubview(makeInfoRow(title: "Phương thức hiện tại", value: summary.paymentMethodText))
+        paymentInfoCard.addArrangedSubview(makeInfoRow(title: text(.subtotal), value: summary.subtotalText))
+        paymentInfoCard.addArrangedSubview(makeInfoRow(title: text(.discount), value: summary.discountText))
+        paymentInfoCard.addArrangedSubview(makeInfoRow(title: text(.payableTotal), value: summary.totalText, emphasize: true))
+        paymentInfoCard.addArrangedSubview(makeInfoRow(title: text(.currentMethod), value: summary.paymentMethodText))
     }
 
     private func configureBackendPaymentInfoCard() {
@@ -239,13 +263,13 @@ final class PaymentMethodViewController: UIViewController {
 
         let titleLabel = UILabel()
         titleLabel.font = .boldSystemFont(ofSize: 16)
-        titleLabel.text = "Thông tin thanh toán"
+        titleLabel.text = text(.paymentInfoTitle)
 
         let bookingLabel = UILabel()
         bookingLabel.font = .systemFont(ofSize: 15, weight: .semibold)
-        bookingLabel.text = currentBooking?.courtName.isEmpty == false ? currentBooking?.courtName : "Booking #\(bookingId)"
+        bookingLabel.text = currentBooking?.courtName.isEmpty == false ? currentBooking?.courtName : "\(text(.court)) #\(bookingId)"
 
-        let amountText = Self.currencyFormatter.string(from: NSNumber(value: amountToPay)) ?? "0 đ"
+        let amountText = currencyText(amountToPay)
         let helperLabel = UILabel()
         helperLabel.font = .systemFont(ofSize: 13)
         helperLabel.textColor = .secondaryLabel
@@ -253,18 +277,18 @@ final class PaymentMethodViewController: UIViewController {
         if let currentBooking {
             helperLabel.text = "\(currentBooking.bookingCode) • \(currentBooking.bookingDate) • \(currentBooking.startTime)-\(currentBooking.endTime)"
         } else {
-            helperLabel.text = "Booking được tạo từ backend. Xác nhận thanh toán sẽ cập nhật paymentStatus thật trên server."
+            helperLabel.text = text(.backendBookingPaymentHelper)
         }
 
         paymentInfoCard.addArrangedSubview(titleLabel)
         paymentInfoCard.addArrangedSubview(bookingLabel)
         paymentInfoCard.addArrangedSubview(helperLabel)
         if let currentBooking {
-            paymentInfoCard.addArrangedSubview(makeInfoRow(title: "Trạng thái booking", value: normalizedBookingStatus(currentBooking.bookingStatus)))
-            paymentInfoCard.addArrangedSubview(makeInfoRow(title: "Trạng thái thanh toán", value: normalizedPaymentStatus(currentBooking.paymentStatus)))
+            paymentInfoCard.addArrangedSubview(makeInfoRow(title: text(.currentBookingStatus), value: normalizedBookingStatus(currentBooking.bookingStatus)))
+            paymentInfoCard.addArrangedSubview(makeInfoRow(title: text(.currentPaymentStatus), value: normalizedPaymentStatus(currentBooking.paymentStatus)))
         }
-        paymentInfoCard.addArrangedSubview(makeInfoRow(title: "Tổng thanh toán", value: amountText, emphasize: true))
-        paymentInfoCard.addArrangedSubview(makeInfoRow(title: "Phương thức sẽ dùng", value: displayName(for: selectedMethod)))
+        paymentInfoCard.addArrangedSubview(makeInfoRow(title: text(.payableTotal), value: amountText, emphasize: true))
+        paymentInfoCard.addArrangedSubview(makeInfoRow(title: text(.selectedMethod), value: displayName(for: selectedMethod)))
     }
 
     private func makeInfoRow(title: String, value: String, emphasize: Bool = false) -> UIStackView {
@@ -311,12 +335,12 @@ final class PaymentMethodViewController: UIViewController {
 
     @objc private func cancelBookingTapped() {
         let alert = UIAlertController(
-            title: "Hủy booking",
-            message: "Bạn muốn hủy booking và thanh toán này?",
+            title: text(.cancelBooking),
+            message: text(.cancelBookingMessage),
             preferredStyle: .alert
         )
-        alert.addAction(UIAlertAction(title: "Đóng", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Hủy booking", style: .destructive, handler: { [weak self] _ in
+        alert.addAction(UIAlertAction(title: text(.close), style: .cancel))
+        alert.addAction(UIAlertAction(title: text(.cancelBooking), style: .destructive, handler: { [weak self] _ in
             self?.performCancellation()
         }))
         present(alert, animated: true)
@@ -334,8 +358,8 @@ final class PaymentMethodViewController: UIViewController {
                 successViewController.bookingCode = booking.id
                 navigationController?.pushViewController(successViewController, animated: true)
             } catch {
-                let alert = UIAlertController(title: "Không thể thanh toán", message: error.localizedDescription, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Đóng", style: .default))
+                let alert = UIAlertController(title: text(.unableToPay), message: error.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: text(.close), style: .default))
                 present(alert, animated: true)
             }
             return
@@ -352,7 +376,7 @@ final class PaymentMethodViewController: UIViewController {
 
                 await MainActor.run {
                     self.systemLogStore.append(
-                        title: "Thanh toán booking",
+                        title: self.text(.paymentBooking),
                         message: "Khách đã thanh toán booking \(updatedBooking.bookingCode) bằng \(self.displayName(for: self.selectedMethod)).",
                         source: "payment"
                     )
@@ -368,8 +392,8 @@ final class PaymentMethodViewController: UIViewController {
                     self.confirmButton?.isEnabled = true
                     self.confirmButton?.configuration?.showsActivityIndicator = false
 
-                    let alert = UIAlertController(title: "Không thể thanh toán", message: error.localizedDescription, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Đóng", style: .default))
+                    let alert = UIAlertController(title: self.text(.unableToPay), message: error.localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: self.text(.close), style: .default))
                     self.present(alert, animated: true)
                 }
             }
@@ -459,7 +483,7 @@ final class PaymentMethodViewController: UIViewController {
                     self.currentBooking = booking
                     if let booking {
                         self.amountToPay = booking.totalAmount
-                        self.amountLabel.text = Self.currencyFormatter.string(from: NSNumber(value: booking.totalAmount)) ?? "0 đ"
+                        self.amountLabel.text = self.currencyText(booking.totalAmount)
                         self.bookingIdLabel.text = booking.bookingCode
                     }
                     self.configureBackendPaymentInfoCard()
@@ -486,12 +510,12 @@ final class PaymentMethodViewController: UIViewController {
         confirmButton?.isEnabled = canConfirm
 
         if isCancelled {
-            confirmButton?.configuration?.title = "Booking đã hủy"
+            confirmButton?.configuration?.title = text(.bookingCancelled)
         } else if isPaid {
-            confirmButton?.configuration?.title = "Booking đã thanh toán"
+            confirmButton?.configuration?.title = text(.bookingPaid)
         } else {
-            let amountText = Self.currencyFormatter.string(from: NSNumber(value: amountToPay)) ?? "0 đ"
-            confirmButton?.configuration?.title = "Thanh toán \(amountText)"
+            let amountText = currencyText(amountToPay)
+            confirmButton?.configuration?.title = paymentTitle(for: amountText)
         }
     }
 
@@ -508,16 +532,16 @@ final class PaymentMethodViewController: UIViewController {
                     self.configureBackendPaymentInfoCard()
                     self.updateActionButtons()
                     self.systemLogStore.append(
-                        title: "Hủy thanh toán",
+                        title: self.text(.paymentCancelledLogTitle),
                         message: "Khách đã hủy booking \(updatedBooking.bookingCode) từ màn thông tin thanh toán.",
                         source: "payment"
                     )
-                    self.showAlert(title: "Đã hủy", message: "Booking và thanh toán đã được chuyển sang trạng thái hủy.")
+                    self.showAlert(title: self.text(.cancelled), message: self.text(.bookingAndPaymentCancelled))
                 }
             } catch {
                 await MainActor.run {
                     self.cancelBookingButton.isEnabled = true
-                    self.showAlert(title: "Không thể hủy", message: error.localizedDescription)
+                    self.showAlert(title: self.text(.unableToCancel), message: error.localizedDescription)
                 }
             }
         }
@@ -526,13 +550,13 @@ final class PaymentMethodViewController: UIViewController {
     private func normalizedBookingStatus(_ value: String) -> String {
         switch value.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
         case "pending":
-            return "Chờ thanh toán"
+            return text(.pendingStatus)
         case "fully paid", "confirmed":
-            return "Đã thanh toán"
+            return text(.paidStatus)
         case "active":
-            return "Đang diễn ra"
+            return text(.ongoingStatus)
         case "cancelled":
-            return "Đã hủy"
+            return text(.cancelled)
         default:
             return value
         }
@@ -541,11 +565,11 @@ final class PaymentMethodViewController: UIViewController {
     private func normalizedPaymentStatus(_ value: String) -> String {
         switch value.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
         case "paid":
-            return "Đã thanh toán"
+            return text(.paidStatus)
         case "pending":
-            return "Chờ thanh toán"
+            return text(.pendingStatus)
         case "cancelled":
-            return "Đã hủy"
+            return text(.cancelled)
         default:
             return value
         }
@@ -559,6 +583,23 @@ final class PaymentMethodViewController: UIViewController {
         formatter.maximumFractionDigits = 0
         return formatter
     }()
+
+    private func currencyText(_ amount: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = Locale(identifier: currentLanguage == .english ? "en_US" : "vi_VN")
+        formatter.maximumFractionDigits = 0
+        return formatter.string(from: NSNumber(value: amount)) ?? (currentLanguage == .english ? "$0" : "0 đ")
+    }
+
+    private func paymentTitle(for amountText: String) -> String {
+        let format = text(.paymentForAmount)
+        return format.replacingOccurrences(of: "%@", with: amountText)
+    }
+
+    private func text(_ key: AppLocalizedKey) -> String {
+        AppLocalization.text(key)
+    }
 
     private func displayName(for method: PaymentMethod) -> String {
         switch method {

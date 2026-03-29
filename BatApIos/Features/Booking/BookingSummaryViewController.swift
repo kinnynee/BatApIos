@@ -8,6 +8,7 @@ final class BookingSummaryViewController: UIViewController {
     var bookingDraft: CourtBookingDraft?
     private let themeGreen = UIColor(red: 0.0, green: 0.82, blue: 0.38, alpha: 1.0)
     private let themeDark = UIColor(red: 0.06, green: 0.14, blue: 0.10, alpha: 1.0)
+    private var currentLanguage: AppLanguage { AppLocalization.currentLanguage }
 
     // MARK: - UI Components
     private let headerView = UIView()
@@ -39,7 +40,7 @@ final class BookingSummaryViewController: UIViewController {
         headerView.addSubview(backButton)
         backButton.translatesAutoresizingMaskIntoConstraints = false
         
-        titleLabel.text = "Chi tiết đặt sân"
+        titleLabel.text = text(.bookingDetails)
         titleLabel.font = .systemFont(ofSize: 20, weight: .bold)
         titleLabel.textColor = themeDark
         headerView.addSubview(titleLabel)
@@ -62,7 +63,7 @@ final class BookingSummaryViewController: UIViewController {
         infoStackView.translatesAutoresizingMaskIntoConstraints = false
         
         // 4. Confirm Button
-        confirmButton.setTitle("Tiến hành thanh toán", for: .normal)
+        confirmButton.setTitle(text(.proceedToPayment), for: .normal)
         confirmButton.backgroundColor = themeGreen
         confirmButton.setTitleColor(.white, for: .normal)
         confirmButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
@@ -105,17 +106,25 @@ final class BookingSummaryViewController: UIViewController {
     private func populateData() {
         if let bookingDraft {
             bookingInfo = [
-                "Sân đấu": bookingDraft.courtName,
-                "Số sân": "Sân \(bookingDraft.courtNumber)",
-                "Ngày": bookingDraft.dateDisplayText,
-                "Giờ": bookingDraft.timeDisplayText,
-                "Loại sân": bookingDraft.courtTypeName,
-                "Voucher": bookingDraft.voucherCode ?? "Không áp dụng",
-                "Tổng tiền": Self.currencyFormatter.string(from: NSNumber(value: bookingDraft.totalPrice)) ?? "0 đ"
+                text(.court): bookingDraft.courtName,
+                text(.courtNumber): "\(text(.court)) \(bookingDraft.courtNumber)",
+                text(.date): bookingDraft.dateDisplayText,
+                text(.time): bookingDraft.timeDisplayText,
+                text(.courtType): bookingDraft.courtTypeName,
+                text(.voucher): bookingDraft.voucherCode ?? text(.notApplied),
+                text(.total): currencyText(bookingDraft.totalPrice)
             ]
         }
 
-        let keys = ["Sân đấu", "Số sân", "Ngày", "Giờ", "Loại sân", "Voucher", "Tổng tiền"]
+        let keys = [
+            text(.court),
+            text(.courtNumber),
+            text(.date),
+            text(.time),
+            text(.courtType),
+            text(.voucher),
+            text(.total)
+        ]
         for key in keys {
             if let value = bookingInfo[key] {
                 addInfoRow(label: key, value: value)
@@ -163,14 +172,26 @@ final class BookingSummaryViewController: UIViewController {
             present(checkoutVC, animated: true)
         }
     }
+
+    private func localized(_ vietnamese: String, _ english: String) -> String {
+        AppLocalization.localized(vi: vietnamese, en: english)
+    }
+
+    private func text(_ key: AppLocalizedKey) -> String {
+        AppLocalization.text(key)
+    }
+
+    private func currencyText(_ amount: Double) -> String {
+        Self.currencyFormatter(for: currentLanguage).string(from: NSNumber(value: amount)) ?? (currentLanguage == .english ? "$0" : "0 đ")
+    }
 }
 
 private extension BookingSummaryViewController {
-    static let currencyFormatter: NumberFormatter = {
+    static func currencyFormatter(for language: AppLanguage) -> NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.locale = Locale(identifier: "vi_VN")
+        formatter.locale = Locale(identifier: language == .english ? "en_US" : "vi_VN")
         formatter.maximumFractionDigits = 0
         return formatter
-    }()
+    }
 }

@@ -14,18 +14,21 @@ final class DiscoverViewController: StoryboardScreenViewController {
     @IBOutlet private weak var thirdVoucherCardView: UIView!
 
     override var screenTitleText: String {
-        "Khám phá"
+        AppLocalization.localized(vi: "Khám phá", en: "Discover")
     }
 
     override var screenSubtitleText: String {
-        "Màn hình gợi ý sân nổi bật, khuyến mãi và các gói dịch vụ. Dữ liệu gợi ý đang bám theo booking hiện có của người dùng."
+        AppLocalization.localized(
+            vi: "Màn hình gợi ý sân nổi bật, khuyến mãi và các gói dịch vụ. Dữ liệu gợi ý đang bám theo booking hiện có của người dùng.",
+            en: "This screen highlights featured courts, promotions, and service packages. Suggested data follows the user's current bookings."
+        )
     }
 
     override var screenHighlights: [String] {
         [
-            "Gợi ý đặt lại: \(store.latestBooking()?.courtName ?? "Sân VIP 02")",
-            "Ưu đãi ví thành viên: \(store.membershipSummary())",
-            "Số thông báo chưa đọc theo session demo: \(store.notificationsForCurrentUser().count)"
+            AppLocalization.localized(vi: "Gợi ý đặt lại", en: "Suggested rebook") + ": \(store.latestBooking()?.courtName ?? "Sân VIP 02")",
+            AppLocalization.localized(vi: "Ưu đãi ví thành viên", en: "Membership wallet offer") + ": \(store.membershipSummary())",
+            AppLocalization.localized(vi: "Số thông báo chưa đọc theo session demo", en: "Unread notifications in demo session") + ": \(store.notificationsForCurrentUser().count)"
         ]
     }
 
@@ -55,14 +58,21 @@ final class DiscoverViewController: StoryboardScreenViewController {
             cardView?.backgroundColor = .white
             cardView?.clipsToBounds = true
         }
+
+        [firstVoucherCardView, secondVoucherCardView, thirdVoucherCardView].forEach { cardView in
+            guard let cardView else { return }
+            let minimumHeight = cardView.heightAnchor.constraint(greaterThanOrEqualToConstant: 104)
+            minimumHeight.priority = .required
+            minimumHeight.isActive = true
+        }
     }
 
     private func refreshWelcomeMessage() {
         let username = store.currentUser?.username.trimmingCharacters(in: .whitespacesAndNewlines)
         let displayName = (username?.isEmpty == false ? username : nil) ?? "User"
 
-        greetingLabel.text = "Chào mừng trở lại"
-        nameLabel.text = "Chào buổi sáng, \(displayName)"
+        greetingLabel.text = AppLocalization.localized(vi: "Chào mừng trở lại", en: "Welcome back")
+        nameLabel.text = AppLocalization.localized(vi: "Chào buổi sáng, \(displayName)", en: "Good morning, \(displayName)")
     }
 
     private func loadCourts() {
@@ -280,42 +290,42 @@ final class DiscoverViewController: StoryboardScreenViewController {
 
         let badgeLabel = UILabel()
         badgeLabel.translatesAutoresizingMaskIntoConstraints = false
-        badgeLabel.font = .systemFont(ofSize: 11, weight: .bold)
+        badgeLabel.font = .systemFont(ofSize: 14, weight: .bold)
         badgeLabel.textColor = UIColor(red: 0.06, green: 0.14, blue: 0.10, alpha: 1)
         badgeLabel.backgroundColor = UIColor(red: 0.78, green: 0.98, blue: 0.89, alpha: 1)
-        badgeLabel.layer.cornerRadius = 10
+        badgeLabel.layer.cornerRadius = 14
         badgeLabel.clipsToBounds = true
         badgeLabel.textAlignment = .center
         badgeLabel.text = "  \(badgeText)  "
 
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = .boldSystemFont(ofSize: 16)
+        titleLabel.font = .boldSystemFont(ofSize: 18)
         titleLabel.textColor = .label
         titleLabel.numberOfLines = 2
         titleLabel.text = title
 
         let subtitleLabel = UILabel()
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        subtitleLabel.font = .systemFont(ofSize: 13, weight: .medium)
+        subtitleLabel.font = .systemFont(ofSize: 15, weight: .medium)
         subtitleLabel.textColor = .secondaryLabel
-        subtitleLabel.numberOfLines = 0
+        subtitleLabel.numberOfLines = 2
         subtitleLabel.text = subtitle
 
         let stackView = UIStackView(arrangedSubviews: [badgeLabel, titleLabel, subtitleLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .leading
-        stackView.spacing = 8
+        stackView.spacing = 12
 
         cardView.addSubview(stackView)
 
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 14),
+            stackView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 16),
             stackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 16),
             stackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16),
-            stackView.bottomAnchor.constraint(lessThanOrEqualTo: cardView.bottomAnchor, constant: -14),
-            badgeLabel.heightAnchor.constraint(equalToConstant: 24)
+            stackView.bottomAnchor.constraint(lessThanOrEqualTo: cardView.bottomAnchor, constant: -16),
+            badgeLabel.heightAnchor.constraint(equalToConstant: 32)
         ])
     }
 

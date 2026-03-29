@@ -12,18 +12,21 @@ final class AboutViewController: StoryboardScreenViewController {
     }
 
     override var screenTitleText: String {
-        "Về ứng dụng"
+        AppLocalization.localized(vi: "Về ứng dụng", en: "About")
     }
 
     override var screenSubtitleText: String {
-        "Màn hình giới thiệu về nhóm, sản phẩm và phạm vi hệ thống."
+        AppLocalization.localized(
+            vi: "Màn hình giới thiệu về nhóm, sản phẩm và phạm vi hệ thống.",
+            en: "This screen introduces the team, product, and system scope."
+        )
     }
 
     override var screenHighlights: [String] {
         [
-            "Thông tin nhóm phát triển",
-            "Phiên bản demo nội bộ: 1.0",
-            "Số người dùng mẫu đã nạp: \(store.userCount())"
+            AppLocalization.localized(vi: "Thông tin nhóm phát triển", en: "Development team information"),
+            AppLocalization.localized(vi: "Phiên bản demo nội bộ: 1.0", en: "Internal demo version: 1.0"),
+            AppLocalization.localized(vi: "Số người dùng mẫu đã nạp", en: "Loaded sample users") + ": \(store.userCount())"
         ]
     }
 
@@ -48,9 +51,18 @@ final class AboutViewController: StoryboardScreenViewController {
         subtitleLabel.numberOfLines = 0
         subtitleLabel.text = screenSubtitleText
 
-        let versionCard = makeCard(title: "Phiên bản", detail: "BatAp iOS Demo • v1.0")
-        let teamCard = makeCard(title: "Nhóm phát triển", detail: "Ứng dụng đặt sân, thanh toán, lịch đặt và check-in cho người chơi cầu lông.")
-        let featuresCard = makeBulletCard(title: "Tính năng chính", items: screenHighlights)
+        let versionCard = makeCard(
+            title: AppLocalization.localized(vi: "Phiên bản", en: "Version"),
+            detail: "BatAp iOS Demo • v1.0"
+        )
+        let teamCard = makeCard(
+            title: AppLocalization.localized(vi: "Nhóm phát triển", en: "Development Team"),
+            detail: AppLocalization.localized(
+                vi: "Ứng dụng đặt sân, thanh toán, lịch đặt và check-in cho người chơi cầu lông.",
+                en: "Court booking, payment, schedule, and check-in app for badminton players."
+            )
+        )
+        let featuresCard = makeBulletCard(title: AppLocalization.localized(vi: "Tính năng chính", en: "Key Features"), items: screenHighlights)
 
         rootView.addSubview(overlayScrollView)
         overlayScrollView.addSubview(overlayStackView)

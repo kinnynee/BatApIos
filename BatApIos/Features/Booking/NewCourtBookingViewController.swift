@@ -10,6 +10,7 @@ final class NewCourtBookingViewController: UIViewController {
     private let courtsService = BackendCourtsService.shared
     private let vouchersService = BackendVouchersService.shared
     private let calendar = Calendar.current
+    private var currentLanguage: AppLanguage { AppLocalization.currentLanguage }
 
     private let scrollView = UIScrollView()
     private let contentStack = UIStackView()
@@ -99,7 +100,7 @@ final class NewCourtBookingViewController: UIViewController {
             contentStack.addArrangedSubview($0)
         }
 
-        confirmButton.configuration = makePrimaryButtonConfiguration(title: "Xác nhận đặt")
+        confirmButton.configuration = makePrimaryButtonConfiguration(title: text(.confirmBooking))
         confirmButton.addTarget(self, action: #selector(confirmBookingTapped), for: .touchUpInside)
 
         NSLayoutConstraint.activate([
@@ -136,7 +137,7 @@ final class NewCourtBookingViewController: UIViewController {
         backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
 
         let titleLabel = UILabel()
-        titleLabel.text = "Đặt sân"
+        titleLabel.text = text(.bookCourtTitle)
         titleLabel.font = .boldSystemFont(ofSize: 22)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
@@ -158,7 +159,7 @@ final class NewCourtBookingViewController: UIViewController {
         selectedDateLabel.font = .systemFont(ofSize: 14, weight: .semibold)
         selectedDateLabel.textColor = .systemMint
 
-        let section = makeSectionContainer(title: "Chọn ngày", trailingView: selectedDateLabel)
+        let section = makeSectionContainer(title: text(.selectDate), trailingView: selectedDateLabel)
         let stack = makeHorizontalButtonStack()
 
         dateButtons = availableDates.enumerated().map { index, date in
@@ -174,7 +175,7 @@ final class NewCourtBookingViewController: UIViewController {
     }
 
     private func makeTimeSection() -> UIView {
-        let section = makeSectionContainer(title: "Chọn thời gian")
+        let section = makeSectionContainer(title: text(.selectTime))
 
         let firstRow = UIStackView()
         firstRow.axis = .horizontal
@@ -211,17 +212,17 @@ final class NewCourtBookingViewController: UIViewController {
             view.removeFromSuperview()
         }
 
-        let section = makeSectionContainer(title: "Chọn loại sân")
+        let section = makeSectionContainer(title: text(.selectCourtType))
         section.addArrangedSubview(courtSectionStack)
         renderCourtOptions()
         return section
     }
 
     private func makeVoucherSection() -> UIView {
-        let section = makeSectionContainer(title: "Mã giảm giá")
+        let section = makeSectionContainer(title: text(.voucherCode))
 
         voucherTextField.borderStyle = .none
-        voucherTextField.placeholder = "Nhập mã giảm giá"
+        voucherTextField.placeholder = text(.enterVoucherCode)
         voucherTextField.font = .systemFont(ofSize: 15)
         voucherTextField.autocapitalizationType = .allCharacters
 
@@ -235,7 +236,7 @@ final class NewCourtBookingViewController: UIViewController {
         textContainer.addSubview(voucherTextField)
 
         let applyButton = UIButton(type: .system)
-        applyButton.configuration = makeSecondaryButtonConfiguration(title: "Áp dụng")
+        applyButton.configuration = makeSecondaryButtonConfiguration(title: text(.apply))
         applyButton.addTarget(self, action: #selector(applyVoucherTapped), for: .touchUpInside)
 
         let row = UIStackView(arrangedSubviews: [textContainer, applyButton])
@@ -268,12 +269,12 @@ final class NewCourtBookingViewController: UIViewController {
         card.layer.borderColor = UIColor.systemGray5.cgColor
 
         let title = UILabel()
-        title.text = "Tóm tắt thanh toán"
+        title.text = text(.paymentSummary)
         title.font = .boldSystemFont(ofSize: 16)
 
-        let priceRow = makeSummaryRow(title: "Giá sân", value: currencyText(selectedCourtPrice * bookingDurationHours))
-        let voucherRow = makeSummaryRow(title: "Giảm giá", value: selectedDiscountAmount > 0 ? "-\(currencyText(selectedDiscountAmount))" : "0đ", highlight: true)
-        let totalRow = makeSummaryRow(title: "Tổng cộng", value: currencyText(totalAmount), titleFont: .boldSystemFont(ofSize: 16), valueFont: .boldSystemFont(ofSize: 22), highlight: true)
+        let priceRow = makeSummaryRow(title: summaryPriceTitle, value: currencyText(selectedCourtPrice * bookingDurationHours))
+        let voucherRow = makeSummaryRow(title: text(.discount), value: selectedDiscountAmount > 0 ? "-\(currencyText(selectedDiscountAmount))" : zeroCurrencyText, highlight: true)
+        let totalRow = makeSummaryRow(title: text(.total), value: currencyText(totalAmount), titleFont: .boldSystemFont(ofSize: 16), valueFont: .boldSystemFont(ofSize: 22), highlight: true)
 
         totalAmountLabel.font = .boldSystemFont(ofSize: 22)
 
@@ -359,21 +360,21 @@ final class NewCourtBookingViewController: UIViewController {
         valueLabel.textColor = highlight ? .systemMint : .label
         valueLabel.text = value
 
-        if title == "Giá sân" {
+        if title.hasPrefix("Giá sân") {
             priceAmountLabel.font = valueFont
             priceAmountLabel.textColor = .label
             priceAmountLabel.text = value
             return makeRow(left: titleLabel, right: priceAmountLabel)
         }
 
-        if title == "Giảm giá" {
+        if title == text(.discount) {
             voucherAmountLabel.font = valueFont
             voucherAmountLabel.textColor = .systemMint
             voucherAmountLabel.text = value
             return makeRow(left: titleLabel, right: voucherAmountLabel)
         }
 
-        if title == "Tổng cộng" {
+        if title == text(.total) {
             totalAmountLabel.text = value
             return makeRow(left: titleLabel, right: totalAmountLabel)
         }
@@ -416,6 +417,13 @@ final class NewCourtBookingViewController: UIViewController {
     private var selectedCourtPrice: Double {
         guard courts.indices.contains(selectedCourtIndex) else { return 0 }
         return courts[selectedCourtIndex].pricePerHour
+    }
+
+    private var summaryPriceTitle: String {
+        let durationText = bookingDurationHours == floor(bookingDurationHours)
+            ? "\(Int(bookingDurationHours)) \(text(bookingDurationHours == 1 ? .hourSingular : .hourPlural))"
+            : String(format: currentLanguage == .english ? "%.1f hours" : "%.1f giờ", bookingDurationHours)
+        return "\(text(.courtPrice)) (\(durationText))"
     }
 
     private var bookingDurationHours: Double {
@@ -475,7 +483,7 @@ final class NewCourtBookingViewController: UIViewController {
         for (index, button) in courtButtons.enumerated() {
             button.configuration = makeCourtButtonConfiguration(
                 title: courts[index].name,
-                subtitle: courts[index].priceText,
+                subtitle: "\(courts[index].priceText)/\(text(.hourSingular))",
                 selected: index == selectedCourtIndex
             )
         }
@@ -484,20 +492,20 @@ final class NewCourtBookingViewController: UIViewController {
 
     private func updateSummary() {
         priceAmountLabel.text = currencyText(selectedCourtPrice * bookingDurationHours)
-        voucherAmountLabel.text = selectedDiscountAmount > 0 ? "-\(currencyText(selectedDiscountAmount))" : "0đ"
+        voucherAmountLabel.text = selectedDiscountAmount > 0 ? "-\(currencyText(selectedDiscountAmount))" : zeroCurrencyText
         totalAmountLabel.text = currencyText(totalAmount)
         let durationText = bookingDurationHours == floor(bookingDurationHours)
-            ? "\(Int(bookingDurationHours)) giờ"
-            : String(format: "%.1f giờ", bookingDurationHours)
+            ? "\(Int(bookingDurationHours)) \(text(bookingDurationHours == 1 ? .hourSingular : .hourPlural))"
+            : String(format: currentLanguage == .english ? "%.1f hours" : "%.1f giờ", bookingDurationHours)
         confirmButton.configuration?.subtitle = "\(shortDateTitle(for: resolvedBookingDate)) • \(apiTimeText(from: resolvedStartTime))-\(apiTimeText(from: resolvedEndTime)) • \(durationText)"
     }
 
     private func currencyText(_ amount: Double) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.locale = Locale(identifier: "vi_VN")
+        formatter.locale = Locale(identifier: currencyLocaleIdentifier)
         formatter.maximumFractionDigits = 0
-        return formatter.string(from: NSNumber(value: amount)) ?? "0 đ"
+        return formatter.string(from: NSNumber(value: amount)) ?? zeroCurrencyText
     }
 
     @objc private func backTapped() {
@@ -510,7 +518,7 @@ final class NewCourtBookingViewController: UIViewController {
             appliedVoucherCode = nil
             appliedDiscountAmount = 0
             isVoucherApplied = false
-            showAlert(title: "Thiếu mã", message: "Vui lòng nhập mã giảm giá.")
+            showAlert(title: text(.missingCode), message: text(.enterVoucherCodeMessage))
             return
         }
 
@@ -528,15 +536,15 @@ final class NewCourtBookingViewController: UIViewController {
                     self.appliedVoucherCode = preview.code
                     self.appliedDiscountAmount = preview.discountAmount
                     self.isVoucherApplied = preview.applied && preview.discountAmount > 0
-                    let message = preview.message ?? "Đã áp dụng mã giảm giá \(preview.code)."
-                    self.showAlert(title: "Thành công", message: message)
+                    let message = preview.message ?? self.localized("Đã áp dụng mã giảm giá \(preview.code).", "Voucher \(preview.code) has been applied.")
+                    self.showAlert(title: self.text(.success), message: message)
                 }
             } catch {
                 await MainActor.run {
                     self.appliedVoucherCode = nil
                     self.appliedDiscountAmount = 0
                     self.isVoucherApplied = false
-                    self.showAlert(title: "Không hợp lệ", message: error.localizedDescription)
+                    self.showAlert(title: self.text(.invalid), message: error.localizedDescription)
                 }
             }
         }
@@ -578,7 +586,7 @@ final class NewCourtBookingViewController: UIViewController {
 
                 await MainActor.run {
                     self.systemLogStore.append(
-                        title: "Tạo booking",
+                        title: self.text(.createBookingLogTitle),
                         message: "Khách đã tạo booking \(booking.bookingCode) cho sân \(booking.courtName) lúc \(booking.startTime)-\(booking.endTime).",
                         source: "booking"
                     )
@@ -586,7 +594,7 @@ final class NewCourtBookingViewController: UIViewController {
                     self.confirmButton.configuration?.showsActivityIndicator = false
 
                     guard let paymentViewController = PaymentMethodViewController.instantiate(amount: self.totalAmount, bookingId: booking.id) else {
-                        self.showAlert(title: "Lỗi", message: "Không thể mở màn hình thanh toán.")
+                        self.showAlert(title: self.text(.error), message: self.text(.unableToOpenPaymentScreen))
                         return
                     }
 
@@ -602,7 +610,7 @@ final class NewCourtBookingViewController: UIViewController {
                 await MainActor.run {
                     self.confirmButton.isEnabled = true
                     self.confirmButton.configuration?.showsActivityIndicator = false
-                    self.showAlert(title: "Không thể tạo booking", message: error.localizedDescription)
+                    self.showAlert(title: self.text(.unableToCreateBooking), message: error.localizedDescription)
                 }
             }
         }
@@ -627,23 +635,23 @@ final class NewCourtBookingViewController: UIViewController {
 
     private func shortDateTitle(for date: Date) -> String {
         if calendar.isDateInToday(date) {
-            return "Hôm nay"
+            return text(.today)
         }
 
         if calendar.isDateInTomorrow(date) {
-            return "Ngày mai"
+            return text(.tomorrow)
         }
 
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "vi_VN")
-        formatter.dateFormat = "EEE dd/MM"
+        formatter.locale = Locale(identifier: dateLocaleIdentifier)
+        formatter.dateFormat = currentLanguage == .english ? "E, dd/MM" : "EEE dd/MM"
         return formatter.string(from: date).capitalized
     }
 
     private func longDateTitle(for date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "vi_VN")
-        formatter.dateFormat = "EEEE, dd/MM/yyyy"
+        formatter.locale = Locale(identifier: dateLocaleIdentifier)
+        formatter.dateFormat = currentLanguage == .english ? "EEEE, MM/dd/yyyy" : "EEEE, dd/MM/yyyy"
         return formatter.string(from: date).capitalized
     }
 
@@ -668,22 +676,22 @@ final class NewCourtBookingViewController: UIViewController {
 
     private func validateBookingSelection() -> Bool {
         if courts.isEmpty {
-            showAlert(title: "Chưa có sân", message: "Không tải được danh sách sân từ backend. Vui lòng thử lại.")
+            showAlert(title: text(.noCourtsAvailable), message: text(.unableToLoadCourtsFromBackend))
             return false
         }
 
         if resolvedBookingDate < calendar.startOfDay(for: Date()) {
-            showAlert(title: "Ngày không hợp lệ", message: "Bạn không thể đặt sân cho ngày đã qua.")
+            showAlert(title: text(.invalidDate), message: text(.invalidDateMessage))
             return false
         }
 
         if isTimeSelectable(at: selectedTimeIndex) == false {
-            showAlert(title: "Giờ không hợp lệ", message: "Khung giờ đã chọn đã qua. Vui lòng chọn giờ khác.")
+            showAlert(title: text(.invalidTime), message: text(.invalidTimeMessage))
             return false
         }
 
         if resolvedEndTime <= resolvedStartTime {
-            showAlert(title: "Khung giờ không hợp lệ", message: "Giờ kết thúc phải lớn hơn giờ bắt đầu.")
+            showAlert(title: text(.invalidTimeRange), message: text(.invalidTimeRangeMessage))
             return false
         }
 
@@ -719,7 +727,7 @@ final class NewCourtBookingViewController: UIViewController {
             } catch {
                 await MainActor.run {
                     self.courts = []
-                    self.renderCourtOptions(message: "Không tải được sân từ backend.")
+                    self.renderCourtOptions(message: self.text(.unableToLoadCourtsFromBackend))
                 }
             }
         }
@@ -736,7 +744,7 @@ final class NewCourtBookingViewController: UIViewController {
             stateLabel.font = .systemFont(ofSize: 14)
             stateLabel.textColor = .secondaryLabel
             stateLabel.numberOfLines = 0
-            stateLabel.text = message ?? "Đang tải danh sách sân..."
+            stateLabel.text = message ?? text(.loadingCourts)
             courtSectionStack.addArrangedSubview(stateLabel)
             confirmButton.isEnabled = false
             return
@@ -769,5 +777,25 @@ final class NewCourtBookingViewController: UIViewController {
            let index = courts.firstIndex(where: { $0.name.caseInsensitiveCompare(preselectedCourtName) == .orderedSame }) {
             selectedCourtIndex = index
         }
+    }
+
+    private var zeroCurrencyText: String {
+        currentLanguage == .english ? "$0" : "0 đ"
+    }
+
+    private var currencyLocaleIdentifier: String {
+        currentLanguage == .english ? "en_US" : "vi_VN"
+    }
+
+    private var dateLocaleIdentifier: String {
+        currentLanguage == .english ? "en_US" : "vi_VN"
+    }
+
+    private func localized(_ vietnamese: String, _ english: String) -> String {
+        AppLocalization.localized(vi: vietnamese, en: english)
+    }
+
+    private func text(_ key: AppLocalizedKey) -> String {
+        AppLocalization.text(key)
     }
 }

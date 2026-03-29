@@ -9,18 +9,24 @@ final class HomeViewController: StoryboardScreenViewController {
     private let courtsStack = UIStackView()
 
     override var screenTitleText: String {
-        "Chào mừng trở lại, \(store.currentUser?.username ?? "người chơi")"
+        AppLocalization.localized(
+            vi: "Chào mừng trở lại, \(store.currentUser?.username ?? "người chơi")",
+            en: "Welcome back, \(store.currentUser?.username ?? "player")"
+        )
     }
 
     override var screenSubtitleText: String {
-        "Điểm vào chính cho người dùng với các lối tắt đặt sân, xem lịch và thông báo. Booking gần nhất: \(store.latestBookingSummary())"
+        AppLocalization.localized(
+            vi: "Điểm vào chính cho người dùng với các lối tắt đặt sân, xem lịch và thông báo. Booking gần nhất: \(store.latestBookingSummary())",
+            en: "Main entry point for users with shortcuts for court booking, schedule viewing, and notifications. Latest booking: \(store.latestBookingSummary())"
+        )
     }
 
     override var screenHighlights: [String] {
         [
-            "Số booking hiện có: \(store.bookingCount())",
-            "Đã thanh toán: \(store.paidBookingCount())",
-            "Hạng thành viên: \(store.membershipSummary())"
+            AppLocalization.localized(vi: "Số booking hiện có", en: "Current bookings") + ": \(store.bookingCount())",
+            AppLocalization.localized(vi: "Đã thanh toán", en: "Paid") + ": \(store.paidBookingCount())",
+            AppLocalization.localized(vi: "Hạng thành viên", en: "Membership tier") + ": \(store.membershipSummary())"
         ]
     }
 
@@ -41,7 +47,10 @@ final class HomeViewController: StoryboardScreenViewController {
         subtitleLabel.font = .systemFont(ofSize: 16)
         subtitleLabel.textColor = .secondaryLabel
         subtitleLabel.numberOfLines = 0
-        subtitleLabel.text = "Danh sách sân sẽ được tải từ backend và hiển thị ngay tại dashboard."
+        subtitleLabel.text = AppLocalization.localized(
+            vi: "Danh sách sân sẽ được tải từ backend và hiển thị ngay tại dashboard.",
+            en: "Court list will be loaded from backend and displayed directly on the dashboard."
+        )
 
         statsCard.axis = .vertical
         statsCard.spacing = 10
@@ -51,9 +60,9 @@ final class HomeViewController: StoryboardScreenViewController {
         statsCard.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 18, leading: 16, bottom: 18, trailing: 16)
 
         let stats = [
-            "Số booking hiện có: \(store.bookingCount())",
-            "Đã thanh toán: \(store.paidBookingCount())",
-            "Hạng thành viên: \(store.membershipSummary())"
+            AppLocalization.localized(vi: "Số booking hiện có", en: "Current bookings") + ": \(store.bookingCount())",
+            AppLocalization.localized(vi: "Đã thanh toán", en: "Paid") + ": \(store.paidBookingCount())",
+            AppLocalization.localized(vi: "Hạng thành viên", en: "Membership tier") + ": \(store.membershipSummary())"
         ]
 
         for item in stats {
@@ -66,11 +75,11 @@ final class HomeViewController: StoryboardScreenViewController {
 
         let courtsTitle = UILabel()
         courtsTitle.font = .boldSystemFont(ofSize: 20)
-        courtsTitle.text = "Sân hiện có"
+        courtsTitle.text = AppLocalization.localized(vi: "Sân hiện có", en: "Available Courts")
 
         courtsStack.axis = .vertical
         courtsStack.spacing = 12
-        courtsStack.addArrangedSubview(makeStateLabel(text: "Đang tải danh sách sân..."))
+        courtsStack.addArrangedSubview(makeStateLabel(text: AppLocalization.localized(vi: "Đang tải danh sách sân...", en: "Loading court list...")))
 
         let contentStack = UIStackView(arrangedSubviews: [
             welcomeLabel,
@@ -104,15 +113,15 @@ final class HomeViewController: StoryboardScreenViewController {
     private func configureQuickActions() {
         let actionsTitle = UILabel()
         actionsTitle.font = .boldSystemFont(ofSize: 20)
-        actionsTitle.text = "Lối tắt"
+        actionsTitle.text = AppLocalization.localized(vi: "Lối tắt", en: "Quick Actions")
 
         let actionsStack = UIStackView()
         actionsStack.axis = .vertical
         actionsStack.spacing = 12
 
-        actionsStack.addArrangedSubview(makeActionButton(title: "Đặt sân ngay", storyboardID: "NewCourtBookingVC"))
-        actionsStack.addArrangedSubview(makeActionButton(title: "Xem lịch thanh toán", storyboardID: "PaymentVC"))
-        actionsStack.addArrangedSubview(makeActionButton(title: "Mở lịch chọn ngày", storyboardID: "CalendarVC"))
+        actionsStack.addArrangedSubview(makeActionButton(title: AppLocalization.localized(vi: "Đặt sân ngay", en: "Book Now"), storyboardID: "NewCourtBookingVC"))
+        actionsStack.addArrangedSubview(makeActionButton(title: AppLocalization.localized(vi: "Xem lịch thanh toán", en: "Payment History"), storyboardID: "PaymentVC"))
+        actionsStack.addArrangedSubview(makeActionButton(title: AppLocalization.localized(vi: "Mở lịch chọn ngày", en: "Open Calendar"), storyboardID: "CalendarVC"))
 
         courtsStack.addArrangedSubview(actionsTitle)
         courtsStack.addArrangedSubview(actionsStack)
@@ -139,7 +148,7 @@ final class HomeViewController: StoryboardScreenViewController {
         courtsStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
 
         guard !courts.isEmpty else {
-            courtsStack.addArrangedSubview(makeStateLabel(text: "Chưa có sân nào từ backend."))
+            courtsStack.addArrangedSubview(makeStateLabel(text: AppLocalization.localized(vi: "Chưa có sân nào từ backend.", en: "No courts returned from backend.")))
             return
         }
 
@@ -170,7 +179,7 @@ final class HomeViewController: StoryboardScreenViewController {
 
     private func renderCourtsError(_ message: String) {
         courtsStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        courtsStack.addArrangedSubview(makeStateLabel(text: "Không tải được danh sách sân: \(message)"))
+        courtsStack.addArrangedSubview(makeStateLabel(text: AppLocalization.localized(vi: "Không tải được danh sách sân", en: "Unable to load court list") + ": \(message)"))
     }
 
     private func makeStateLabel(text: String) -> UILabel {

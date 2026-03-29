@@ -4620,10 +4620,16 @@
                     <connections>
                         <outlet property="avatarImageView" destination="prof-img-avatar" id="prof-out-avatar"/>
                         <outlet property="bookingsCountLabel" destination="pst1-l2" id="prof-out-bookings"/>
+                        <outlet property="bookingsTitleLabel" destination="pst1-l1" id="prof-out-bookings-title"/>
                         <outlet property="bookingsSubtitleLabel" destination="pst1-l3" id="prof-out-bookings-sub"/>
+                        <outlet property="languagePreferenceView" destination="prof-v-pref" id="prof-out-lang-view"/>
+                        <outlet property="languageTitleLabel" destination="ppm-l1" id="prof-out-lang-title"/>
+                        <outlet property="languageValueLabel" destination="ppm-l2" id="prof-out-lang-value"/>
                         <outlet property="membershipLabel" destination="pst2-l3" id="prof-out-membership"/>
                         <outlet property="nameLabel" destination="prof-lbl-name" id="prof-out-name"/>
                         <outlet property="pointsLabel" destination="pst2-l2" id="prof-out-points"/>
+                        <outlet property="pointsTitleLabel" destination="pst2-l1" id="prof-out-points-title"/>
+                        <outlet property="profileTitleLabel" destination="prof-lbl-title" id="prof-out-title"/>
                         <outlet property="subtitleLabel" destination="prof-lbl-sub" id="prof-out-sub"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="logout" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="seg-pr-out"/>
                         <segue destination="abt-vc-main" kind="show" identifier="showAbout" id="seg-pr-abt"/>
@@ -7479,6 +7485,8 @@ All rights reserved.</string>
                     </view>
                     <connections>
                         <outlet property="adminNameLabel" destination="adm-lbl-name" id="adm-out-name"/>
+                        <outlet property="adminAvatarContainerView" destination="adm-v-avatar" id="adm-out-avatar"/>
+                        <outlet property="adminSettingsButton" destination="adm-nv-4" id="adm-out-settings"/>
                         <outlet property="contentHeightConstraint" destination="admc-cv1" id="adm-out-height"/>
                         <outlet property="courtStatusSectionHeightConstraint" destination="admc-s4h" id="adm-out-s4h"/>
                         <outlet property="courtStatusStackView" destination="adm-s4-stk" id="adm-out-s4stk"/>
@@ -7486,6 +7494,34 @@ All rights reserved.</string>
                         <outlet property="quickActionPrimaryButton" destination="adm-qa1" id="adm-out-qa1"/>
                         <outlet property="quickActionSecondaryButton" destination="adm-qa2" id="adm-out-qa2"/>
                         <outlet property="quickActionsSectionHeightConstraint" destination="admc-s3h" id="adm-out-qah"/>
+                        <outlet property="revenueBar1" destination="adm-ch1" id="adm-out-rb1"/>
+                        <outlet property="revenueBar10" destination="adm-ch10" id="adm-out-rb10"/>
+                        <outlet property="revenueBar10HeightConstraint" destination="admc-ch10h" id="adm-out-rbh10"/>
+                        <outlet property="revenueBar11" destination="adm-ch11" id="adm-out-rb11"/>
+                        <outlet property="revenueBar11HeightConstraint" destination="admc-ch11h" id="adm-out-rbh11"/>
+                        <outlet property="revenueBar12" destination="adm-ch12" id="adm-out-rb12"/>
+                        <outlet property="revenueBar12HeightConstraint" destination="admc-ch12h" id="adm-out-rbh12"/>
+                        <outlet property="revenueBar1HeightConstraint" destination="admc-ch1h" id="adm-out-rbh1"/>
+                        <outlet property="revenueBar2" destination="adm-ch2" id="adm-out-rb2"/>
+                        <outlet property="revenueBar2HeightConstraint" destination="admc-ch2h" id="adm-out-rbh2"/>
+                        <outlet property="revenueBar3" destination="adm-ch3" id="adm-out-rb3"/>
+                        <outlet property="revenueBar3HeightConstraint" destination="admc-ch3h" id="adm-out-rbh3"/>
+                        <outlet property="revenueBar4" destination="adm-ch4" id="adm-out-rb4"/>
+                        <outlet property="revenueBar4HeightConstraint" destination="admc-ch4h" id="adm-out-rbh4"/>
+                        <outlet property="revenueBar5" destination="adm-ch5" id="adm-out-rb5"/>
+                        <outlet property="revenueBar5HeightConstraint" destination="admc-ch5h" id="adm-out-rbh5"/>
+                        <outlet property="revenueBar6" destination="adm-ch6" id="adm-out-rb6"/>
+                        <outlet property="revenueBar6HeightConstraint" destination="admc-ch6h" id="adm-out-rbh6"/>
+                        <outlet property="revenueBar7" destination="adm-ch7" id="adm-out-rb7"/>
+                        <outlet property="revenueBar7HeightConstraint" destination="admc-ch7h" id="adm-out-rbh7"/>
+                        <outlet property="revenueBar8" destination="adm-ch8" id="adm-out-rb8"/>
+                        <outlet property="revenueBar8HeightConstraint" destination="admc-ch8h" id="adm-out-rbh8"/>
+                        <outlet property="revenueBar9" destination="adm-ch9" id="adm-out-rb9"/>
+                        <outlet property="revenueBar9HeightConstraint" destination="admc-ch9h" id="adm-out-rbh9"/>
+                        <outlet property="revenueTitleLabel" destination="adm-s2-t1" id="adm-out-rt1"/>
+                        <outlet property="revenueTrendContainerView" destination="adm-s2-badge" id="adm-out-rtc"/>
+                        <outlet property="revenueTrendLabel" destination="adm-s2-blbl" id="adm-out-rtl"/>
+                        <outlet property="revenueValueLabel" destination="adm-s2-t2" id="adm-out-rt2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="adm-resp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
