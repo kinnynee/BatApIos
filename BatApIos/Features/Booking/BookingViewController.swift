@@ -67,7 +67,11 @@ final class BookingViewController: UIViewController {
         do {
             let booking = try store.createBooking(
                 courtTypeName: selectedCourtTypeTitle(),
-                totalPrice: currentTotalPrice
+                bookingDate: resolvedBookingDate,
+                startTime: resolvedStartTime,
+                endTime: resolvedEndTime,
+                originalPrice: selectedCourtBasePrice,
+                discountAmount: isVoucherApplied ? discountValue : 0
             )
 
             if let paymentMethodVC = PaymentMethodViewController.instantiate(
@@ -77,7 +81,7 @@ final class BookingViewController: UIViewController {
                 if let nav = self.navigationController {
                     nav.pushViewController(paymentMethodVC, animated: true)
                 } else {
-                    paymentMethodVC.modalPresentationStyle = .fullScreen
+                    paymentMethodVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
                     self.present(paymentMethodVC, animated: true)
                 }
             } else {
@@ -131,6 +135,23 @@ final class BookingViewController: UIViewController {
         case .single:
             return "Sân Single"
         }
+    }
+
+    private var selectedCourtBasePrice: Double {
+        let selectedType = CourtType(rawValue: courtTypeSegment.selectedSegmentIndex) ?? .double
+        return selectedType.basePrice
+    }
+
+    private var resolvedBookingDate: Date {
+        Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()
+    }
+
+    private var resolvedStartTime: Date {
+        Calendar.current.date(bySettingHour: 18, minute: 0, second: 0, of: resolvedBookingDate) ?? resolvedBookingDate
+    }
+
+    private var resolvedEndTime: Date {
+        Calendar.current.date(byAdding: .minute, value: 90, to: resolvedStartTime) ?? resolvedStartTime
     }
 
     // MARK: - Formatters

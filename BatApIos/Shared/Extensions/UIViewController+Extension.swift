@@ -27,6 +27,22 @@ extension UIViewController {
         view.addGestureRecognizer(tapGesture)
     }
 
+    func handleBackNavigation(animated: Bool = true) {
+        if let navigationController, navigationController.viewControllers.count > 1 {
+            navigationController.popViewController(animated: animated)
+            return
+        }
+
+        if presentingViewController != nil {
+            dismiss(animated: animated)
+            return
+        }
+
+        if let rootPresenter = view.window?.rootViewController, rootPresenter.presentedViewController != nil {
+            rootPresenter.dismiss(animated: animated)
+        }
+    }
+
     @objc private func endEditingFromTap() {
         view.endEditing(true)
     }

@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 struct BookingRecord {
     let id: String
@@ -7,9 +8,12 @@ struct BookingRecord {
     let bookingDate: Date
     let startTime: Date
     let endTime: Date
+    let originalPrice: Double
+    let discountAmount: Double
     var totalPrice: Double
     var status: BookingStatus
     var paymentMethodName: String?
+    let createdAt: Date
 }
 
 struct AppNotificationItem {
@@ -82,6 +86,49 @@ final class AppMockStore {
         }
         currentUser = nil
         UserDefaults.standard.removeObject(forKey: Self.sessionEmailKey)
+    }
+
+    @discardableResult
+    func syncAuthenticatedUser(email: String, displayName: String?, firebaseUID: String, role: UserRole = .user) -> User {
+        let normalizedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let trimmedName = displayName?.trimmingCharacters(in: .whitespacesAndNewlines)
+        let fallbackName = normalizedEmail.split(separator: "@").first.map(String.init) ?? "BatApp User"
+        let username = (trimmedName?.isEmpty == false ? trimmedName : fallbackName) ?? fallbackName
+        let now = Date()
+
+        if let index = users.firstIndex(where: { $0.email.lowercased() == normalizedEmail }) {
+            users[index].id = firebaseUID
+            users[index].username = username
+            users[index].role = role
+            users[index].updatedAt = now
+            currentUser = users[index]
+        } else {
+            let user = User(
+                id: firebaseUID,
+                email: normalizedEmail,
+                username: username,
+                password: "",
+                role: role,
+                walletBalance: 0,
+                createdAt: now,
+                updatedAt: now
+            )
+            users.append(user)
+            currentUser = user
+        }
+
+        UserDefaults.standard.set(normalizedEmail, forKey: Self.sessionEmailKey)
+        return currentUser!
+    }
+
+    func updateCurrentUserPassword(_ newPassword: String) {
+        guard let currentUser, let index = users.firstIndex(where: { $0.email.lowercased() == currentUser.email.lowercased() }) else {
+            return
+        }
+
+        users[index].password = newPassword
+        users[index].updatedAt = Date()
+        self.currentUser = users[index]
     }
 
     func register(name: String, email: String, password: String) throws -> User {
@@ -161,15 +208,19 @@ final class AppMockStore {
         appendSystemLog(title: "Đổi mật khẩu", message: "Người dùng \(users[index].email) đã đổi mật khẩu.")
     }
 
-    func createBooking(courtTypeName: String, totalPrice: Double) throws -> BookingRecord {
+    func createBooking(
+        courtTypeName: String,
+        bookingDate: Date,
+        startTime: Date,
+        endTime: Date,
+        originalPrice: Double,
+        discountAmount: Double
+    ) throws -> BookingRecord {
         guard let user = currentUser else {
             throw AppLogicError.noActiveSession
         }
 
-        let now = Date()
-        let bookingDate = Calendar.current.date(byAdding: .day, value: 1, to: now) ?? now
-        let startTime = Calendar.current.date(bySettingHour: 18, minute: 0, second: 0, of: bookingDate) ?? bookingDate
-        let endTime = Calendar.current.date(byAdding: .minute, value: 90, to: startTime) ?? startTime
+        let totalPrice = max(originalPrice - discountAmount, 0)
         let booking = BookingRecord(
             id: Self.makeBookingCode(),
             userId: user.id ?? "",
@@ -177,9 +228,12 @@ final class AppMockStore {
             bookingDate: bookingDate,
             startTime: startTime,
             endTime: endTime,
+            originalPrice: originalPrice,
+            discountAmount: discountAmount,
             totalPrice: totalPrice,
             status: .pending,
-            paymentMethodName: nil
+            paymentMethodName: nil,
+            createdAt: Date()
         )
         bookings.insert(booking, at: 0)
         appendNotification(
@@ -215,13 +269,40 @@ final class AppMockStore {
         return bookings
             .filter { $0.userId == user.id }
             .map {
-                PaymentInfo(
-                    productImage: nil,
-                    productName: "\($0.courtName) • \($0.id)",
+                let status = Self.orderStatus(for: $0.status)
+                return PaymentInfo(
+                    bookingId: $0.id,
+                    productImage: Self.iconImage(for: status),
+                    productName: $0.courtName,
+                    subtitle: "\($0.id) • \(Self.scheduleText(for: $0))",
+                    amountValue: $0.totalPrice,
                     price: Self.currencyFormatter.string(from: NSNumber(value: $0.totalPrice)) ?? "0 đ",
-                    status: Self.orderStatus(for: $0.status)
+                    paymentMethod: $0.paymentMethodName ?? "Chưa chọn phương thức",
+                    status: status
                 )
             }
+    }
+
+    func bookingRecord(for bookingId: String) -> BookingRecord? {
+        bookings.first { $0.id == bookingId }
+    }
+
+    func paymentSummary(for bookingId: String) -> PaymentSummary? {
+        guard let booking = bookingRecord(for: bookingId) else {
+            return nil
+        }
+
+        let status = Self.orderStatus(for: booking.status)
+        return PaymentSummary(
+            bookingID: booking.id,
+            courtName: booking.courtName,
+            scheduleText: Self.scheduleText(for: booking),
+            subtotalText: Self.currencyText(booking.originalPrice),
+            discountText: booking.discountAmount > 0 ? "-\(Self.currencyText(booking.discountAmount))" : "0 đ",
+            totalText: Self.currencyText(booking.totalPrice),
+            status: status,
+            paymentMethodText: booking.paymentMethodName ?? "Chưa chọn phương thức"
+        )
     }
 
     func latestBooking() -> BookingRecord? {
@@ -305,9 +386,12 @@ final class AppMockStore {
             bookingDate: now,
             startTime: now,
             endTime: Calendar.current.date(byAdding: .minute, value: 90, to: now) ?? now,
+            originalPrice: 220_000,
+            discountAmount: 0,
             totalPrice: 220_000,
             status: .fullyPaid,
-            paymentMethodName: "MoMo"
+            paymentMethodName: "MoMo",
+            createdAt: now
         )
         bookings = [booking]
         appendNotification(
@@ -374,4 +458,42 @@ final class AppMockStore {
         formatter.maximumFractionDigits = 0
         return formatter
     }()
+
+    private static let bookingDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "vi_VN")
+        formatter.dateFormat = "dd/MM/yyyy"
+        return formatter
+    }()
+
+    private static let bookingTimeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "vi_VN")
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }()
+
+    private static func currencyText(_ amount: Double) -> String {
+        currencyFormatter.string(from: NSNumber(value: amount)) ?? "0 đ"
+    }
+
+    private static func scheduleText(for booking: BookingRecord) -> String {
+        let dateText = bookingDateFormatter.string(from: booking.bookingDate)
+        let startText = bookingTimeFormatter.string(from: booking.startTime)
+        let endText = bookingTimeFormatter.string(from: booking.endTime)
+        return "\(dateText) • \(startText) - \(endText)"
+    }
+
+    private static func iconImage(for status: OrderStatus) -> UIImage? {
+        let symbolName: String
+        switch status {
+        case .success:
+            symbolName = "checkmark.circle.fill"
+        case .pending:
+            symbolName = "clock.badge"
+        case .cancelled:
+            symbolName = "xmark.circle.fill"
+        }
+        return UIImage(systemName: symbolName)
+    }
 }

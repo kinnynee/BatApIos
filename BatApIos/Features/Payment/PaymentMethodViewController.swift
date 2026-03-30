@@ -18,6 +18,7 @@ final class PaymentMethodViewController: UIViewController {
         }
         vc.amountToPay = amount
         if let bookingId { vc.bookingId = bookingId }
+        vc.openedFromPaymentHistory = true
         return vc
     }
 
@@ -25,8 +26,9 @@ final class PaymentMethodViewController: UIViewController {
     func configure(amount: Double, bookingId: String? = nil) {
         self.amountToPay = amount
         if let bookingId { self.bookingId = bookingId }
+        openedFromPaymentHistory = true
         if isViewLoaded {
-            amountLabel.text = Self.currencyFormatter.string(from: NSNumber(value: amount)) ?? "0 đ"
+            amountLabel.text = currencyText(amount)
             bookingIdLabel.text = self.bookingId
         }
     }
@@ -36,6 +38,7 @@ final class PaymentMethodViewController: UIViewController {
     @IBOutlet private weak var bookingIdLabel: UILabel!
     @IBOutlet private weak var backButton: UIButton!
     @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet private weak var methodsStackView: UIStackView!
 
     @IBOutlet private weak var checkATM: UIImageView!
     @IBOutlet private weak var checkMomo: UIImageView!
@@ -66,6 +69,14 @@ final class PaymentMethodViewController: UIViewController {
 
     private var selectedMethod: PaymentMethod = .momo
     private let store = AppMockStore.shared
+    private let bookingsService = BackendBookingsService.shared
+    private let adminService = BackendAdminService.shared
+    private let systemLogStore = SystemLogStore.shared
+    private lazy var paymentInfoCard = makePaymentInfoCard()
+    private let cancelBookingButton = UIButton(type: .system)
+    private var currentBooking: BackendBookingRecord?
+    private var openedFromPaymentHistory = false
+    private var currentLanguage: AppLanguage { AppLocalization.currentLanguage }
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -74,13 +85,36 @@ final class PaymentMethodViewController: UIViewController {
         ensureConfirmButton()
         configureUI()
         updateSelectionUI()
+        loadCurrentBookingIfNeeded()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reapplyLocalizedContent()
     }
 
     // MARK: - Setup
     private func configureUI() {
-        amountLabel.text = Self.currencyFormatter.string(from: NSNumber(value: amountToPay)) ?? "0 đ"
-        bookingIdLabel.text = bookingId
+        if let summary = store.paymentSummary(for: bookingId) {
+            amountLabel.text = summary.totalText
+            bookingIdLabel.text = summary.bookingID
+            configurePaymentInfoCard(with: summary)
+            confirmButton?.configuration?.title = paymentTitle(for: summary.totalText)
+        } else {
+            amountLabel.text = currencyText(amountToPay)
+            bookingIdLabel.text = bookingId
+            configureBackendPaymentInfoCard()
+        }
         configureConfirmButtonAppearance()
+
+        if methodsStackView?.arrangedSubviews.contains(paymentInfoCard) == false {
+            methodsStackView?.insertArrangedSubview(paymentInfoCard, at: 1)
+        }
+
+        configureCancelButton()
+        if methodsStackView?.arrangedSubviews.contains(cancelBookingButton) == false {
+            methodsStackView?.insertArrangedSubview(cancelBookingButton, at: 2)
+        }
 
         let mappings: [(UIView, PaymentMethod)] = [
             (viewATM, .atm),
@@ -100,6 +134,24 @@ final class PaymentMethodViewController: UIViewController {
             view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(paymentViewTapped(_:))))
             view.tag = method.hashValue
         }
+    }
+
+    private func reapplyLocalizedContent() {
+        configureCancelButton()
+
+        if let summary = store.paymentSummary(for: bookingId) {
+            amountLabel.text = summary.totalText
+            bookingIdLabel.text = summary.bookingID
+            configurePaymentInfoCard(with: summary)
+            confirmButton?.configuration?.title = paymentTitle(for: summary.totalText)
+        } else {
+            amountLabel.text = currencyText(amountToPay)
+            bookingIdLabel.text = currentBooking?.bookingCode ?? bookingId
+            configureBackendPaymentInfoCard()
+        }
+
+        configureConfirmButtonAppearance()
+        updateActionButtons()
     }
 
     private func attachBackActionIfNeeded() {
@@ -129,7 +181,7 @@ final class PaymentMethodViewController: UIViewController {
 
     private func configureConfirmButtonAppearance() {
         var configuration = UIButton.Configuration.filled()
-        configuration.title = "Xác nhận thanh toán"
+        configuration.title = confirmButton?.configuration?.title ?? text(.confirmPayment)
         configuration.cornerStyle = .large
         configuration.baseBackgroundColor = UIColor(
             red: 0.345,
@@ -144,6 +196,117 @@ final class PaymentMethodViewController: UIViewController {
             alpha: 1
         )
         confirmButton?.configuration = configuration
+    }
+
+    private func configureCancelButton() {
+        var configuration = UIButton.Configuration.bordered()
+        configuration.title = text(.cancelBooking)
+        configuration.cornerStyle = .large
+        configuration.baseForegroundColor = .systemRed
+        cancelBookingButton.configuration = configuration
+        cancelBookingButton.addTarget(self, action: #selector(cancelBookingTapped), for: .touchUpInside)
+    }
+
+    private func makePaymentInfoCard() -> UIStackView {
+        let card = UIStackView()
+        card.axis = .vertical
+        card.spacing = 12
+        card.backgroundColor = .secondarySystemBackground
+        card.isLayoutMarginsRelativeArrangement = true
+        card.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        card.layer.cornerRadius = 18
+        card.layer.borderWidth = 1
+        card.layer.borderColor = UIColor.systemGray5.cgColor
+        return card
+    }
+
+    private func configurePaymentInfoCard(with summary: PaymentSummary) {
+        paymentInfoCard.arrangedSubviews.forEach { view in
+            paymentInfoCard.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+
+        let titleLabel = UILabel()
+        titleLabel.font = .boldSystemFont(ofSize: 16)
+        titleLabel.text = text(.paymentInfoTitle)
+
+        let courtLabel = UILabel()
+        courtLabel.font = .systemFont(ofSize: 15, weight: .semibold)
+        courtLabel.text = summary.courtName
+
+        let scheduleLabel = UILabel()
+        scheduleLabel.font = .systemFont(ofSize: 13)
+        scheduleLabel.textColor = .secondaryLabel
+        scheduleLabel.numberOfLines = 0
+        scheduleLabel.text = "\(summary.bookingID) • \(summary.scheduleText)"
+
+        let statusBadge = UILabel()
+        statusBadge.font = .systemFont(ofSize: 12, weight: .bold)
+        statusBadge.textColor = summary.status.tintColor
+        statusBadge.text = summary.status.title.uppercased()
+
+        paymentInfoCard.addArrangedSubview(titleLabel)
+        paymentInfoCard.addArrangedSubview(courtLabel)
+        paymentInfoCard.addArrangedSubview(scheduleLabel)
+        paymentInfoCard.addArrangedSubview(statusBadge)
+        paymentInfoCard.addArrangedSubview(makeInfoRow(title: text(.subtotal), value: summary.subtotalText))
+        paymentInfoCard.addArrangedSubview(makeInfoRow(title: text(.discount), value: summary.discountText))
+        paymentInfoCard.addArrangedSubview(makeInfoRow(title: text(.payableTotal), value: summary.totalText, emphasize: true))
+        paymentInfoCard.addArrangedSubview(makeInfoRow(title: text(.currentMethod), value: summary.paymentMethodText))
+    }
+
+    private func configureBackendPaymentInfoCard() {
+        paymentInfoCard.arrangedSubviews.forEach { view in
+            paymentInfoCard.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+
+        let titleLabel = UILabel()
+        titleLabel.font = .boldSystemFont(ofSize: 16)
+        titleLabel.text = text(.paymentInfoTitle)
+
+        let bookingLabel = UILabel()
+        bookingLabel.font = .systemFont(ofSize: 15, weight: .semibold)
+        bookingLabel.text = currentBooking?.courtName.isEmpty == false ? currentBooking?.courtName : "\(text(.court)) #\(bookingId)"
+
+        let amountText = currencyText(amountToPay)
+        let helperLabel = UILabel()
+        helperLabel.font = .systemFont(ofSize: 13)
+        helperLabel.textColor = .secondaryLabel
+        helperLabel.numberOfLines = 0
+        if let currentBooking {
+            helperLabel.text = "\(currentBooking.bookingCode) • \(currentBooking.bookingDate) • \(currentBooking.startTime)-\(currentBooking.endTime)"
+        } else {
+            helperLabel.text = text(.backendBookingPaymentHelper)
+        }
+
+        paymentInfoCard.addArrangedSubview(titleLabel)
+        paymentInfoCard.addArrangedSubview(bookingLabel)
+        paymentInfoCard.addArrangedSubview(helperLabel)
+        if let currentBooking {
+            paymentInfoCard.addArrangedSubview(makeInfoRow(title: text(.currentBookingStatus), value: normalizedBookingStatus(currentBooking.bookingStatus)))
+            paymentInfoCard.addArrangedSubview(makeInfoRow(title: text(.currentPaymentStatus), value: normalizedPaymentStatus(currentBooking.paymentStatus)))
+        }
+        paymentInfoCard.addArrangedSubview(makeInfoRow(title: text(.payableTotal), value: amountText, emphasize: true))
+        paymentInfoCard.addArrangedSubview(makeInfoRow(title: text(.selectedMethod), value: displayName(for: selectedMethod)))
+    }
+
+    private func makeInfoRow(title: String, value: String, emphasize: Bool = false) -> UIStackView {
+        let titleLabel = UILabel()
+        titleLabel.font = .systemFont(ofSize: 13, weight: emphasize ? .semibold : .regular)
+        titleLabel.textColor = .secondaryLabel
+        titleLabel.text = title
+
+        let valueLabel = UILabel()
+        valueLabel.font = .systemFont(ofSize: emphasize ? 16 : 13, weight: emphasize ? .bold : .semibold)
+        valueLabel.textColor = emphasize ? .label : .secondaryLabel
+        valueLabel.text = value
+        valueLabel.textAlignment = .right
+
+        let row = UIStackView(arrangedSubviews: [titleLabel, valueLabel])
+        row.axis = .horizontal
+        row.distribution = .equalSpacing
+        return row
     }
 
     // MARK: - Actions
@@ -167,29 +330,20 @@ final class PaymentMethodViewController: UIViewController {
     }
 
     @objc private func backButtonTapped() {
-        if let navigationController {
-            if let bookingViewController = navigationController.viewControllers.first(where: { $0 is NewCourtBookingViewController }) {
-                navigationController.popToViewController(bookingViewController, animated: true)
-                return
-            }
+        handleBackNavigation()
+    }
 
-            if let bookingViewController = UIStoryboard(name: Self.storyboardName, bundle: nil)
-                .instantiateViewController(withIdentifier: "NewCourtBookingVC") as? NewCourtBookingViewController {
-                var updatedStack = navigationController.viewControllers
-                if !updatedStack.isEmpty {
-                    updatedStack.removeLast()
-                }
-                updatedStack.append(bookingViewController)
-                navigationController.setViewControllers(updatedStack, animated: true)
-                return
-            }
-        }
-
-        if presentingViewController != nil {
-            dismiss(animated: true)
-        } else {
-            navigationController?.popViewController(animated: true)
-        }
+    @objc private func cancelBookingTapped() {
+        let alert = UIAlertController(
+            title: text(.cancelBooking),
+            message: text(.cancelBookingMessage),
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: text(.close), style: .cancel))
+        alert.addAction(UIAlertAction(title: text(.cancelBooking), style: .destructive, handler: { [weak self] _ in
+            self?.performCancellation()
+        }))
+        present(alert, animated: true)
     }
 
     @objc private func confirmButtonPressed(_ sender: UIButton) {
@@ -197,16 +351,90 @@ final class PaymentMethodViewController: UIViewController {
     }
 
     @IBAction private func confirmPaymentTapped(_ sender: UIButton) {
-        do {
-            let booking = try store.confirmPayment(for: bookingId, methodName: displayName(for: selectedMethod))
-            let successViewController = BookingSuccessViewController()
-            successViewController.bookingCode = booking.id
-            navigationController?.pushViewController(successViewController, animated: true)
-        } catch {
-            let alert = UIAlertController(title: "Không thể thanh toán", message: error.localizedDescription, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Đóng", style: .default))
-            present(alert, animated: true)
+        if store.paymentSummary(for: bookingId) != nil {
+            do {
+                let booking = try store.confirmPayment(for: bookingId, methodName: displayName(for: selectedMethod))
+                let successViewController = BookingSuccessViewController()
+                successViewController.bookingCode = booking.id
+                navigationController?.pushViewController(successViewController, animated: true)
+            } catch {
+                let alert = UIAlertController(title: text(.unableToPay), message: error.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: text(.close), style: .default))
+                present(alert, animated: true)
+            }
+            return
         }
+
+        confirmButton?.isEnabled = false
+        confirmButton?.configuration?.showsActivityIndicator = true
+
+        Task { [weak self] in
+            guard let self else { return }
+
+            do {
+                let updatedBooking = try await self.confirmBackendPayment()
+
+                await MainActor.run {
+                    self.systemLogStore.append(
+                        title: self.text(.paymentBooking),
+                        message: "Khách đã thanh toán booking \(updatedBooking.bookingCode) bằng \(self.displayName(for: self.selectedMethod)).",
+                        source: "payment"
+                    )
+                    self.confirmButton?.isEnabled = true
+                    self.confirmButton?.configuration?.showsActivityIndicator = false
+
+                    let successViewController = BookingSuccessViewController()
+                    successViewController.bookingCode = updatedBooking.id
+                    self.navigationController?.pushViewController(successViewController, animated: true)
+                }
+            } catch {
+                await MainActor.run {
+                    self.confirmButton?.isEnabled = true
+                    self.confirmButton?.configuration?.showsActivityIndicator = false
+
+                    let alert = UIAlertController(title: self.text(.unableToPay), message: error.localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: self.text(.close), style: .default))
+                    self.present(alert, animated: true)
+                }
+            }
+        }
+    }
+
+    private func confirmBackendPayment() async throws -> BackendBookingRecord {
+        let confirmerId = BackendAuthService.shared.restorePersistedUser()?.id ?? "user"
+
+        if let booking = currentBooking {
+            if let paymentRecord = try await findPaymentRecord(for: booking) {
+                _ = try await adminService.confirmPayment(paymentId: paymentRecord.id, confirmedBy: confirmerId)
+
+                let refreshedBookings = try await bookingsService.fetchBookings(userId: booking.userId)
+                if let refreshed = refreshedBookings.first(where: {
+                    $0.id.caseInsensitiveCompare(booking.id) == .orderedSame ||
+                    $0.bookingCode.caseInsensitiveCompare(booking.bookingCode) == .orderedSame
+                }) {
+                    return refreshed
+                }
+            }
+        }
+
+        return try await bookingsService.updateBookingStatus(
+            bookingId: bookingId,
+            bookingStatus: "Fully Paid",
+            paymentStatus: "Paid"
+        )
+    }
+
+    private func findPaymentRecord(for booking: BackendBookingRecord) async throws -> BackendAdminPayment? {
+        let directMatches = try await adminService.fetchPayments(bookingId: booking.id)
+        if let directMatch = directMatches.first(where: {
+            $0.bookingId.caseInsensitiveCompare(booking.id) == .orderedSame ||
+            $0.bookingId.caseInsensitiveCompare(booking.bookingCode) == .orderedSame
+        }) {
+            return directMatch
+        }
+
+        let codeMatches = try await adminService.fetchPayments(bookingId: booking.bookingCode)
+        return codeMatches.first
     }
 
     // MARK: - UI Updates
@@ -226,6 +454,125 @@ final class PaymentMethodViewController: UIViewController {
             checkmark.image = UIImage(systemName: isSelected ? "checkmark.circle.fill" : "circle")
             checkmark.tintColor = isSelected ? .systemMint : .systemGray3
         }
+
+        if store.paymentSummary(for: bookingId) == nil {
+            configureBackendPaymentInfoCard()
+            updateActionButtons()
+        }
+    }
+
+    private func loadCurrentBookingIfNeeded() {
+        guard store.paymentSummary(for: bookingId) == nil else {
+            cancelBookingButton.isHidden = true
+            return
+        }
+
+        Task { [weak self] in
+            guard let self else { return }
+            let userId = BackendAuthService.shared.restorePersistedUser()?.id
+            guard let userId, !userId.isEmpty else { return }
+
+            do {
+                let bookings = try await bookingsService.fetchBookings(userId: userId)
+                let booking = bookings.first {
+                    $0.id.caseInsensitiveCompare(self.bookingId) == .orderedSame ||
+                    $0.bookingCode.caseInsensitiveCompare(self.bookingId) == .orderedSame
+                }
+
+                await MainActor.run {
+                    self.currentBooking = booking
+                    if let booking {
+                        self.amountToPay = booking.totalAmount
+                        self.amountLabel.text = self.currencyText(booking.totalAmount)
+                        self.bookingIdLabel.text = booking.bookingCode
+                    }
+                    self.configureBackendPaymentInfoCard()
+                    self.updateActionButtons()
+                }
+            } catch {
+                await MainActor.run {
+                    self.updateActionButtons()
+                }
+            }
+        }
+    }
+
+    private func updateActionButtons() {
+        let isCancelled = currentBooking?.bookingStatus.caseInsensitiveCompare("cancelled") == .orderedSame ||
+            currentBooking?.paymentStatus.caseInsensitiveCompare("cancelled") == .orderedSame
+        let isPaid = currentBooking?.paymentStatus.caseInsensitiveCompare("paid") == .orderedSame
+
+        let canCancel = openedFromPaymentHistory && !isCancelled && !isPaid && store.paymentSummary(for: bookingId) == nil
+        let canConfirm = !isCancelled && !isPaid
+
+        cancelBookingButton.isHidden = !canCancel
+        confirmButton?.isHidden = openedFromPaymentHistory && !canConfirm
+        confirmButton?.isEnabled = canConfirm
+
+        if isCancelled {
+            confirmButton?.configuration?.title = text(.bookingCancelled)
+        } else if isPaid {
+            confirmButton?.configuration?.title = text(.bookingPaid)
+        } else {
+            let amountText = currencyText(amountToPay)
+            confirmButton?.configuration?.title = paymentTitle(for: amountText)
+        }
+    }
+
+    private func performCancellation() {
+        cancelBookingButton.isEnabled = false
+
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                let updatedBooking = try await bookingsService.cancelBooking(bookingId: bookingId)
+                await MainActor.run {
+                    self.currentBooking = updatedBooking
+                    self.cancelBookingButton.isEnabled = true
+                    self.configureBackendPaymentInfoCard()
+                    self.updateActionButtons()
+                    self.systemLogStore.append(
+                        title: self.text(.paymentCancelledLogTitle),
+                        message: "Khách đã hủy booking \(updatedBooking.bookingCode) từ màn thông tin thanh toán.",
+                        source: "payment"
+                    )
+                    self.showAlert(title: self.text(.cancelled), message: self.text(.bookingAndPaymentCancelled))
+                }
+            } catch {
+                await MainActor.run {
+                    self.cancelBookingButton.isEnabled = true
+                    self.showAlert(title: self.text(.unableToCancel), message: error.localizedDescription)
+                }
+            }
+        }
+    }
+
+    private func normalizedBookingStatus(_ value: String) -> String {
+        switch value.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
+        case "pending":
+            return text(.pendingStatus)
+        case "fully paid", "confirmed":
+            return text(.paidStatus)
+        case "active":
+            return text(.ongoingStatus)
+        case "cancelled":
+            return text(.cancelled)
+        default:
+            return value
+        }
+    }
+
+    private func normalizedPaymentStatus(_ value: String) -> String {
+        switch value.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
+        case "paid":
+            return text(.paidStatus)
+        case "pending":
+            return text(.pendingStatus)
+        case "cancelled":
+            return text(.cancelled)
+        default:
+            return value
+        }
     }
     
     // MARK: - Formatters
@@ -236,6 +583,23 @@ final class PaymentMethodViewController: UIViewController {
         formatter.maximumFractionDigits = 0
         return formatter
     }()
+
+    private func currencyText(_ amount: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = Locale(identifier: currentLanguage == .english ? "en_US" : "vi_VN")
+        formatter.maximumFractionDigits = 0
+        return formatter.string(from: NSNumber(value: amount)) ?? (currentLanguage == .english ? "$0" : "0 đ")
+    }
+
+    private func paymentTitle(for amountText: String) -> String {
+        let format = text(.paymentForAmount)
+        return format.replacingOccurrences(of: "%@", with: amountText)
+    }
+
+    private func text(_ key: AppLocalizedKey) -> String {
+        AppLocalization.text(key)
+    }
 
     private func displayName(for method: PaymentMethod) -> String {
         switch method {
