@@ -53,6 +53,16 @@ final class ProfileViewController: StoryboardScreenViewController {
         bindProfileData()
         configureProfileActions()
         loadBackendProfileData()
+        configureNavigationBar()
+    }
+
+    private func configureNavigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "Sửa",
+            style: .plain,
+            target: self,
+            action: #selector(editProfileTapped)
+        )
     }
 
     private func bindProfileData() {
@@ -201,6 +211,48 @@ final class ProfileViewController: StoryboardScreenViewController {
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
         present(picker, animated: true)
+    }
+
+    @objc private func editProfileTapped() {
+        let user = authService.restorePersistedUser() ?? store.currentUser
+        let currentName = user?.username ?? ""
+
+        let alert = UIAlertController(title: "Sửa hồ sơ", message: "Nhập tên mới của bạn", preferredStyle: .alert)
+        alert.addTextField { textField in
+            textField.placeholder = "Họ và tên"
+            textField.text = currentName
+        }
+
+        alert.addAction(UIAlertAction(title: "Hủy", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Lưu", style: .default) { [weak self, weak alert] _ in
+            guard let self, let newName = alert?.textFields?.first?.text, !newName.isEmpty else { return }
+            self.updateProfileName(newName)
+        })
+
+        present(alert, animated: true)
+    }
+
+    private func updateProfileName(_ newName: String) {
+        guard let uid = authService.restorePersistedUser()?.id ?? store.currentUser?.id else { return }
+
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                // Update both services to be sure
+                try? await FirebaseAuthService.shared.updateProfile(name: newName)
+                try await authService.updateProfile(uid: uid, name: newName)
+
+                await MainActor.run {
+                    self.nameLabel?.text = newName
+                    self.title = newName
+                    self.showAlert(title: "Thành công", message: "Đã cập nhật tên hồ sơ.")
+                }
+            } catch {
+                await MainActor.run {
+                    self.showAlert(title: "Lỗi", message: error.localizedDescription)
+                }
+            }
+        }
     }
 
     private func membershipTitle(for bookingsCount: Int) -> String {

@@ -88,6 +88,25 @@ final class FirebaseAuthService {
         return user
     }
 
+    func updateProfile(name: String) async throws {
+        guard let firebaseUser = auth.currentUser else {
+            throw NSError(domain: "Auth", code: 401, userInfo: [NSLocalizedDescriptionKey: "Không tìm thấy phiên đăng nhập."])
+        }
+
+        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        let changeRequest = firebaseUser.createProfileChangeRequest()
+        changeRequest.displayName = trimmedName
+        try await changeRequest.commitChanges()
+
+        let payload: [String: Any] = [
+            "id": firebaseUser.uid,
+            "username": trimmedName,
+            "updated_at": Timestamp(date: Date())
+        ]
+
+        try await database.collection("users").document(firebaseUser.uid).setData(payload, merge: true)
+    }
+
     private func saveUserProfile(_ user: User) async throws {
         guard let id = user.id else { return }
 
