@@ -134,6 +134,36 @@ final class BackendAuthService {
         throw BackendAuthError.server("Không tải được hồ sơ người dùng với mã \(httpResponse.statusCode).")
     }
 
+    func updateProfile(uid: String, name: String) async throws {
+        guard
+            let encodedUID = uid.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed),
+            let url = URL(string: "\(baseURL)/api/auth/profile/\(encodedUID)")
+        else {
+            throw BackendAuthError.invalidURL
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "PATCH"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try encoder.encode(["fullName": name.trimmingCharacters(in: .whitespacesAndNewlines)])
+
+        let (data, response) = try await session.data(for: request)
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw BackendAuthError.invalidResponse
+        }
+
+        if (200..<300).contains(httpResponse.statusCode) {
+            UserDefaults.standard.set(name, forKey: sessionNameKey)
+            return
+        }
+
+        if let serverMessage = try? decoder.decode(BackendErrorResponse.self, from: data) {
+            throw BackendAuthError.server(serverMessage.message)
+        }
+
+        throw BackendAuthError.server("Không thể cập nhật hồ sơ với mã \(httpResponse.statusCode).")
+    }
+
     func userRole(from roleText: String) -> UserRole {
         switch roleText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
         case "admin":
